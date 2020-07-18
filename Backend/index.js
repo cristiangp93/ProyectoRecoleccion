@@ -15,6 +15,7 @@ app.use(cors({origin: 'http://localhost:4200'})); // habilita las solicitudes de
 
 // Routes
 app.use('/api/users', require('./routes/user.routes'));
+app.use('/api/containers', require('./routes/container.routes'));
 
 // Starting server
 app.listen(app.get('PORT'), () => {

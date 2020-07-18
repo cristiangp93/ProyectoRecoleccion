@@ -16,8 +16,8 @@ userCtrl.getUsers = async (req, res) => {
 userCtrl.createUser = async (req, res) => {
   const user = new User({
     nickname: req.body.nickname,
-    nombre: req.body.nombre,
-    apellido: req.body.apellido,
+    name: req.body.name,
+    surname: req.body.surname,
     email: req.body.email,
     password: req.body.password,
     rol: req.body.rol
@@ -29,7 +29,7 @@ userCtrl.createUser = async (req, res) => {
     }
 
     res.json({
-      status: 'Usuario guardado'
+      status: 'User guardado'
     });
   });
 }
@@ -51,8 +51,8 @@ userCtrl.editUser = async (req, res) => {
   const {id} = req.params;
   const user = {
     nickname: req.body.nickname,
-    nombre: req.body.nombre,
-    apellido: req.body.apellido,
+    name: req.body.name,
+    surname: req.body.surname,
     email: req.body.email,
     password: req.body.password,
     rol: req.body.rol
@@ -64,13 +64,12 @@ userCtrl.editUser = async (req, res) => {
     }
 
     res.json({
-      status: 'Usuario actualizado'
+      status: 'User actualizado'
     });
   });
 }
 
 userCtrl.deleteUser = async (req, res) => {
-  console.log(req.params.id);
   await User.findByIdAndRemove(req.params.id, (err) => {
     if (err) {
       console.log('Error:', err);
@@ -78,7 +77,7 @@ userCtrl.deleteUser = async (req, res) => {
     }
 
     res.json({
-      status: 'Usuario eliminado'
+      status: 'User eliminado'
     });
   });
 }
