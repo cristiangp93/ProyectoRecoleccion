@@ -1,5 +1,5 @@
 const User = require('../models/user');
-
+/* prueba de git */
 const userCtrl = {};
 
 userCtrl.getUsers = async (req, res) => {
