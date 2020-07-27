@@ -16,8 +16,11 @@ app.use(cors({origin: 'http://localhost:4200'})); // habilita las solicitudes de
 // Routes
 app.use('/api/users', require('./routes/user.routes'));
 app.use('/api/containers', require('./routes/container.routes'));
+app.use('/api/vehicles', require('./routes/vehicle.routes'));
+app.use('/api/materials', require('./routes/material.routes'));
+app.use('/api/employees', require('./routes/employee.routes'));
 
 // Starting server
 app.listen(app.get('PORT'), () => {
   console.log(`Server on port: ${app.get('PORT')}`)
-});
+  });
