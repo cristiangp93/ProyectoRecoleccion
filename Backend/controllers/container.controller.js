@@ -16,7 +16,8 @@ containerCtrl.getContainers = async (req, res) => {
 containerCtrl.createContainer = async (req, res) => {
   const container = new Container({
     location: req.body.location,
-    gps: req.body.gps
+    lat: req.body.lat,
+    lng: req.body.lng
   });
   await container.save((err) => {
     if (err) {

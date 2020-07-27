@@ -3,7 +3,8 @@ const {Schema} = mongoose;
 
 const ContainerSchema = new Schema({
   location: {type: String, required: true},
-  gps: Schema.Types.Mixed
+  lat: {type: Number, required: true},
+  lng: {type: Number, required: true}
 }, {
   collection: 'containers'
 });
