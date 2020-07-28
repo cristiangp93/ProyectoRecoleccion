@@ -19,6 +19,7 @@ app.use('/api/containers', require('./routes/container.routes'));
 app.use('/api/vehicles', require('./routes/vehicle.routes'));
 app.use('/api/materials', require('./routes/material.routes'));
 app.use('/api/employees', require('./routes/employee.routes'));
+app.use('/api/routes', require('./routes/route.routes'));
 
 // Starting server
 app.listen(app.get('PORT'), () => {
