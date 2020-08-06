@@ -11,7 +11,6 @@ const VehicleSchema = new Schema({
     capacidad: {type: String, required: true},
     combustible: {type: String, required: true},
     estado: {type: String, required: true}
-
     },{
     collection: 'vehicles'
     });

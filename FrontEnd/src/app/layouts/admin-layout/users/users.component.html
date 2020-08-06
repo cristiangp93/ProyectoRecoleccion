@@ -1,0 +1,178 @@
+<div class="header bg-gradient-primary pb-8 pt-5 pt-md-8">
+  <div class="container-fluid">
+    <div class="header-body">
+    </div>
+  </div>
+</div>
+<!-- Page content -->
+<div class="container-fluid mt--7">
+  <!-- Table -->
+  <div class="row">
+    <div class="col">
+      <div class="card shadow">
+        <div class="card-header border-0">
+          <h1>Control de usuarios</h1>
+          <p class="mb-0">Manejo de usuarios, control de acceso y asignación de roles de usuario</p>
+          <hr>
+          <button type="button" class="btn btn-info" (click)="openWindowCustomClass(modalNewUser)"><i
+            class="fa fa-plus"></i> Agregar empleado
+          </button>
+        </div>
+        <!-- Tabla de users -->
+        <div class="table-responsive">
+          <ng-template #noUsers>
+            <div class="p-3">
+              No existen usuarios
+            </div>
+          </ng-template>
+          <table class="table align-items-center table-flush" *ngIf="this._us.users.length > 0; else noUsers">
+            <thead class="thead-light">
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">User</th>
+              <th scope="col"></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let user of this._us.users; let i = index">
+              <th scope="row">
+                {{i + 1}}
+              </th>
+              <td>
+                <p class="mb-0">{{user.name}} {{user.surname}}</p><small class="text-muted">{{user.rol}}</small>
+              </td>
+              <td>
+                <button type="button" class="btn btn-info btn-circle" (click)="editUser( user ); openWindowCustomClass(modalNewUser)"><i class="fa fa-edit"></i></button>
+                <button type="button" class="btn btn-danger btn-circle" (click)="deleteUser( user._id)"><i class="fa fa-times"></i></button>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Formulario nuevo usuario -->
+<ng-template #modalNewUser let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title">Nuevo usuario</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form autocomplete="off" (ngSubmit)="addUser( userForm )" #userForm="ngForm">
+      <input type="hidden" name="_id" #_id="ngModel" [(ngModel)]="_us.selectedUser._id">
+
+      <!-- Nickname -->
+      <div class="form-group row">
+        <label class="col-2 col-form-label">Nickname</label>
+        <div class="col-8">
+
+          <input class="form-control"
+                 type="text"
+                 name="nickname"
+                 [class.is-invalid]="nickname.invalid && nickname.touched"
+                 [ngModel]="this._us.selectedUser.nickname"
+                 placeholder="Nickname"
+                 required
+                 minlength="5"
+                 #nickname="ngModel">
+          <small *ngIf="nickname.invalid && nickname.touched" class="form-text text-danger">Ingrese 5 letras</small>
+        </div>
+      </div>
+      <!-- Nombre -->
+      <div class="form-group row">
+        <label class="col-2 col-form-label">Nombres</label>
+        <div class="col-8">
+
+          <input class="form-control"
+                 type="text"
+                 name="name"
+                 [class.is-invalid]="name.invalid && name.touched"
+                 [ngModel]="this._us.selectedUser.name"
+                 placeholder="Nombres"
+                 required
+                 minlength="5"
+                 #name="ngModel">
+          <small *ngIf="name.invalid && name.touched" class="form-text text-danger">Ingrese 5 letras</small>
+        </div>
+      </div>
+      <!-- Apellido -->
+      <div class="form-group row">
+        <label class="col-2 col-form-label">Apellidos</label>
+        <div class="col-8">
+
+          <input class="form-control"
+                 type="text"
+                 name="surname"
+                 [class.is-invalid]="surname.invalid && surname.touched"
+                 [ngModel]="this._us.selectedUser.surname"
+                 placeholder="Apellidos"
+                 required
+                 minlength="5"
+                 #surname="ngModel">
+          <small *ngIf="surname.invalid && surname.touched" class="form-text text-danger">Ingrese 5 letras</small>
+        </div>
+      </div>
+      <!-- Correo -->
+      <div class="form-group row">
+        <label class="col-2 col-form-label">Correo</label>
+        <div class="col-8">
+
+          <input class="form-control"
+                 type="text"
+                 name="email"
+                 [class.is-invalid]="email.invalid && email.touched"
+                 [ngModel]="this._us.selectedUser.email"
+                 placeholder="Correo electrónico"
+                 required
+                 #email="ngModel">
+          <small *ngIf="email.invalid && email.touched" class="form-text text-danger">Correo obligatorio</small>
+        </div>
+      </div>
+      <!-- Password -->
+      <div class="form-group row">
+        <label class="col-2 col-form-label">Password</label>
+        <div class="col-8">
+
+          <input class="form-control"
+                 type="password"
+                 name="password"
+                 [class.is-invalid]="password.invalid && password.touched"
+                 [ngModel]="this._us.selectedUser.password"
+                 placeholder="*****"
+                 required
+                 #password="ngModel">
+          <small *ngIf="password.invalid && password.touched" class="form-text text-danger">Password obligatorio</small>
+        </div>
+      </div>
+      <!-- Rol -->
+      <div class="form-group row">
+        <label class="col-2 col-form-label">Rol</label>
+        <div class="col-8">
+
+          <select class="custom-select custom-select-sm"
+                  name="rol"
+                  [class.is-invalid]="rol.invalid && rol.touched"
+                  [ngModel]="this._us.selectedUser.rol"
+                  #rol="ngModel"
+                  required>
+            <option selected>Seleccione rol</option>
+            <option value="Administrador">Administrador</option>
+            <option value="Secretario">Secretario</option>
+          </select>
+
+          <small *ngIf="rol.invalid && rol.touched" class="form-text text-danger">Rol obligatorio</small>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-dark" type="submit">Guardar</button>
+        <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button>
+      </div>
+    </form>
+  </div>
+</ng-template>

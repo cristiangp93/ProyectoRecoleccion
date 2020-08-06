@@ -1,10 +1,6 @@
-
 const Vehicle = require('../models/vehicle');
-const vehicle = require('../models/vehicle');
 
 const vehicleCtrl = {};
-
-
 
 vehicleCtrl.getVehicles = async (req, res) => {
   await Vehicle.find((err, vehicles) => {

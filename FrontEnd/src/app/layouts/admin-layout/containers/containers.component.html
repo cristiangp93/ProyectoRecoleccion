@@ -1,0 +1,128 @@
+<div class="header bg-gradient-danger pb-8 pt-5 pt-md-8">
+  <div class="container-fluid">
+    <div class="header-body">
+    </div>
+  </div>
+</div>
+<div class="container-fluid mt--7">
+  <div class="row">
+    <div class="col-xl-5 order-xl-2 mb-5 mb-xl-0">
+      <div class="card shadow">
+        <div class="card-header border-0">
+          <h1>Control de contenedores</h1>
+          <p class="mb-0">Manejo de contenedores y ubicación</p>
+          <hr>
+          <button type="button" class="btn btn-info" (click)="openWindowCustomClass(modalNewUser)"><i
+            class="fa fa-plus"></i> Agregar contenedor
+          </button>
+        </div>
+        <div class="table-responsive">
+          <ng-template #noContainers>
+            <div class="p-3">
+              No existen usuarios
+            </div>
+          </ng-template>
+          <table class="table align-items-center table-flush"
+                 *ngIf="this._cS.containers.length > 0; else noContainers">
+            <thead class="thead-light">
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Container</th>
+              <th scope="col"></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let cont of this._cS.containers; let i = index">
+              <th scope="row">
+                {{i + 1}}
+              </th>
+              <td>
+                <p class="mb-0">{{cont.location}}</p>
+                <small class="text-muted">Lat: {{cont.lat}} | Lng: {{cont.lng}}</small>
+              </td>
+              <td>
+                <button type="button" class="btn btn-info btn-circle" (click)="editContainer( cont ); openWindowCustomClass(modalNewUser)"><i class="fa fa-edit"></i></button>
+                <button type="button" class="btn btn-danger btn-circle" (click)="deleteContainer( cont._id)"><i class="fa fa-times"></i></button>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+
+        </div>
+      </div>
+    </div>
+    <div class="col-xl-7 order-xl-1">
+      <div class="card shadow">
+        <div class="card-header border-0">
+          <h1>Contenedores</h1>
+          <p class="mb-0">Geolocalización</p>
+        </div>
+        <div class="card-body">
+          <agm-map [latitude]="lat"
+                   [longitude]="lng"
+                   [zoom]="12">
+            <agm-marker [latitude]="cont.lat"
+                        [longitude]="cont.lng"
+                        *ngFor="let cont of _cS.containers">
+              <agm-info-window [disableAutoPan]="false"
+                               [latitude]="cont.lat"
+                               [longitude]="cont.lng">
+                <h3>{{cont.location}}</h3>
+                <p><strong>Latitud: </strong>{{cont.lat}}</p>
+                <p><strong>Longitud: </strong>{{cont.lng}}</p>
+              </agm-info-window>
+            </agm-marker>
+          </agm-map>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Formulario nuevo usuario -->
+<ng-template #modalNewUser let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title">Nuevo contenedor</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form autocomplete="off" (ngSubmit)="addContainer( containerForm )" #containerForm="ngForm">
+      <input type="hidden" name="_id" #_id="ngModel" [(ngModel)]="_cS.selected_container._id">
+
+      <!-- Location -->
+      <div class="form-group row">
+        <label class="col-2 col-form-label">Localización</label>
+        <div class="col-8">
+
+          <input class="form-control"
+                 type="text"
+                 name="location"
+                 [(ngModel)]="this._cS.selected_container.location"
+                 placeholder="Localización"
+                 required
+                 minlength="5">
+        </div>
+      </div>
+
+      <agm-map [latitude]="this._cS.selected_container.lat"
+               [longitude]="this._cS.selected_container.lng"
+               [zoom]="zoom"
+               (mapClick)="placeMarker($event)">
+        <agm-marker [latitude]="this._cS.selected_container.lat"
+                    [longitude]="this._cS.selected_container.lng"></agm-marker>
+      </agm-map>
+      <div class="modal-footer">
+        <button class="btn btn-dark" type="submit">Guardar</button>
+        <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button>
+      </div>
+    </form>
+  </div>
+</ng-template>
+
+<style>
+  agm-map {
+    height: 500px;
+  }
+</style>
