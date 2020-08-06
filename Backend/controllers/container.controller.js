@@ -19,6 +19,7 @@ containerCtrl.createContainer = async (req, res) => {
     lat: req.body.lat,
     lng: req.body.lng
   });
+  console.log(container)
   await container.save((err) => {
     if (err) {
       console.log('Error:', err);
@@ -65,7 +66,6 @@ containerCtrl.editContainer = async (req, res) => {
 
 
 containerCtrl.deleteContainer = async (req, res) => {
-  console.log(req.params.id);
   await Container.findByIdAndRemove(req.params.id, (err) => {
     if (err) {
       console.log('Error:', err);
