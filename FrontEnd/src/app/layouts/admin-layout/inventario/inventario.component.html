@@ -4,3 +4,318 @@
     </div>
   </div>
 </div>
+<div class="container-fluid mt--7">
+  <div class="row">
+    <div class="col-xl-6 order-xl-1 mb-5 mb-xl-0">
+      <div class="card shadow">
+        <div class="card-header border-0">
+          <h1>Materiales</h1>
+          <p class="mb-0">Manejo de materiales</p>
+          <hr>
+          <button type="button" class="btn btn-info" (click)="openWindowCustomClass(modalNewMaterial)"><i
+            class="fa fa-plus"></i> Agregar material
+          </button>
+        </div>
+        <div class="table-responsive">
+          <ng-template #noMaterials>
+            <div class="p-3">
+              No existen materiales
+            </div>
+          </ng-template>
+          <table class="table align-items-center table-flush"
+                 *ngIf="this._iS.materials.length > 0; else noMaterials">
+            <thead class="thead-light">
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Nombre</th>
+              <th scope="col">Cantidad</th>
+              <th scope="col"></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let mat of this._iS.materials; let i = index">
+              <th scope="row">
+                {{i + 1}}
+              </th>
+              <td>
+                <p class="mb-0">{{mat.name}}</p>
+              </td>
+              <td>
+                <p class="mb-0">{{mat.cantidad}}</p>
+              </td>
+              <td>
+                <button type="button" class="btn btn-info btn-circle"
+                        (click)="editMaterial( mat ); openWindowCustomClass(modalNewMaterial)"><i
+                  class="fa fa-edit"></i></button>
+                <button type="button" class="btn btn-danger btn-circle" (click)="deleteMaterial( mat._id)"><i
+                  class="fa fa-times"></i></button>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="col-xl-6 order-xl-2 mb-5 mb-xl-0">
+      <div class="card shadow">
+        <div class="card-header border-0">
+          <h1>Vehículos</h1>
+          <p class="mb-0">Manejo de vehículos</p>
+          <hr>
+          <button type="button" class="btn btn-info" (click)="openWindowCustomClass(modalNewVehicle)"><i
+            class="fa fa-plus"></i> Agregar vehículo
+          </button>
+        </div>
+        <div class="table-responsive">
+          <ng-template #noVehicles>
+            <div class="p-3">
+              No existen vehiculos
+            </div>
+          </ng-template>
+          <table class="table align-items-center table-flush"
+                 *ngIf="this._iS.vehicles.length > 0; else noVehicles">
+            <thead class="thead-light">
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Nombre</th>
+              <th scope="col">Cantidad</th>
+              <th scope="col"></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let veh of this._iS.vehicles; let i = index">
+              <th scope="row">
+                {{i + 1}}
+              </th>
+              <td>
+                <p class="mb-0">{{veh.marca}}</p>
+              </td>
+              <td>
+                <p class="mb-0">{{veh.anio}}</p>
+              </td>
+              <td>
+                <button type="button" class="btn btn-info btn-circle"
+                        (click)="editVehicle( veh ); openWindowCustomClass(modalNewVehicle)"><i
+                  class="fa fa-edit"></i></button>
+                <button type="button" class="btn btn-danger btn-circle" (click)="deleteVehicle( veh._id)"><i
+                  class="fa fa-times"></i></button>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Formulario nuevo material -->
+<ng-template #modalNewMaterial let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title">Nuevo material</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form autocomplete="off" (ngSubmit)="addMaterial( materialForm )" #materialForm="ngForm">
+      <input type="hidden" name="_id" #_id="ngModel" [(ngModel)]="_iS.selectedMaterial._id">
+
+      <!-- Name -->
+      <div class="form-group row">
+        <label class="col-2 col-form-label">Nombre</label>
+        <div class="col-8">
+
+          <input class="form-control"
+                 type="text"
+                 name="name"
+                 [class.is-invalid]="name.invalid && name.touched"
+                 [ngModel]="this._iS.selectedMaterial.name"
+                 placeholder="Nombre"
+                 required
+                 minlength="5"
+                 #name="ngModel">
+          <small *ngIf="name.invalid && name.touched" class="form-text text-danger">Ingrese 5 letras</small>
+        </div>
+      </div>
+      <!-- Cantidad -->
+      <div class="form-group row">
+        <label class="col-2 col-form-label">Cantidad</label>
+        <div class="col-8">
+
+          <input class="form-control"
+                 type="number"
+                 name="cantidad"
+                 [class.is-invalid]="cantidad.invalid && cantidad.touched"
+                 [ngModel]="this._iS.selectedMaterial.cantidad"
+                 placeholder="0"
+                 required
+                 min="0"
+                 #cantidad="ngModel">
+          <small *ngIf="cantidad.invalid && cantidad.touched" class="form-text text-danger">Cantidad mayor a 0</small>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-dark" type="submit">Guardar</button>
+        <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button>
+      </div>
+    </form>
+  </div>
+</ng-template>
+
+<!-- Formulario nuevo vehiculo -->
+<ng-template #modalNewVehicle let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title">Nuevo vehículo</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form autocomplete="off" (ngSubmit)="addVehicle( vehicleForm )" #vehicleForm="ngForm">
+      <input type="hidden" name="_id" #_id="ngModel" [(ngModel)]="_iS.selectedVehicle._id">
+
+      <!-- Descripción -->
+      <div class="form-group row">
+        <label class="col-2 col-form-label">Descripción</label>
+        <div class="col-8">
+
+          <input class="form-control"
+                 type="text"
+                 name="descripcion"
+                 [class.is-invalid]="descripcion.invalid && descripcion.touched"
+                 [ngModel]="this._iS.selectedVehicle.descripcion"
+                 placeholder="Descripción"
+                 required
+                 minlength="5"
+                 #descripcion="ngModel">
+          <small *ngIf="descripcion.invalid && descripcion.touched" class="form-text text-danger">Ingrese 5 letras</small>
+        </div>
+      </div>
+      <!-- Disco -->
+      <div class="form-group row">
+        <label class="col-2 col-form-label">Disco</label>
+        <div class="col-8">
+
+          <input class="form-control"
+                 type="number"
+                 name="disco"
+                 [class.is-invalid]="disco.invalid && disco.touched"
+                 [ngModel]="this._iS.selectedVehicle.disco"
+                 placeholder="0"
+                 required
+                 min="0"
+                 #disco="ngModel">
+          <small *ngIf="disco.invalid && disco.touched" class="form-text text-danger">Cantidad mayor a 0</small>
+        </div>
+      </div>
+      <!-- Marca -->
+      <div class="form-group row">
+        <label class="col-2 col-form-label">Marca</label>
+        <div class="col-8">
+
+          <select class="form-control"
+                 name="marca"
+                 [class.is-invalid]="marca.invalid && marca.touched"
+                 [ngModel]="this._iS.selectedVehicle.marca"
+                 required
+                 #marca="ngModel">
+            <option value="Chevrolet" selected>Chevrolet</option>
+            <option value="Nissan">Nissan</option>
+            <option value="Volvo">Volvo</option>
+          </select>
+          <small *ngIf="marca.invalid && marca.touched" class="form-text text-danger">Seleccione una marca</small>
+        </div>
+      </div>
+      <!-- Año -->
+      <div class="form-group row">
+        <label class="col-2 col-form-label">Año</label>
+        <div class="col-8">
+
+          <input class="form-control"
+                 type="text"
+                 name="anio"
+                 [class.is-invalid]="anio.invalid && anio.touched"
+                 [ngModel]="this._iS.selectedVehicle.anio"
+                 placeholder="0000"
+                 required
+                 maxlength="4"
+                 #anio="ngModel">
+          <small *ngIf="anio.invalid && anio.touched" class="form-text text-danger">Ingrese año</small>
+        </div>
+      </div>
+      <!-- Carga -->
+      <div class="form-group row">
+        <label class="col-2 col-form-label">Carga</label>
+        <div class="col-8">
+
+          <input class="form-control"
+                 type="text"
+                 name="carga"
+                 [class.is-invalid]="carga.invalid && carga.touched"
+                 [ngModel]="this._iS.selectedVehicle.carga"
+                 placeholder="carga"
+                 required
+                 #carga="ngModel">
+          <small *ngIf="carga.invalid && carga.touched" class="form-text text-danger">Ingrese carga</small>
+        </div>
+      </div>
+      <!-- Capacidad -->
+      <div class="form-group row">
+        <label class="col-2 col-form-label">Capacidad</label>
+        <div class="col-8">
+
+          <input class="form-control"
+                 type="number"
+                 name="capacidad"
+                 [class.is-invalid]="capacidad.invalid && capacidad.touched"
+                 [ngModel]="this._iS.selectedVehicle.capacidad"
+                 placeholder="0"
+                 required
+                 min="0"
+                 #capacidad="ngModel">
+          <small *ngIf="capacidad.invalid && capacidad.touched" class="form-text text-danger">Cantidad mayor a 0</small>
+        </div>
+      </div>
+      <!-- Combustible -->
+      <div class="form-group row">
+        <label class="col-2 col-form-label">Combustible</label>
+        <div class="col-8">
+
+          <select class="form-control"
+                  name="combustible"
+                  [class.is-invalid]="combustible.invalid && combustible.touched"
+                  [ngModel]="this._iS.selectedVehicle.combustible"
+                  required
+                  #combustible="ngModel">
+            <option value="Diesel" selected>Diesel</option>
+            <option value="Eco">Eco</option>
+          </select>
+          <small *ngIf="combustible.invalid && combustible.touched" class="form-text text-danger">Seleccione combustible</small>
+        </div>
+      </div>
+      <!-- Estado -->
+      <div class="form-group row">
+        <label class="col-2 col-form-label">Estado</label>
+        <div class="col-8">
+
+          <select class="form-control"
+                  name="estado"
+                  [class.is-invalid]="estado.invalid && estado.touched"
+                  [ngModel]="this._iS.selectedVehicle.estado"
+                  required
+                  #estado="ngModel">
+            <option value="A" selected>A</option>
+            <option value="B">B</option>
+            <option value="C">C</option>
+          </select>
+          <small *ngIf="estado.invalid && estado.touched" class="form-text text-danger">Seleccione estado</small>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-dark" type="submit">Guardar</button>
+        <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button>
+      </div>
+    </form>
+  </div>
+</ng-template>

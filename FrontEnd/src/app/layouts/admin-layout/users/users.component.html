@@ -42,8 +42,11 @@
                 <p class="mb-0">{{user.name}} {{user.surname}}</p><small class="text-muted">{{user.rol}}</small>
               </td>
               <td>
-                <button type="button" class="btn btn-info btn-circle" (click)="editUser( user ); openWindowCustomClass(modalNewUser)"><i class="fa fa-edit"></i></button>
-                <button type="button" class="btn btn-danger btn-circle" (click)="deleteUser( user._id)"><i class="fa fa-times"></i></button>
+                <button type="button" class="btn btn-info btn-circle"
+                        (click)="editUser( user ); openWindowCustomClass(modalNewUser)"><i class="fa fa-edit"></i>
+                </button>
+                <button type="button" class="btn btn-danger btn-circle" (click)="deleteUser( user._id)"><i
+                  class="fa fa-times"></i></button>
               </td>
             </tr>
             </tbody>
