@@ -3,6 +3,7 @@ import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {UserService} from '../../../services/user.service';
 import {User} from '../../../models/user';
 import {NgForm} from '@angular/forms';
+import {AuthService} from "../../../services/auth.service";
 import Swal from 'sweetalert2';
 
 @Component({
@@ -15,7 +16,8 @@ export class UsersComponent implements OnInit {
   loading: boolean;
 
   constructor(private modalService: NgbModal,
-              private _us: UserService) {
+              private _us: UserService,
+              public auth: AuthService) {
     this.getUsers().then(() => {
       this.loading = false;
     });
@@ -56,15 +58,26 @@ export class UsersComponent implements OnInit {
         });
       });
     } else {
-      this._us.postUser(userForm.value).subscribe(data => {
-        this.getUsers().then(() => {
+      const userToRegister = userForm.value;
+      this.auth.SignUp(userToRegister.email, userToRegister.password)
+        .then( resp => {
+          this._us.postUser(userToRegister).subscribe(data => {
+            this.getUsers().then(() => {
+              Swal.fire(
+                'Ok!',
+                'User registrado correctamente',
+                'success'
+              ).then(() => this.loading = false)
+            });
+          });
+        })
+        .catch(e => {
           Swal.fire(
-            'Ok!',
-            'User registrado correctamente',
-            'success'
+            'Error!',
+            e.message,
+            'error'
           ).then(() => this.loading = false)
-        });
-      });
+        })
     }
 
     this._us.selectedUser = new User();

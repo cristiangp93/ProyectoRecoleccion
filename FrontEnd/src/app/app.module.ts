@@ -12,6 +12,12 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 
 import {AppRoutingModule} from './app.routing';
 import {ComponentsModule} from './components/components.module';
+/* Angular firestore */
+import {AngularFireModule} from "@angular/fire";
+import {AngularFirestoreModule} from "@angular/fire/firestore";
+import {AngularFireAuthModule} from "@angular/fire/auth";
+import {environment} from "../environments/environment";
+import {AuthService} from "./services/auth.service";
 
 @NgModule({
   imports: [
@@ -21,14 +27,17 @@ import {ComponentsModule} from './components/components.module';
     ComponentsModule,
     NgbModule,
     RouterModule,
-    AppRoutingModule
+    AppRoutingModule,
+    AngularFireModule.initializeApp(environment.firebaseConfig),
+    AngularFireAuthModule,
+    AngularFirestoreModule,
   ],
   declarations: [
     AppComponent,
     AdminLayoutComponent,
     AuthLayoutComponent
   ],
-  providers: [],
+  providers: [AuthService],
   bootstrap: [AppComponent]
 })
 export class AppModule {
