@@ -1,1 +1,174 @@
-<p>rrhh works!</p>
+<div class="header bg-gradient-primary pb-8 pt-5 pt-md-8">
+  <div class="container-fluid">
+    <div class="header-body">
+    </div>
+  </div>
+</div>
+<!-- Page content -->
+<div class="container-fluid mt--7">
+  <!-- Table -->
+  <div class="row">
+    <div class="col">
+      <div class="card shadow">
+        <div class="card-header border-0">
+          <h1>Control de Recursos humanos</h1>
+          <p class="mb-0">Manejo de empleados</p>
+          <hr>
+          <button type="button" class="btn btn-info" (click)="openWindowCustomClass(modalNewEmployee)"><i
+            class="fa fa-plus"></i> Agregar empleado
+          </button>
+        </div>
+        <!-- Tabla de users -->
+        <div class="table-responsive">
+          <ng-template #noEmployees>
+            <div class="p-3">
+              No existen usuarios
+            </div>
+          </ng-template>
+          <table class="table align-items-center table-flush" *ngIf="this._rS.employees.length > 0; else noEmployees">
+            <thead class="thead-light">
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Empleado</th>
+              <th scope="col">Dirección</th>
+              <th scope="col"></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let employee of this._rS.employees; let i = index">
+              <th scope="row">
+                {{i + 1}}
+              </th>
+              <td>
+                <p class="mb-0">{{employee.name}} {{employee.apellido}}</p><small
+                class="text-muted">{{employee.cargo}}</small>
+              </td>
+              <td>
+                <p class="mb-0">{{employee.direccion}}</p><small class="text-muted">Tlf: {{employee.telefono}}</small>
+              </td>
+              <td>
+                <button type="button" class="btn btn-info btn-circle"
+                        (click)="editEmployee( employee ); openWindowCustomClass(modalNewEmployee)"><i
+                  class="fa fa-edit"></i>
+                </button>
+                <button type="button" class="btn btn-danger btn-circle" (click)="deleteEmployee( employee._id)"><i
+                  class="fa fa-times"></i></button>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Formulario nuevo empleado -->
+<ng-template #modalNewEmployee let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title">Nuevo usuario</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form autocomplete="off" (ngSubmit)="addEmployee( employeeForm )" #employeeForm="ngForm">
+      <input type="hidden" name="_id" #_id="ngModel" [(ngModel)]="_rS.selectedEmployee._id">
+
+      <!-- Nombre -->
+      <div class="form-group row">
+        <label class="col-2 col-form-label">Nombres</label>
+        <div class="col-8">
+
+          <input class="form-control"
+                 type="text"
+                 name="name"
+                 [class.is-invalid]="name.invalid && name.touched"
+                 [ngModel]="this._rS.selectedEmployee.name"
+                 placeholder="Nombres"
+                 required
+                 minlength="5"
+                 #name="ngModel">
+          <small *ngIf="name.invalid && name.touched" class="form-text text-danger">Ingrese 5 letras</small>
+        </div>
+      </div>
+      <!-- Apellido -->
+      <div class="form-group row">
+        <label class="col-2 col-form-label">Apellidos</label>
+        <div class="col-8">
+
+          <input class="form-control"
+                 type="text"
+                 name="surname"
+                 [class.is-invalid]="surname.invalid && surname.touched"
+                 [ngModel]="this._rS.selectedEmployee.apellido"
+                 placeholder="Apellidos"
+                 required
+                 minlength="5"
+                 #surname="ngModel">
+          <small *ngIf="surname.invalid && surname.touched" class="form-text text-danger">Ingrese 5 letras</small>
+        </div>
+      </div>
+      <!-- Rol -->
+      <div class="form-group row">
+        <label class="col-2 col-form-label">Cargo</label>
+        <div class="col-8">
+
+          <select class="custom-select custom-select-sm"
+                  name="cargo"
+                  [class.is-invalid]="cargo.invalid && cargo.touched"
+                  [ngModel]="this._rS.selectedEmployee.cargo"
+                  #cargo="ngModel"
+                  required>
+            <option selected>Seleccione Cargo</option>
+            <option value="Supervisor">Supervisor</option>
+            <option value="Conductor">Conductor</option>
+            <option value="Jefe Departamental">Jefe Departamental</option>
+            <option value="Ayudante de recolector">Ayudante de recolector</option>
+          </select>
+
+          <small *ngIf="cargo.invalid && cargo.touched" class="form-text text-danger">Cargo obligatorio</small>
+        </div>
+      </div>
+      <!-- Teléfono -->
+      <div class="form-group row">
+        <label class="col-2 col-form-label">Teléfono</label>
+        <div class="col-8">
+
+          <input class="form-control"
+                 type="text"
+                 name="telefono"
+                 [class.is-invalid]="telefono.invalid && telefono.touched"
+                 [ngModel]="this._rS.selectedEmployee.telefono"
+                 placeholder="Teléfono"
+                 required
+                 minlength="5"
+                 #telefono="ngModel">
+          <small *ngIf="telefono.invalid && telefono.touched" class="form-text text-danger">Ingrese 5 letras</small>
+        </div>
+      </div>
+      <!-- Dirección -->
+      <div class="form-group row">
+        <label class="col-2 col-form-label">Dirección</label>
+        <div class="col-8">
+
+          <input class="form-control"
+                 type="text"
+                 name="direccion"
+                 [class.is-invalid]="direccion.invalid && direccion.touched"
+                 [ngModel]="this._rS.selectedEmployee.direccion"
+                 placeholder="Dirección"
+                 required
+                 minlength="5"
+                 #direccion="ngModel">
+          <small *ngIf="direccion.invalid && direccion.touched" class="form-text text-danger">Ingrese 5 letras</small>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-dark" type="submit">Guardar</button>
+        <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button>
+      </div>
+    </form>
+  </div>
+</ng-template>

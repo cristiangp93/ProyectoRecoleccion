@@ -16,7 +16,7 @@ employeeCtrl.getEmployees = async (req, res) => {
 employeeCtrl.createEmployee = async (req, res) => {
   const employee = new Employee({
     name: req.body.name,
-    apellido: req.body.apellido,
+    apellido: req.body.surname,
     cargo: req.body.cargo,
     telefono: req.body.telefono,
     direccion: req.body.direccion
@@ -50,12 +50,12 @@ employeeCtrl.editEmployee = async (req, res) => {
   const {id} = req.params;
   const employee = {
     name: req.body.name,
-    apellido: req.body.apellido,
+    apellido: req.body.surname,
     cargo: req.body.cargo,
     telefono: req.body.telefono,
-    direccion: req.body.ireccion
+    direccion: req.body.direccion
   }
-  await User.findByIdAndUpdate(id, {$set: employee}, {new: true}, (err) => {
+  await Employee.findByIdAndUpdate(id, {$set: employee}, {new: true}, (err) => {
     if (err) {
       console.log('Error:', err);
       return;
