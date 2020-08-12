@@ -78,7 +78,8 @@
             <tr>
               <th scope="col">#</th>
               <th scope="col">Nombre</th>
-              <th scope="col">Cantidad</th>
+              <th scope="col">Año</th>
+              <th scope="col">Estado</th>
               <th scope="col"></th>
             </tr>
             </thead>
@@ -92,6 +93,9 @@
               </td>
               <td>
                 <p class="mb-0">{{veh.anio}}</p>
+              </td>
+              <td>
+                <p class="mb-0">{{veh.estado}}</p>
               </td>
               <td>
                 <button type="button" class="btn btn-info btn-circle"
@@ -220,9 +224,10 @@
                  [ngModel]="this._iS.selectedVehicle.marca"
                  required
                  #marca="ngModel">
-            <option value="Chevrolet" selected>Chevrolet</option>
+            <option value="Chevrolet" selected>Hino</option>
             <option value="Nissan">Nissan</option>
-            <option value="Volvo">Volvo</option>
+            <option value="Volvo">Internacional</option>
+            <option value="Volvo">Dimex</option>
           </select>
           <small *ngIf="marca.invalid && marca.touched" class="form-text text-danger">Seleccione una marca</small>
         </div>
@@ -289,7 +294,7 @@
                   required
                   #combustible="ngModel">
             <option value="Diesel" selected>Diesel</option>
-            <option value="Eco">Eco</option>
+            <option value="Eco">Gasolina</option>
           </select>
           <small *ngIf="combustible.invalid && combustible.touched" class="form-text text-danger">Seleccione combustible</small>
         </div>
