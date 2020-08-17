@@ -1,1 +1,248 @@
-<p>rutas works!</p>
+<div class="header bg-gradient-primary pb-8 pt-5 pt-md-8">
+  <div class="container-fluid">
+    <div class="header-body">
+    </div>
+  </div>
+</div>
+<!-- Page content -->
+<div class="container-fluid mt--7">
+  <!-- Table -->
+  <div class="row">
+    <div class="col">
+      <div class="card shadow">
+        <div class="card-header border-0">
+          <h1>Control de Rutas</h1>
+          <p class="mb-0">Sectores, horarios y rutas</p>
+        </div>
+        <div class="card-body border-0">
+          <ngb-tabset type="pills">
+            <ngb-tab title="Sectores">
+              <ng-template ngbTabContent>
+                <div class="card">
+                  <div class="card-header">
+                    <button type="button" class="btn btn-info" (click)="openWindowCustomClass(modalNewSector)"><i
+                      class="fa fa-plus"></i> Agregar sector
+                    </button>
+                  </div>
+                  <div class="card-body">
+                    <div class="table-responsive">
+                      <ng-template #noSectors>
+                        <div class="p-3">
+                          No existen sectores
+                        </div>
+                      </ng-template>
+                      <table class="table align-items-center table-flush"
+                             *ngIf="this._rS.sectors.length > 0; else noSectors">
+                        <thead class="thead-light">
+                        <tr>
+                          <th scope="col">#</th>
+                          <th scope="col">Sector</th>
+                          <th scope="col"></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr *ngFor="let sector of this._rS.sectors; let i = index">
+                          <th scope="row">
+                            {{i + 1}}
+                          </th>
+                          <td>
+                            <p class="mb-0">{{sector.name}}</p>
+                            <small class="text-muted">{{sector.des}}</small>
+                          </td>
+                          <td>
+                            <button type="button" class="btn btn-info btn-circle" (click)="editSector( sector ); openWindowCustomClass(modalNewSector)"><i class="fa fa-edit"></i></button>
+                            <button type="button" class="btn btn-danger btn-circle" (click)="deleteSector( sector._id)"><i class="fa fa-times"></i></button>
+                          </td>
+                        </tr>
+                        </tbody>
+                      </table>
+
+                    </div>
+                  </div>
+                </div>
+              </ng-template>
+            </ngb-tab>
+            <ngb-tab title="Horarios">
+              <ng-template ngbTabContent>
+                <div class="card">
+                  <div class="card-header">
+                    <button type="button" class="btn btn-info" (click)="openWindowCustomClass(modalNewSchedule)"><i
+                      class="fa fa-plus"></i> Agregar horario
+                    </button>
+                  </div>
+                  <div class="card-body">
+                    <div class="table-responsive">
+                      <ng-template #noSchedule>
+                        <div class="p-3">
+                          No existen horarios registrados
+                        </div>
+                      </ng-template>
+                      <table class="table align-items-center table-flush"
+                             *ngIf="this._rS.schedule.length > 0; else noSchedule">
+                        <thead class="thead-light">
+                        <tr>
+                          <th scope="col">#</th>
+                          <th scope="col">Horario</th>
+                          <th scope="col"></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr *ngFor="let schedule of this._rS.schedule; let i = index">
+                          <th scope="row">
+                            {{i + 1}}
+                          </th>
+                          <td>
+                            <p class="mb-0">Duración</p>
+                            <small class="text-muted">{{schedule.schedule_begin}} | {{schedule.schedule_end}}</small>
+                          </td>
+                          <td>
+                            <button type="button" class="btn btn-info btn-circle" (click)="editSchedule( schedule ); openWindowCustomClass(modalNewSchedule)"><i class="fa fa-edit"></i></button>
+                            <button type="button" class="btn btn-danger btn-circle" (click)="deleteSchedule( schedule._id)"><i class="fa fa-times"></i></button>
+                          </td>
+                        </tr>
+                        </tbody>
+                      </table>
+
+                    </div>
+                  </div>
+                </div>
+              </ng-template>
+            </ngb-tab>
+            <ngb-tab title="Rutas">
+              <ng-template ngbTabContent>
+
+              </ng-template>
+            </ngb-tab>
+          </ngb-tabset>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Formulario nuevo sector -->
+<ng-template #modalNewSector let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title">Nuevo sector</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form autocomplete="off" (ngSubmit)="addSector( sectorForm )" #sectorForm="ngForm">
+      <input type="hidden" name="_id" #_id="ngModel" [(ngModel)]="_rS.selectedSector._id">
+
+      <!-- Name -->
+      <div class="form-group row">
+        <label class="col-2 col-form-label">Nombre</label>
+        <div class="col-8">
+
+          <input class="form-control"
+                 type="text"
+                 name="name"
+                 [class.is-invalid]="name.invalid && name.touched"
+                 [ngModel]="this._rS.selectedSector.name"
+                 placeholder="Nombre"
+                 required
+                 minlength="1"
+                 #name="ngModel">
+          <small *ngIf="name.invalid && name.touched" class="form-text text-danger">Ingrese 5 letras</small>
+        </div>
+      </div>
+      <!-- Cantidad -->
+      <div class="form-group row">
+        <label class="col-2 col-form-label">Descripción</label>
+        <div class="col-8">
+
+          <input class="form-control"
+                 type="text"
+                 name="des"
+                 [class.is-invalid]="des.invalid && des.touched"
+                 [ngModel]="this._rS.selectedSector.des"
+                 placeholder="Descripción"
+                 required
+                 min="0"
+                 #des="ngModel">
+          <small *ngIf="des.invalid && des.touched" class="form-text text-danger">Ingrese 5 letras</small>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-dark" type="submit">Guardar</button>
+        <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button>
+      </div>
+    </form>
+  </div>
+</ng-template>
+
+<!-- Formulario nuevo horario -->
+<ng-template #modalNewSchedule let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title">Nuevo Horario</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form autocomplete="off" (ngSubmit)="addSchedule( scheduleForm )" #scheduleForm="ngForm">
+      <input type="hidden" name="_id" #_id="ngModel" [(ngModel)]="_rS.selectedSchedule._id">
+
+      <!-- Inicio -->
+      <div class="form-group row">
+        <label class="col-2 col-form-label">Inicio</label>
+        <div class="col-8">
+
+          <input class="form-control"
+                 type="text"
+                 name="schedule_begin"
+                 [class.is-invalid]="schedule_begin.invalid && schedule_begin.touched"
+                 [ngModel]="this._rS.selectedSchedule.schedule_begin"
+                 placeholder="Inicio"
+                 required
+                 minlength="1"
+                 #schedule_begin="ngModel">
+          <small *ngIf="schedule_begin.invalid && schedule_begin.touched" class="form-text text-danger">Ingrese 5 letras</small>
+        </div>
+      </div>
+      <!-- Fin -->
+      <div class="form-group row">
+        <label class="col-2 col-form-label">Fin</label>
+        <div class="col-8">
+
+          <input class="form-control"
+                 type="text"
+                 name="schedule_end"
+                 [class.is-invalid]="schedule_end.invalid && schedule_end.touched"
+                 [ngModel]="this._rS.selectedSchedule.schedule_end"
+                 placeholder="Inicio"
+                 required
+                 minlength="1"
+                 #schedule_end="ngModel">
+          <small *ngIf="schedule_end.invalid && schedule_end.touched" class="form-text text-danger">Ingrese 5 letras</small>
+        </div>
+      </div>
+
+      <!-- Días -->
+      <div class="form-group row">
+        <label class="col-2 col-form-label">Días de la semana</label>
+        <div class="col-8">
+
+          <div class="form-check" *ngFor="let day of days">
+            <input class="form-check-input"
+                   type="checkbox"
+                   [value]="day.value"
+                   [id]="day.des"
+                   (change)="onCheckboxChange($event)">
+            <label class="form-check-label" [attr.for]="day.des">
+              {{day.des}}
+            </label>
+          </div>
+
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-dark" type="submit">Guardar</button>
+        <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button>
+      </div>
+    </form>
+  </div>
+</ng-template>

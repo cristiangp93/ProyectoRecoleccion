@@ -4,6 +4,7 @@ import {RrhhService} from "../../../services/rrhh.service";
 import {Employee} from "../../../models/employee";
 import Swal from "sweetalert2";
 import {NgForm} from "@angular/forms";
+import {HttpClient} from "@angular/common/http";
 
 @Component({
   selector: 'app-rrhh',
@@ -13,9 +14,11 @@ import {NgForm} from "@angular/forms";
 export class RrhhComponent implements OnInit {
 
   loading: boolean;
+  cargos: any[] = [];
 
   constructor(private modalService: NgbModal,
-              private _rS: RrhhService) {
+              private _rS: RrhhService,
+              public http: HttpClient) {
     this.getRrhh().then(() => {
       this.loading = false;
     });
@@ -35,6 +38,10 @@ export class RrhhComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.http.get('../../../assets/docs/cargos.json')
+      .subscribe( (cargos: any[]) => {
+        this.cargos = cargos
+      })
   }
 
   addEmployee(employeeForm: NgForm) {

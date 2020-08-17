@@ -5,6 +5,7 @@ import {User} from '../../../models/user';
 import {NgForm} from '@angular/forms';
 import {AuthService} from "../../../services/auth.service";
 import Swal from 'sweetalert2';
+import {HttpClient} from "@angular/common/http";
 
 @Component({
   selector: 'app-users',
@@ -14,10 +15,13 @@ import Swal from 'sweetalert2';
 export class UsersComponent implements OnInit {
 
   loading: boolean;
+  isEdit: boolean;
+  roles: any[] = [];
 
   constructor(private modalService: NgbModal,
               private _us: UserService,
-              public auth: AuthService) {
+              public auth: AuthService,
+              public http: HttpClient) {
     this.getUsers().then(() => {
       this.loading = false;
     });
@@ -32,11 +36,16 @@ export class UsersComponent implements OnInit {
     });
   }
 
-  openWindowCustomClass(content3) {
+  openWindowCustomClass(content3, isEdit: boolean) {
     this.modalService.open(content3);
+    this.isEdit = isEdit;
   }
 
   ngOnInit(): void {
+    this.http.get('../../../assets/docs/roles.json')
+      .subscribe( (roles: any[]) => {
+        this.roles = roles
+      })
   }
 
   addUser(userForm: NgForm) {
@@ -86,6 +95,7 @@ export class UsersComponent implements OnInit {
 
   editUser(user: User) {
     this._us.selectedUser = user;
+    this.isEdit = true;
   }
 
   deleteUser(_id: string) {

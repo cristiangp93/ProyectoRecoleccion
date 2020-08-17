@@ -19,45 +19,47 @@
           </button>
         </div>
         <!-- Tabla de users -->
-        <div class="table-responsive">
-          <ng-template #noEmployees>
-            <div class="p-3">
-              No existen usuarios
-            </div>
-          </ng-template>
-          <table class="table align-items-center table-flush" *ngIf="this._rS.employees.length > 0; else noEmployees">
-            <thead class="thead-light">
-            <tr>
-              <th scope="col">#</th>
-              <th scope="col">Empleado</th>
-              <th scope="col">Dirección</th>
-              <th scope="col"></th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr *ngFor="let employee of this._rS.employees; let i = index">
-              <th scope="row">
-                {{i + 1}}
-              </th>
-              <td>
-                <p class="mb-0">{{employee.name}} {{employee.apellido}}</p><small
-                class="text-muted">{{employee.cargo}}</small>
-              </td>
-              <td>
-                <p class="mb-0">{{employee.direccion}}</p><small class="text-muted">Tlf: {{employee.telefono}}</small>
-              </td>
-              <td>
-                <button type="button" class="btn btn-info btn-circle"
-                        (click)="editEmployee( employee ); openWindowCustomClass(modalNewEmployee)"><i
-                  class="fa fa-edit"></i>
-                </button>
-                <button type="button" class="btn btn-danger btn-circle" (click)="deleteEmployee( employee._id)"><i
-                  class="fa fa-times"></i></button>
-              </td>
-            </tr>
-            </tbody>
-          </table>
+        <div class="card-body border-0">
+          <div class="table-responsive">
+            <ng-template #noEmployees>
+              <div class="p-3">
+                No existen usuarios
+              </div>
+            </ng-template>
+            <table class="table align-items-center table-flush" *ngIf="this._rS.employees.length > 0; else noEmployees">
+              <thead class="thead-light">
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Empleado</th>
+                <th scope="col">Dirección</th>
+                <th scope="col"></th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr *ngFor="let employee of this._rS.employees; let i = index">
+                <th scope="row">
+                  {{i + 1}}
+                </th>
+                <td>
+                  <p class="mb-0">{{employee.name}} {{employee.apellido}}</p><small
+                  class="text-muted">{{employee.cargo}}</small>
+                </td>
+                <td>
+                  <p class="mb-0">{{employee.direccion}}</p><small class="text-muted">Tlf: {{employee.telefono}}</small>
+                </td>
+                <td>
+                  <button type="button" class="btn btn-info btn-circle"
+                          (click)="editEmployee( employee ); openWindowCustomClass(modalNewEmployee)"><i
+                    class="fa fa-edit"></i>
+                  </button>
+                  <button type="button" class="btn btn-danger btn-circle" (click)="deleteEmployee( employee._id)"><i
+                    class="fa fa-times"></i></button>
+                </td>
+              </tr>
+              </tbody>
+            </table>
 
+          </div>
         </div>
       </div>
     </div>
@@ -122,10 +124,9 @@
                   #cargo="ngModel"
                   required>
             <option selected>Seleccione Cargo</option>
-            <option value="Supervisor">Supervisor</option>
-            <option value="Conductor">Conductor</option>
-            <option value="Jefe Departamental">Jefe Departamental</option>
-            <option value="Ayudante de recolector">Ayudante de recolector</option>
+            <option *ngFor="let cargo of cargos" [value]="cargo.value">
+              {{cargo.des}}
+            </option>
           </select>
 
           <small *ngIf="cargo.invalid && cargo.touched" class="form-text text-danger">Cargo obligatorio</small>

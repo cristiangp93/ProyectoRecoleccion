@@ -14,7 +14,7 @@ export class Vehicle {
     this.descripcion = '';
     this.disco = 0;
     this.marca = '';
-    this.anio = 1900;
+    this.anio = 0;
     this.carga = '';
     this.capacidad = 0;
     this.combustible = 'DIESEL';

@@ -14,7 +14,7 @@
           <h1>Control de usuarios</h1>
           <p class="mb-0">Manejo de usuarios, control de acceso y asignación de roles de usuario</p>
           <hr>
-          <button type="button" class="btn btn-info" (click)="openWindowCustomClass(modalNewUser)"><i
+          <button type="button" class="btn btn-info" (click)="openWindowCustomClass(modalNewUser, false)"><i
             class="fa fa-plus"></i> Agregar usuario
           </button>
         </div>
@@ -43,7 +43,7 @@
               </td>
               <td>
                 <button type="button" class="btn btn-info btn-circle"
-                        (click)="editUser( user ); openWindowCustomClass(modalNewUser)"><i class="fa fa-edit"></i>
+                        (click)="editUser( user ); openWindowCustomClass(modalNewUser, true)"><i class="fa fa-edit"></i>
                 </button>
                 <button type="button" class="btn btn-danger btn-circle" (click)="deleteUser( user._id)"><i
                   class="fa fa-times"></i></button>
@@ -129,6 +129,7 @@
           <input class="form-control"
                  type="text"
                  name="email"
+                 [disabled]="isEdit"
                  [class.is-invalid]="email.invalid && email.touched"
                  [ngModel]="this._us.selectedUser.email"
                  placeholder="Correo electrónico"
@@ -145,6 +146,7 @@
           <input class="form-control"
                  type="password"
                  name="password"
+                 [disabled]="isEdit"
                  [class.is-invalid]="password.invalid && password.touched"
                  [ngModel]="this._us.selectedUser.password"
                  placeholder="*****"
@@ -165,10 +167,9 @@
                   #rol="ngModel"
                   required>
             <option selected>Seleccione rol</option>
-            <option value="Administrador">Administrador</option>
-            <option value="JDepartamento">Jefe Departamento</option>
-            <option value="Supervisor">Supervisor</option>
-            <option value="Conductor">Conductor</option>
+            <option *ngFor="let rol of roles" [value]="rol.value">
+              {{rol.des}}
+            </option>
           </select>
 
           <small *ngIf="rol.invalid && rol.touched" class="form-text text-danger">Rol obligatorio</small>

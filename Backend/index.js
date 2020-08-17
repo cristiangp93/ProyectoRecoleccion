@@ -20,8 +20,10 @@ app.use('/api/vehicles', require('./routes/vehicle.routes'));
 app.use('/api/materials', require('./routes/material.routes'));
 app.use('/api/employees', require('./routes/employee.routes'));
 app.use('/api/routes', require('./routes/route.routes'));
+app.use('/api/sectors', require('./routes/sector.routes'));
+app.use('/api/schedules', require('./routes/schedule.routes'));
 
 // Starting server
 app.listen(app.get('PORT'), () => {
   console.log(`Server on port: ${app.get('PORT')}`)
-  });
+});

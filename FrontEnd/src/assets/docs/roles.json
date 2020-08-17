@@ -1,0 +1,18 @@
+[
+  {
+    "des": "Administrador",
+    "value": "Administrador"
+  },
+  {
+    "des": "Jefe Departamental",
+    "value": "JDepartamento"
+  },
+  {
+    "des": "Supervisor",
+    "value": "Supervisor"
+  },
+  {
+    "des": "Conductor",
+    "value": "Conductor"
+  }
+]
