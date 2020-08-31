@@ -10,6 +10,7 @@ import {ContainersComponent} from "./containers/containers.component";
 import {RrhhComponent} from "./rrhh/rrhh.component";
 import {RutasComponent} from "./rutas/rutas.component";
 import {InventarioComponent} from "./inventario/inventario.component";
+import {RouteSectorComponent} from "./route-sector/route-sector.component";
 
 export const AdminLayoutRoutes: Routes = [
   {path: 'user-profile', component: UserProfileComponent},
@@ -22,5 +23,6 @@ export const AdminLayoutRoutes: Routes = [
   {path: 'rrhh', component: RrhhComponent},
   {path: 'rutas', component: RutasComponent},
   {path: 'users', component: UsersComponent},
-  {path: 'inventario', component: InventarioComponent}
+  {path: 'inventario', component: InventarioComponent},
+  {path: 'rutas-sector', component: RouteSectorComponent}
 ];

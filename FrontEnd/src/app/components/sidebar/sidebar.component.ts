@@ -21,7 +21,8 @@ export const ROUTES: RouteInfo[] = [
   {path: '/inventario', title: 'Inventario', icon: 'fa fa-file text-red', class: ''},
   {path: '/rrhh', title: 'Recursos Humanos', icon: 'fa fa-users text-info', class: ''},
   {path: '/rutas', title: 'Rutas', icon: 'fa fa-map-pin text-primary', class: ''},
-  {path: '/users', title: 'Usuarios', icon: 'ni-single-02 text-yellow', class: ''}
+  {path: '/users', title: 'Usuarios', icon: 'ni-single-02 text-yellow', class: ''},
+  {path: '/rutas-sector', title: 'Asignar Rutas - Sector', icon: 'fa fa-truck text-red', class: ''}
 ];
 
 @Component({

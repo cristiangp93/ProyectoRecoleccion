@@ -1,0 +1,126 @@
+<div class="header bg-gradient-primary pb-8 pt-5 pt-md-8">
+  <div class="container-fluid">
+    <div class="header-body">
+    </div>
+  </div>
+</div>
+<!-- Page content -->
+<div class="container-fluid mt--7">
+  <!-- Table -->
+  <div class="row">
+    <div class="col">
+      <div class="card shadow">
+        <div class="card-header border-0">
+          <h1>Asignar rutas a sectores</h1>
+          <p class="mb-0">Sectores, horarios y rutas</p>
+          <hr>
+          <button type="button" class="btn btn-info" (click)="openWindowCustomClass(modalRouteSector)"><i
+            class="fa fa-plus"></i> Asignar nueva ruta
+          </button>
+        </div>
+        <div class="card-body border-0">
+          <div class="table-responsive">
+            <ng-template #noRouteSector>
+              <div class="p-3">
+                No ha sido asignado ninguna ruta
+              </div>
+            </ng-template>
+            <table class="table align-items-center table-flush" *ngIf="this._rsS.routesSector.length > 0; else noRouteSector">
+              <thead class="thead-light">
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Ruta</th>
+                <th scope="col"></th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr *ngFor="let routeSector of this._rsS.routesSector; let i = index">
+                <th scope="row">
+                  {{i + 1}}
+                </th>
+                <td>
+                  <!--<pre>{{ routeSector | json }}</pre>-->
+                  <p class="mb-0">{{routeSector.sector.des}} ({{routeSector.sector.name}})</p>
+                  <small class="text-muted">{{routeSector.schedule.schedule_begin}} | {{routeSector.schedule.schedule_end}}</small>
+                </td>
+                <td>
+                  <button type="button" class="btn btn-info btn-circle"><i class="fa fa-edit"></i>
+                  </button>
+                  <button type="button" class="btn btn-danger btn-circle"><i
+                    class="fa fa-times"></i></button>
+                </td>
+              </tr>
+              </tbody>
+            </table>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Formulario nueva ruta - usuario -->
+<ng-template #modalRouteSector let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title">Ruta - Sector</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form autocomplete="off" (ngSubmit)="assignRouteSector()" [formGroup]="assignForm">
+      <!--<input type="hidden" name="_id" #_id="ngModel" [(ngModel)]="_us.selectedUser._id">-->
+
+      <!-- Sector -->
+      <div class="form-group row">
+        <label class="col-2 col-form-label">Sector</label>
+        <div class="col-8">
+
+          <select class="custom-select mb-3"
+                  name="sector"
+                  formControlName="sector"
+                  required>
+            <option value="">-- Seleccione sector --</option>
+            <option *ngFor="let sector of _rS.sectors" [ngValue]="sector">{{ sector.name }} ({{sector.des}})</option>
+          </select>
+
+        </div>
+      </div>
+       <!--Horario-->
+      <div class="form-group row">
+        <label class="col-2 col-form-label">Horario</label>
+        <div class="col-8">
+
+          <select class="custom-select mb-3"
+                  name="schedule"
+                  formControlName="schedule"
+                  required>
+            <option value="">-- Seleccione horario --</option>
+            <option *ngFor="let sch of _rS.schedule; let i = index" [ngValue]="sch">Horario {{ i + 1 }}</option>
+          </select>
+
+        </div>
+      </div>
+      <!-- Ruta -->
+      <div class="form-group row">
+        <label class="col-2 col-form-label">Ruta</label>
+        <div class="col-8">
+
+          <select class="custom-select mb-3"
+                  name="route"
+                  formControlName="route"
+                  required>
+            <option value="">-- Seleccione ruta --</option>
+            <option *ngFor="let route of _rS.routes; let i = index" [ngValue]="route">{{ route.name }}</option>
+          </select>
+
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-dark" [disabled]="!assignForm.valid" type="submit">Guardar</button>
+        <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button>
+      </div>
+    </form>
+  </div>
+</ng-template>
