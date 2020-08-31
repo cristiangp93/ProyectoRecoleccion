@@ -3,8 +3,7 @@ const {Schema} = mongoose;
 
 const RouteSchema = new Schema({
   location: {type: String, required: true},
-  lat: {type: Number, required: true},
-  lng: {type: Number, required: true}
+  gps: {type: [Schema.Types.Mixed], required: true}
 }, {
   collection: 'routes'
 });

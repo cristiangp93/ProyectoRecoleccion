@@ -5,6 +5,7 @@ import {Sector} from "../../../models/sector";
 import {NgForm} from "@angular/forms";
 import Swal from "sweetalert2";
 import {Schedule} from "../../../models/schedule";
+import {Route} from "../../../models/route";
 
 @Component({
   selector: 'app-rutas',
@@ -43,7 +44,11 @@ export class RutasComponent implements OnInit {
       value: 'sun',
       des: 'Domingo'
     }
-  ]
+  ];
+  lat = -2.7705791;
+  lng = -78.8464126;
+  zoom = 20;
+  selectedRoute: Route;
 
   constructor(private modalService: NgbModal,
               public _rS: RutasService) {
@@ -54,6 +59,7 @@ export class RutasComponent implements OnInit {
       this.loading = false;
     })
     this.getSchedules();
+    this.getRoutes();
   }
 
   onCheckboxChange(e) {
@@ -73,6 +79,12 @@ export class RutasComponent implements OnInit {
 
   }
 
+  assignRoute(route: Route) {
+    this.selectedRoute = route;
+    this.lat = this.selectedRoute.gps[0].lat;
+    this.lng = this.selectedRoute.gps[0].lng;
+  }
+
   async getSectors() {
     this.loading = true;
     await this._rS.getSectors().subscribe(resp => {
@@ -88,6 +100,14 @@ export class RutasComponent implements OnInit {
     }, error => {
       console.log(`Error: ${error}`);
     });
+  }
+
+  async getRoutes() {
+    await this._rS.getRoutes().subscribe(resp => {
+      this._rS.routes = resp as Route[];
+    }, error => {
+      console.log(`Error: ${error}`);
+    })
   }
 
   openWindowCustomClass(content) {
@@ -174,6 +194,10 @@ export class RutasComponent implements OnInit {
     this._rS.selectedSchedule = schedule;
   }
 
+  editRoute( route: Route) {
+    this._rS.selectedRoute = route
+  }
+
   deleteSector(_id: string) {
     this._rS.deleteSector(_id)
       .subscribe(res => {
@@ -198,6 +222,10 @@ export class RutasComponent implements OnInit {
           ).then(() => this.loading = false)
         });
       });
+  }
+
+  deleteRoute(_id: string) {
+    console.log(_id);
   }
 
 

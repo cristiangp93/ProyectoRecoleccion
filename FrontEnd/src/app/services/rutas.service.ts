@@ -5,6 +5,7 @@ import {of} from 'rxjs';
 import {environment} from '../../environments/environment';
 import {Sector} from "../models/sector";
 import {Schedule} from "../models/schedule";
+import {Route} from "../models/route";
 
 @Injectable({
   providedIn: 'root'
@@ -13,13 +14,16 @@ export class RutasService {
 
   sectors: Sector[] = [];
   schedule: Schedule[] = [];
+  routes: Route[] = [];
   selectedSector: Sector;
   selectedSchedule: Schedule;
+  selectedRoute: Route;
 
   constructor(public http: HttpClient) {
     console.log('Servicio Rutas listo');
     this.selectedSector = new Sector();
     this.selectedSchedule = new Schedule();
+    this.selectedRoute = new Route();
   }
 
   getSectors() {
@@ -40,6 +44,15 @@ export class RutasService {
       );
   }
 
+  getRoutes() {
+    return this.http.get(`${environment.apiURL}/api/routes`)
+      .pipe(
+        tap(
+          (routes: Route[]) => this.routes = routes
+        )
+      );
+  }
+
   postSector(sector: Sector) {
     return this.http.post(`${environment.apiURL}/api/sectors`, sector)
       .pipe(
@@ -51,6 +64,15 @@ export class RutasService {
 
   postSchedule(schedule: Schedule) {
     return this.http.post(`${environment.apiURL}/api/schedules`, schedule)
+      .pipe(
+        catchError( err => {
+          return of(err.error);
+        })
+      );
+  }
+
+  postRoutes(route: Route) {
+    return this.http.post(`${environment.apiURL}/api/routes`, route)
       .pipe(
         catchError( err => {
           return of(err.error);

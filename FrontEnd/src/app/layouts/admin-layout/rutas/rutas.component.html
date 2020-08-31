@@ -110,7 +110,48 @@
             </ngb-tab>
             <ngb-tab title="Rutas">
               <ng-template ngbTabContent>
+                <div class="card">
+                  <div class="card-body">
+                    <div class="table-responsive">
+                      <ng-template #noRoutes>
+                        <div class="p-3">
+                          No existen rutas registradas
+                        </div>
+                      </ng-template>
+                      <table class="table align-items-center table-flush"
+                             *ngIf="this._rS.routes.length > 0; else noRoutes">
+                        <thead class="thead-light">
+                        <tr>
+                          <th scope="col">#</th>
+                          <th scope="col">Nombre</th>
+                          <th scope="col">Mapa</th>
+                          <th scope="col"></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr *ngFor="let route of this._rS.routes; let i = index">
+                          <th scope="row">
+                            {{i + 1}}
+                          </th>
+                          <td>
+                            <p class="mb-0">{{route.name}}</p>
+                          </td>
+                          <td>
+                            <button type="button" class="btn btn-info" (click)="openWindowCustomClass(modalMap); assignRoute(route)"><i
+                              class="fa fa-map-pin"></i> Ver en Mapa
+                            </button>
+                          </td>
+                          <td>
+                            <button type="button" class="btn btn-info btn-circle" (click)="editRoute( route ); openWindowCustomClass(modalNewSchedule)"><i class="fa fa-edit"></i></button>
+                            <button type="button" class="btn btn-danger btn-circle" (click)="deleteSchedule( route._id)"><i class="fa fa-times"></i></button>
+                          </td>
+                        </tr>
+                        </tbody>
+                      </table>
 
+                    </div>
+                  </div>
+                </div>
               </ng-template>
             </ngb-tab>
           </ngb-tabset>
@@ -246,3 +287,34 @@
     </form>
   </div>
 </ng-template>
+
+<!-- Formulario nueva ruta -->
+
+<!-- Modal ver mapa -->
+<ng-template #modalMap let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title">{{selectedRoute.name}}</h4>
+  </div>
+  <div class="modal-body">
+    <agm-map [latitude]="lat"
+             [longitude]="lng"
+             [zoom]="zoom">
+      <agm-marker [latitude]="cont.lat"
+                  [longitude]="cont.lng"
+                  *ngFor="let cont of selectedRoute.gps">
+        <agm-info-window [disableAutoPan]="false"
+                         [latitude]="cont.lat"
+                         [longitude]="cont.lng">
+          <p><strong>Latitud: </strong>{{cont.lat}}</p>
+          <p><strong>Longitud: </strong>{{cont.lng}}</p>
+        </agm-info-window>
+      </agm-marker>
+    </agm-map>
+  </div>
+</ng-template>
+
+<style>
+  agm-map {
+    height: 250px;
+  }
+</style>
