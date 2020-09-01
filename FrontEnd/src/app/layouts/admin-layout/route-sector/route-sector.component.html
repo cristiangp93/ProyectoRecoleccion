@@ -39,9 +39,11 @@
                   {{i + 1}}
                 </th>
                 <td>
-                  <!--<pre>{{ routeSector | json }}</pre>-->
                   <p class="mb-0">{{routeSector.sector.des}} ({{routeSector.sector.name}})</p>
-                  <small class="text-muted">{{routeSector.schedule.schedule_begin}} | {{routeSector.schedule.schedule_end}}</small>
+                  <small class="text-muted">
+                    <strong>Inicio: </strong>{{routeSector.schedule.schedule_begin}}
+                    <strong>Fin: </strong>{{routeSector.schedule.schedule_end}}
+                  </small>
                 </td>
                 <td>
                   <button type="button" class="btn btn-info btn-circle"><i class="fa fa-edit"></i>

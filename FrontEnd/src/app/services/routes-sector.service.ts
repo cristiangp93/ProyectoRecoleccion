@@ -12,7 +12,7 @@ import {Route} from "../models/route";
 })
 export class RoutesSectorService {
 
-  routesSector: any[];
+  routesSector: any[] = [];
 
   constructor(public http: HttpClient) { }
 
