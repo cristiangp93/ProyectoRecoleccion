@@ -11,8 +11,8 @@
     <div class="col">
       <div class="card shadow">
         <div class="card-header border-0">
-          <h1>Asignar rutas a sectores</h1>
-          <p class="mb-0">Sectores, horarios y rutas</p>
+          <h1>Asignar empleados a vehiculos</h1>
+          <p class="mb-0">Vehiculos, empleados</p>
           <hr>
           <button type="button" class="btn btn-info" (click)="openWindowCustomClass(modalRouteSector)"><i
             class="fa fa-plus"></i> Asignar nueva ruta
@@ -20,31 +20,31 @@
         </div>
         <div class="card-body border-0">
           <div class="table-responsive">
-            <ng-template #noRouteSector>
+            <ng-template #noVehicleEmployee>
               <div class="p-3">
-                No ha sido asignado ninguna ruta
+                No ha sido asignado ningun vehículo
               </div>
             </ng-template>
             <table class="table align-items-center table-flush"
-                   *ngIf="this._rsS.routesSector.length > 0; else noRouteSector">
+                   *ngIf="this._vES.vehicleEmployee.length > 0; else noVehicleEmployee">
               <thead class="thead-light">
               <tr>
                 <th scope="col">#</th>
-                <th scope="col">Ruta</th>
+                <th scope="col">Vehículo</th>
+                <th scope="col">Empleado</th>
                 <th scope="col"></th>
               </tr>
               </thead>
               <tbody>
-              <tr *ngFor="let routeSector of this._rsS.routesSector; let i = index">
+              <tr *ngFor="let vehicleEmployee of this._vES.vehicleEmployee; let i = index">
                 <th scope="row">
                   {{i + 1}}
                 </th>
                 <td>
-                  <p class="mb-0">{{routeSector.sector.des}} ({{routeSector.sector.name}})</p>
-                  <small class="text-muted">
-                    <strong>Inicio: </strong>{{routeSector.schedule.schedule_begin}}
-                    <strong>Fin: </strong>{{routeSector.schedule.schedule_end}}
-                  </small>
+                  <p class="mb-0">{{vehicleEmployee.vehicle.descripcion}}</p>
+                </td>
+                <td>
+                  <p class="mb-0">{{vehicleEmployee.employee.name}}</p>
                 </td>
                 <td>
                   <button type="button" class="btn btn-info btn-circle">
@@ -65,7 +65,7 @@
   </div>
 </div>
 
-<!-- Formulario nueva ruta - usuario -->
+<!-- Formulario vehiculo - empleado -->
 <ng-template #modalRouteSector let-modal>
   <div class="modal-header">
     <h4 class="modal-title">Ruta - Sector</h4>
@@ -74,7 +74,7 @@
     </button>
   </div>
   <div class="modal-body">
-    <form autocomplete="off" (ngSubmit)="assignRouteSector()" [formGroup]="assignForm">
+    <form autocomplete="off" (ngSubmit)="assignVehicleEmployee()" [formGroup]="assignForm">
       <!--<input type="hidden" name="_id" #_id="ngModel" [(ngModel)]="_us.selectedUser._id">-->
 
       <!-- Sector -->
@@ -83,41 +83,30 @@
         <div class="col-8">
 
           <select class="custom-select mb-3"
-                  name="sector"
-                  formControlName="sector"
+                  name="vehicle"
+                  formControlName="vehicle"
                   required>
-            <option value="">-- Seleccione sector --</option>
-            <option *ngFor="let sector of _rS.sectors" [ngValue]="sector">{{ sector.name }} ({{sector.des}})</option>
+            <option value="">-- Seleccione vehiculo --</option>
+            <option *ngFor="let vehicle of _iS.vehicles" [ngValue]="vehicle">
+              {{ vehicle.marca }} | {{vehicle.disco}}
+            </option>
           </select>
 
         </div>
       </div>
       <!--Horario-->
       <div class="form-group row">
-        <label class="col-2 col-form-label">Horario</label>
+        <label class="col-2 col-form-label">Empleados</label>
         <div class="col-8">
 
           <select class="custom-select mb-3"
-                  name="schedule"
-                  formControlName="schedule"
+                  name="employee"
+                  formControlName="employee"
                   required>
-            <option value="">-- Seleccione horario --</option>
-            <option *ngFor="let sch of _rS.schedule; let i = index" [ngValue]="sch">Horario {{ i + 1 }}</option>
-          </select>
-
-        </div>
-      </div>
-      <!-- Ruta -->
-      <div class="form-group row">
-        <label class="col-2 col-form-label">Ruta</label>
-        <div class="col-8">
-
-          <select class="custom-select mb-3"
-                  name="route"
-                  formControlName="route"
-                  required>
-            <option value="">-- Seleccione ruta --</option>
-            <option *ngFor="let route of _rS.routes; let i = index" [ngValue]="route">{{ route.name }}</option>
+            <option value="">-- Seleccione empleados --</option>
+            <option *ngFor="let employee of _rS.employees" [ngValue]="employee">
+              {{employee.name}} {{employee.apellido}} ({{employee.cargo}})
+            </option>
           </select>
 
         </div>

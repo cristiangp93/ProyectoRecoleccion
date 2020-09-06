@@ -3,9 +3,6 @@ import {catchError, tap} from 'rxjs/operators';
 import {HttpClient} from '@angular/common/http';
 import {of} from 'rxjs';
 import {environment} from '../../environments/environment';
-import {Sector} from "../models/sector";
-import {Schedule} from "../models/schedule";
-import {Route} from "../models/route";
 
 @Injectable({
   providedIn: 'root'
