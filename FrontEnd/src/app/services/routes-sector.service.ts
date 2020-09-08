@@ -3,6 +3,7 @@ import {catchError, tap} from 'rxjs/operators';
 import {HttpClient} from '@angular/common/http';
 import {of} from 'rxjs';
 import {environment} from '../../environments/environment';
+import {User} from "../models/user";
 
 @Injectable({
   providedIn: 'root'
@@ -24,6 +25,24 @@ export class RoutesSectorService {
 
   postRouteSector(routeSector: any) {
     return this.http.post(`${environment.apiURL}/api/routes-sector`, routeSector)
+      .pipe(
+        catchError( err => {
+          return of(err.error);
+        })
+      );
+  }
+
+  putRouteSector(routeSector: any) {
+    return this.http.put(`${environment.apiURL}/api/routes-sector/${routeSector._id}`, routeSector)
+      .pipe(
+        catchError( err => {
+          return of(err.error);
+        })
+      );
+  }
+
+  deleteRouteSector(_id: string) {
+    return this.http.delete(`${environment.apiURL}/api/routes-sector/${_id}`)
       .pipe(
         catchError( err => {
           return of(err.error);

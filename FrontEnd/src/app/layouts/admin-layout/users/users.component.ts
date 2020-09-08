@@ -99,16 +99,28 @@ export class UsersComponent implements OnInit {
   }
 
   deleteUser(_id: string) {
-    this._us.deleteUser(_id)
-      .subscribe(res => {
-        this.getUsers().then(() => {
-          Swal.fire(
-            'Ok!',
-            'User eliminado correctamente',
-            'success'
-          ).then(() => this.loading = false)
-        });
-      });
+    Swal.fire({
+      title: 'Desea eliminar el usuario?',
+      text: "No podrá revertir este proceso",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Eliminar'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this._us.deleteUser(_id)
+          .subscribe(res => {
+            this.getUsers().then(() => {
+              Swal.fire(
+                'Ok!',
+                'User eliminado correctamente',
+                'success'
+              ).then(() => this.loading = false)
+            });
+          });
+      }
+    })
   }
 
 }

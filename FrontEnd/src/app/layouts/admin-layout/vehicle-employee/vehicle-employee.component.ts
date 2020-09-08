@@ -76,4 +76,28 @@ export class VehicleEmployeeComponent implements OnInit {
     });
   }
 
+  deleteVehicleEmployee(_id: string) {
+    Swal.fire({
+      title: 'Desea eliminar el item?',
+      text: "No podrá revertir este proceso",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Eliminar'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this._vES.deleteVehicleEmployee(_id)
+          .subscribe(res => {
+            this.getVehicleEmployee().then(() => {
+              Swal.fire(
+                'Ok!',
+                'Vehiculo-empleado eliminado correctamente',
+                'success'
+              )
+            });
+          });
+      }
+    })
+  }
 }

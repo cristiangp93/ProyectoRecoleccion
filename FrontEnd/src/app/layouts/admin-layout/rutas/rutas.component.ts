@@ -199,29 +199,53 @@ export class RutasComponent implements OnInit {
   }
 
   deleteSector(_id: string) {
-    this._rS.deleteSector(_id)
-      .subscribe(res => {
-        this.getSectors().then(() => {
-          Swal.fire(
-            'Ok!',
-            'Sector eliminado correctamente',
-            'success'
-          ).then(() => this.loading = false)
-        });
-      });
+    Swal.fire({
+      title: 'Desea eliminar el sector?',
+      text: "No podrá revertir este proceso",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Eliminar'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this._rS.deleteSector(_id)
+          .subscribe(res => {
+            this.getSectors().then(() => {
+              Swal.fire(
+                'Ok!',
+                'Sector eliminado correctamente',
+                'success'
+              ).then(() => this.loading = false)
+            });
+          });
+      }
+    })
   }
 
   deleteSchedule(_id: string) {
-    this._rS.deleteSchedule(_id)
-      .subscribe(res => {
-        this.getSchedules().then(() => {
-          Swal.fire(
-            'Ok!',
-            'Horario eliminado correctamente',
-            'success'
-          ).then(() => this.loading = false)
-        });
-      });
+    Swal.fire({
+      title: 'Desea eliminar el horario?',
+      text: "No podrá revertir este proceso",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Eliminar'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this._rS.deleteSchedule(_id)
+          .subscribe(res => {
+            this.getSchedules().then(() => {
+              Swal.fire(
+                'Ok!',
+                'Horario eliminado correctamente',
+                'success'
+              ).then(() => this.loading = false)
+            });
+          });
+      }
+    })
   }
 
   deleteRoute(_id: string) {

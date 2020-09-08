@@ -47,10 +47,10 @@
                   <p class="mb-0">{{vehicleEmployee.employee.name}}</p>
                 </td>
                 <td>
-                  <button type="button" class="btn btn-info btn-circle">
+                  <!--<button type="button" class="btn btn-info btn-circle">
                     <i class="fa fa-edit"></i>
-                  </button>
-                  <button type="button" class="btn btn-danger btn-circle">
+                  </button>-->
+                  <button type="button" class="btn btn-danger btn-circle" (click)="deleteVehicleEmployee(vehicleEmployee._id)">
                     <i class="fa fa-times"></i>
                   </button>
                 </td>

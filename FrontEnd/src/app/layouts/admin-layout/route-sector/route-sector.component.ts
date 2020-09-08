@@ -88,4 +88,30 @@ export class RouteSectorComponent implements OnInit {
     });
   }
 
+
+  deleteRouteSector(_id: string) {
+    Swal.fire({
+      title: 'Desea eliminar el item?',
+      text: "No podrá revertir este proceso",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Eliminar'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this._rsS.deleteRouteSector(_id)
+          .subscribe(res => {
+            this.getRouteSector().then(() => {
+              Swal.fire(
+                'Ok!',
+                'Ruta-Vehiculo eliminado correctamente',
+                'success'
+              )
+            });
+          });
+      }
+    })
+  }
+
 }

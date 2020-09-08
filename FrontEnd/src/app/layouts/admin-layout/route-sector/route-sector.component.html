@@ -14,8 +14,11 @@
           <h1>Asignar rutas a sectores</h1>
           <p class="mb-0">Sectores, horarios y rutas</p>
           <hr>
-          <button type="button" class="btn btn-info" (click)="openWindowCustomClass(modalRouteSector)"><i
-            class="fa fa-plus"></i> Asignar nueva ruta
+          <button type="button" class="btn btn-outline-info" (click)="openWindowCustomClass(modalRouteSector)"><i
+            class="fa fa-plus"></i> Asignar ruta
+          </button>
+          <button type="button" class="btn btn-outline-primary" (click)="openWindowCustomClass(modalRouteSector)"><i
+            class="fa fa-plus"></i> Asignar vehiculo
           </button>
         </div>
         <div class="card-body border-0">
@@ -47,10 +50,10 @@
                   </small>
                 </td>
                 <td>
-                  <button type="button" class="btn btn-info btn-circle">
+                  <!--<button type="button" class="btn btn-info btn-circle">
                     <i class="fa fa-edit"></i>
-                  </button>
-                  <button type="button" class="btn btn-danger btn-circle">
+                  </button>-->
+                  <button type="button" class="btn btn-danger btn-circle" (click)="deleteRouteSector(routeSector._id)">
                     <i class="fa fa-times"></i>
                   </button>
                 </td>

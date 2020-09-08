@@ -81,16 +81,28 @@ export class ContainersComponent implements OnInit {
   }
 
   deleteContainer(_id: string) {
-    this._cS.deleteContainer(_id)
-      .subscribe(res => {
-        this.getContainers().then(() => {
-          Swal.fire(
-            'Ok!',
-            'Contenedor eliminado correctamente',
-            'success'
-          ).then(() => this.loading = false)
-        });
-      })
+    Swal.fire({
+      title: 'Desea eliminar el contenedor?',
+      text: "No podrá revertir este proceso",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Eliminar'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this._cS.deleteContainer(_id)
+          .subscribe(res => {
+            this.getContainers().then(() => {
+              Swal.fire(
+                'Ok!',
+                'Contenedor eliminado correctamente',
+                'success'
+              ).then(() => this.loading = false)
+            });
+          })
+      }
+    })
   }
 
 }

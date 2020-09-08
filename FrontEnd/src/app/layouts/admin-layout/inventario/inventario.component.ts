@@ -127,29 +127,53 @@ export class InventarioComponent implements OnInit {
   }
 
   deleteMaterial(_id: string) {
-    this._iS.deleteMaterial(_id)
-      .subscribe(res => {
-        this.getMaterials().then(() => {
-          Swal.fire(
-            'Ok!',
-            'Material eliminado correctamente',
-            'success'
-          ).then(() => this.loading = false)
-        });
-      });
+    Swal.fire({
+      title: 'Desea eliminar el material?',
+      text: "No podrá revertir este proceso",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Eliminar'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this._iS.deleteMaterial(_id)
+          .subscribe(res => {
+            this.getMaterials().then(() => {
+              Swal.fire(
+                'Ok!',
+                'Material eliminado correctamente',
+                'success'
+              ).then(() => this.loading = false)
+            });
+          });
+      }
+    })
   }
 
   deleteVehicle(_id: string) {
-    this._iS.deleteVehicle(_id)
-      .subscribe(res => {
-        this.getVehicles().then(() => {
-          Swal.fire(
-            'Ok!',
-            'Vehiculo eliminado correctamente',
-            'success'
-          ).then(() => this.loading = false)
-        });
-      });
+    Swal.fire({
+      title: 'Desea eliminar el vehiculo?',
+      text: "No podrá revertir este proceso",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Eliminar'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this._iS.deleteVehicle(_id)
+          .subscribe(res => {
+            this.getVehicles().then(() => {
+              Swal.fire(
+                'Ok!',
+                'Vehiculo eliminado correctamente',
+                'success'
+              ).then(() => this.loading = false)
+            });
+          });
+      }
+    })
   }
 
 }

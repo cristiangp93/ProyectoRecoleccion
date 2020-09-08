@@ -23,8 +23,25 @@ export class VehicleEmployeeService {
   }
 
   postVehicleEmployee(vehicleEmployee: any) {
-    console.log('aqui')
     return this.http.post(`${environment.apiURL}/api/vehicle-employee`, vehicleEmployee)
+      .pipe(
+        catchError( err => {
+          return of(err.error);
+        })
+      );
+  }
+
+  putVehicleEmployee(vehicleEmployee: any) {
+    return this.http.put(`${environment.apiURL}/api/vehicle-employee/${vehicleEmployee._id}`, vehicleEmployee)
+      .pipe(
+        catchError( err => {
+          return of(err.error);
+        })
+      );
+  }
+
+  deleteVehicleEmployee(_id: string) {
+    return this.http.delete(`${environment.apiURL}/api/vehicle-employee/${_id}`)
       .pipe(
         catchError( err => {
           return of(err.error);
