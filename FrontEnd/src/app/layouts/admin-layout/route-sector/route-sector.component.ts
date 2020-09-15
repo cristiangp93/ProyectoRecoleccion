@@ -7,6 +7,7 @@ import {Route} from "../../../models/route";
 import {FormBuilder, FormGroup, NgForm, Validators} from "@angular/forms";
 import Swal from "sweetalert2";
 import {RoutesSectorService} from "../../../services/routes-sector.service";
+import {VehicleEmployeeService} from "../../../services/vehicle-employee.service";
 
 @Component({
   selector: 'app-route-sector',
@@ -16,12 +17,14 @@ import {RoutesSectorService} from "../../../services/routes-sector.service";
 export class RouteSectorComponent implements OnInit {
 
   assignForm: FormGroup;
+  assignVForm: FormGroup;
 
   public selectedSector: Sector;
 
   constructor(private modalService: NgbModal,
               public _rS: RutasService,
               public _rsS: RoutesSectorService,
+              public _vES: VehicleEmployeeService,
               public fb: FormBuilder) {
   }
 
@@ -30,12 +33,18 @@ export class RouteSectorComponent implements OnInit {
     this.getSchedules();
     this.getRoutes();
     this.getRouteSector();
+    this.getVehicleEmployee();
 
     this.assignForm = this.fb.group({
       sector: ['', Validators.required],
       schedule: ['', Validators.required],
       route: ['', Validators.required]
     })
+
+    this.assignVForm = this.fb.group({
+      sectorRoute: ['', Validators.required],
+      vehicleEmployee: ['', Validators.required]
+    });
   }
 
   async getSectors() {
@@ -74,6 +83,14 @@ export class RouteSectorComponent implements OnInit {
     });
   }
 
+  async getVehicleEmployee() {
+    await this._vES.getVehicleEmployee().subscribe(resp => {
+      this._vES.vehicleEmployee = resp as any[];
+    }, error => {
+      console.log(`Error: ${error}`);
+    });
+  }
+
   assignRouteSector() {
     this._rsS.postRouteSector(this.assignForm.value).subscribe(data => {
       this.getRouteSector().then(() => {
@@ -86,6 +103,10 @@ export class RouteSectorComponent implements OnInit {
         })
       })
     });
+  }
+
+  assignRouteSectorVehicleEmployee() {
+    console.log(this.assignVForm.value);
   }
 
 

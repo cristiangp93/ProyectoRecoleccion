@@ -17,7 +17,7 @@
           <button type="button" class="btn btn-outline-info" (click)="openWindowCustomClass(modalRouteSector)"><i
             class="fa fa-plus"></i> Asignar ruta
           </button>
-          <button type="button" class="btn btn-outline-primary" (click)="openWindowCustomClass(modalRouteSector)"><i
+          <button type="button" class="btn btn-outline-primary" (click)="openWindowCustomClass(modalRouteSectorVehicleEmployee)"><i
             class="fa fa-plus"></i> Asignar vehiculo
           </button>
         </div>
@@ -127,6 +127,58 @@
       </div>
       <div class="modal-footer">
         <button class="btn btn-dark" [disabled]="!assignForm.valid" type="submit">Guardar</button>
+        <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button>
+      </div>
+    </form>
+  </div>
+</ng-template>
+
+<!-- Formulario asignar vehiculo -->
+<ng-template #modalRouteSectorVehicleEmployee let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title">Ruta - Sector</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form autocomplete="off" (ngSubmit)="assignRouteSectorVehicleEmployee()" [formGroup]="assignVForm">
+      <!--<input type="hidden" name="_id" #_id="ngModel" [(ngModel)]="_us.selectedUser._id">-->
+
+      <!-- Sector -->
+      <div class="form-group row">
+        <label class="col-2 col-form-label">Sector</label>
+        <div class="col-8">
+
+          <select class="custom-select mb-3"
+                  name="sectorRoute"
+                  formControlName="sectorRoute"
+                  required>
+            <option value="">-- Seleccione sector --</option>
+            <option *ngFor="let sector of _rsS.routesSector" [ngValue]="sector">{{ sector.sector.name }} ({{sector.sector.des}})</option>
+          </select>
+
+        </div>
+      </div>
+      <!--Horario-->
+      <div class="form-group row">
+        <label class="col-2 col-form-label">Vehículo</label>
+        <div class="col-8">
+
+          <select class="custom-select mb-3"
+                  name="vehicleEmployee"
+                  formControlName="vehicleEmployee"
+                  required>
+            <option value="">-- Seleccione vehiculo --</option>
+            <option *ngFor="let vehicle of _vES.vehicleEmployee; let i = index" [ngValue]="vehicle">
+              {{vehicle.vehicle.marca}} ({{vehicle.vehicle.anio}})
+            </option>
+          </select>
+
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-dark" [disabled]="!assignVForm.valid" type="submit">Guardar</button>
         <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button>
       </div>
     </form>
