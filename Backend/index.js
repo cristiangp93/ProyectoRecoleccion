@@ -24,6 +24,7 @@ app.use('/api/sectors', require('./routes/sector.routes'));
 app.use('/api/schedules', require('./routes/schedule.routes'));
 app.use('/api/routes-sector', require('./routes/routes-sector.routes'));
 app.use('/api/vehicle-employee', require('./routes/vehicle-employee.routes'));
+app.use('/api/routes-sector-vehicles-employee', require('./routes/route-sector-vehicle-employee.router'));
 
 // Starting server
 app.listen(app.get('PORT'), () => {

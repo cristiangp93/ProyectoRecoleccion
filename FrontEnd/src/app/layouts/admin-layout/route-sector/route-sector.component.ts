@@ -8,6 +8,7 @@ import {FormBuilder, FormGroup, NgForm, Validators} from "@angular/forms";
 import Swal from "sweetalert2";
 import {RoutesSectorService} from "../../../services/routes-sector.service";
 import {VehicleEmployeeService} from "../../../services/vehicle-employee.service";
+import {RouteSectorVehicleEmployeeService} from "../../../services/route-sector-vehicle-employee.service";
 
 @Component({
   selector: 'app-route-sector',
@@ -25,6 +26,7 @@ export class RouteSectorComponent implements OnInit {
               public _rS: RutasService,
               public _rsS: RoutesSectorService,
               public _vES: VehicleEmployeeService,
+              public _rSvES: RouteSectorVehicleEmployeeService,
               public fb: FormBuilder) {
   }
 
@@ -105,11 +107,6 @@ export class RouteSectorComponent implements OnInit {
     });
   }
 
-  assignRouteSectorVehicleEmployee() {
-    console.log(this.assignVForm.value);
-  }
-
-
   deleteRouteSector(_id: string) {
     Swal.fire({
       title: 'Desea eliminar el item?',
@@ -133,6 +130,28 @@ export class RouteSectorComponent implements OnInit {
           });
       }
     })
+  }
+
+  async getRouteSectorVehicleEmployee() {
+    await this._rSvES.getRouteSectorVehicleEmployee().subscribe(resp => {
+      this._rSvES.routesSectorVehicleEmployee = resp as any[];
+    }, error => {
+      console.log(`Error: ${error}`);
+    });
+  }
+
+  assignRouteSectorVehicleEmployee() {
+    this._rSvES.postRouteSectorVehicleEmployee(this.assignVForm.value).subscribe(data => {
+      this.getRouteSectorVehicleEmployee().then(() => {
+        Swal.fire(
+          'Ok!',
+          'Vehiculo asignado a ruta',
+          'success'
+        ).then( () => {
+          this.modalService.dismissAll();
+        })
+      })
+    });
   }
 
 }
