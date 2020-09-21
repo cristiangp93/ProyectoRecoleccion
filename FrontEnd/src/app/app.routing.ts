@@ -7,7 +7,7 @@ import {AdminLayoutComponent} from './layouts/admin-layout/admin-layout.componen
 import {AuthLayoutComponent} from './layouts/auth-layout/auth-layout.component';
 import {canActivate, redirectUnauthorizedTo} from "@angular/fire/auth-guard";
 
-const redirectUnauthorizedToLogin = () => redirectUnauthorizedTo(['login']);
+const redirectUnauthorizedToLogin = () => redirectUnauthorizedTo(['home']);
 
 const routes: Routes = [
   {
