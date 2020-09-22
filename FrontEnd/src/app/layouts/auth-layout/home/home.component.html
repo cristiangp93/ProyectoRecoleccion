@@ -34,11 +34,17 @@
           </form>
           <agm-map *ngIf="selectedSector" [latitude]="lat"
                    [longitude]="lng"
-                   [zoom]="12">
-            <agm-marker *ngFor="let map of selectedSector.sectorRoute.route.gps"
+                   [zoom]="16">
+            <agm-polyline [editable]="false" [polylineDraggable]="false">
+              <agm-polyline-point *ngFor="let map of selectedSector.sectorRoute.route.gps"
+                                  [latitude]="map.lat"
+                                  [longitude]="map.lng">
+              </agm-polyline-point>
+            </agm-polyline>
+            <!--<agm-marker *ngFor="let map of selectedSector.sectorRoute.route.gps"
                         [latitude]="map.lat"
                         [longitude]="map.lng">
-            </agm-marker>
+            </agm-marker>-->
             <agm-marker [latitude]="lat"
                         [longitude]="lng">
               <agm-info-window [disableAutoPan]="false"

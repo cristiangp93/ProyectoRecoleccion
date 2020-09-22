@@ -15,7 +15,9 @@ import {AgmCoreModule} from "@agm/core";
     RouterModule.forChild(AuthLayoutRoutes),
     FormsModule,
     NgbModule,
-    AgmCoreModule.forRoot({apiKey: 'AIzaSyBP_oi2VSYvoa-KeAcjuTa2oxM9PT8c_AI'}),
+    AgmCoreModule.forRoot(
+      {apiKey: 'AIzaSyBP_oi2VSYvoa-KeAcjuTa2oxM9PT8c_AI',
+        libraries: ['places', 'drawing', 'geometry']}),
     ReactiveFormsModule,
   ],
   declarations: [
