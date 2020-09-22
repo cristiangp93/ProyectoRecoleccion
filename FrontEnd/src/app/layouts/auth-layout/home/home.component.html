@@ -16,22 +16,35 @@
     <div class="col-lg-12 col-md-12">
       <div class="card bg-secondary shadow border-0">
         <div class="card-body px-lg-5 py-lg-5">
-          <div class="form-group">
-            <h4>Seleccione su sector</h4>
-            <select class="custom-select" id="inputGroupSelect04" aria-label="Example select with button addon">
-              <option selected>--- Sectores ---</option>
-              <option *ngFor="let sector of _rS.sectors">{{sector.des}} ({{sector.name}})</option>
-            </select>
-          </div>
-          <agm-map [latitude]="lat"
+          <form autocomplete="off" [formGroup]="sectorForm">
+            <div class="form-group">
+              <h4>Seleccione su sector</h4>
+              <select class="custom-select"
+                      id="inputGroupSelect04"
+                      (change)="setSelected()"
+                      name="sector"
+                      formControlName="sector"
+                      required>
+                <option value="">--- Sectores ---</option>
+                <option *ngFor="let sector of _rSvES.routesSectorVehicleEmployee" [ngValue]="sector">
+                  {{sector.sectorRoute.sector.des}} ({{sector.sectorRoute.sector.name}})
+                </option>
+              </select>
+            </div>
+          </form>
+          <agm-map *ngIf="selectedSector" [latitude]="lat"
                    [longitude]="lng"
                    [zoom]="12">
+            <agm-marker *ngFor="let map of selectedSector.sectorRoute.route.gps"
+                        [latitude]="map.lat"
+                        [longitude]="map.lng">
+            </agm-marker>
             <agm-marker [latitude]="lat"
                         [longitude]="lng">
               <agm-info-window [disableAutoPan]="false"
                                [latitude]="lat"
                                [longitude]="lng">
-                <h3>Localizacion</h3>
+                <h3>Posición actual</h3>
                 <p><strong>Latitud: </strong>{{lat}}</p>
                 <p><strong>Longitud: </strong>{{lng}}</p>
               </agm-info-window>

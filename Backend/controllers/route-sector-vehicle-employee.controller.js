@@ -15,7 +15,7 @@ routeSectorVehicleEmployee.getRoutesSectorVehicleEmployee = async (req, res) => 
 
 routeSectorVehicleEmployee.createRoutesSectorVehicleEmployee = async (req, res) => {
   const route = new RouteSectorVehicleEmployee({
-    routeSector: req.body.routeSector,
+    sectorRoute: req.body.sectorRoute,
     vehicleEmployee: req.body.vehicleEmployee,
   });
   await route.save((err) => {
