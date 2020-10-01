@@ -18,24 +18,34 @@
         <div class="card-body px-lg-5 py-lg-5">
           <form autocomplete="off" [formGroup]="sectorForm">
             <div class="form-group">
-              <h4>Seleccione su sector</h4>
-              <select class="custom-select"
-                      id="inputGroupSelect04"
-                      (change)="setSelected()"
-                      name="sector"
-                      formControlName="sector"
-                      required>
-                <option value="">--- Sectores ---</option>
-                <option *ngFor="let sector of _rSvES.routesSectorVehicleEmployee" [ngValue]="sector">
-                  {{sector.sectorRoute.sector.des}} ({{sector.sectorRoute.sector.name}})
-                </option>
-              </select>
+              <h4><strong>Seleccione su sector</strong></h4>
+              <span *ngIf="locationAccepted">
+                <i class="fa fa-map-pin text-success"></i>
+                Ubicación {{locationAccepted ? 'permitida' : 'no permitida'}}
+              </span>
+              <div *ngIf="locationAccepted">
+                <select class="custom-select"
+                        id="inputGroupSelect04"
+                        (change)="setSelected()"
+                        name="sector"
+                        [title]="locationAccepted? '': 'Debe permitir el acceso a la ubicación'"
+                        formControlName="sector"
+                        required>
+                  <option value="">--- Sectores ---</option>
+                  <option *ngFor="let sector of _rSvES.routesSectorVehicleEmployee" [ngValue]="sector">
+                    {{sector.sectorRoute.sector.des}} ({{sector.sectorRoute.sector.name}})
+                  </option>
+                </select>
+              </div>
             </div>
           </form>
           <agm-map *ngIf="selectedSector" [latitude]="lat"
                    [longitude]="lng"
                    [zoom]="16">
-            <agm-polyline [editable]="false" [polylineDraggable]="false">
+            <agm-polyline [editable]="false"
+                          strokeColor="yellow"
+                          strokeWeight="8"
+                          [polylineDraggable]="false">
               <agm-polyline-point *ngFor="let map of selectedSector.sectorRoute.route.gps"
                                   [latitude]="map.lat"
                                   [longitude]="map.lng">
@@ -46,7 +56,8 @@
                         [longitude]="map.lng">
             </agm-marker>-->
             <agm-marker [latitude]="lat"
-                        [longitude]="lng">
+                        [longitude]="lng"
+                        [iconUrl]="icon">
               <agm-info-window [disableAutoPan]="false"
                                [latitude]="lat"
                                [longitude]="lng">

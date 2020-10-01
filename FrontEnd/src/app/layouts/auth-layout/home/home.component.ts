@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {RutasService} from "../../../services/rutas.service";
 import {Sector} from "../../../models/sector";
 import {RouteSectorVehicleEmployeeService} from "../../../services/route-sector-vehicle-employee.service";
@@ -10,25 +10,40 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
-  lat = -2.7705791;
-  lng = -78.8464126;
+  lat: number;
+  lng: number;
   zoom = 15;
   loading: boolean;
+  locationAccepted: boolean;
   /* Variables */
+  public icon = {
+    url: 'http://earth.google.com/images/kml-icons/track-directional/track-4.png',
+    scaledSize: {
+      width: 30,
+      height: 30
+    }
+  }
   sectorForm: FormGroup;
   selectedSector: any;
 
   constructor(public _rSvES: RouteSectorVehicleEmployeeService,
               public _rS: RutasService,
-              public fb: FormBuilder) { }
+              public fb: FormBuilder) {
+  }
 
   ngOnInit(): void {
     this.getSectors();
     this.getRouteSectorVehicleEmployee();
+    this.get();
 
     this.sectorForm = this.fb.group({
       sector: ['', Validators.required],
     });
+
+    navigator.permissions.query({ name: 'geolocation' })
+      .then((resp) => {
+        resp.state === 'denied' ? this.locationAccepted = false : this.locationAccepted = true;
+      })
 
   }
 
@@ -48,13 +63,24 @@ export class HomeComponent implements OnInit {
     });
   }
 
-  setSelected(){
+  setSelected() {
     this.selectedSector = this.sector;
-    console.log(this.selectedSector.sectorRoute.route.gps);
   }
 
   get sector() {
     return this.sectorForm.get('sector').value;
+  }
+
+  get(){
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition((position: Position) => {
+        if (position) {
+          this.lat = position.coords.latitude;
+          this.lng = position.coords.longitude;
+        }
+      })
+    }
+
   }
 
 }
