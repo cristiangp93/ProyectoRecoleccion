@@ -111,6 +111,11 @@
             <ngb-tab title="Rutas">
               <ng-template ngbTabContent>
                 <div class="card">
+                  <div class="card-header">
+                    <button type="button" class="btn btn-info" (click)="openWindowCustomClass(modalNewRoute)"><i
+                      class="fa fa-plus"></i> Agregar ruta
+                    </button>
+                  </div>
                   <div class="card-body">
                     <div class="table-responsive">
                       <ng-template #noRoutes>
@@ -143,7 +148,7 @@
                           </td>
                           <td>
                             <button type="button" class="btn btn-info btn-circle" (click)="editRoute( route ); openWindowCustomClass(modalNewSchedule)"><i class="fa fa-edit"></i></button>
-                            <button type="button" class="btn btn-danger btn-circle" (click)="deleteSchedule( route._id)"><i class="fa fa-times"></i></button>
+                            <button type="button" class="btn btn-danger btn-circle" (click)="deleteRoute( route._id)"><i class="fa fa-times"></i></button>
                           </td>
                         </tr>
                         </tbody>
@@ -289,6 +294,57 @@
 </ng-template>
 
 <!-- Formulario nueva ruta -->
+<ng-template #modalNewRoute let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title">Nueva Ruta</h4>
+  </div>
+  <div class="modal-body">
+    <form autocomplete="off" (ngSubmit)="addRoute( routeForm )" #routeForm="ngForm">
+      <input type="hidden" name="_id" #_id="ngModel" [(ngModel)]="_rS.selectedRoute._id">
+
+      <!-- Inicio -->
+      <div class="form-group row">
+        <label class="col-2 col-form-label">Inicio</label>
+        <div class="col-8">
+
+          <input class="form-control"
+                 type="text"
+                 name="name"
+                 [class.is-invalid]="name.invalid && name.touched"
+                 [ngModel]="this._rS.selectedRoute.name"
+                 placeholder="Nombre"
+                 required
+                 minlength="1"
+                 #name="ngModel">
+          <small *ngIf="name.invalid && name.touched" class="form-text text-danger">Ingrese 5 letras</small>
+        </div>
+      </div>
+      <!-- Mapa -->
+      <agm-map [latitude]="lat"
+               [longitude]="lng"
+               [zoom]="zoom"
+               (mapClick)="addMarker($event)">
+        <agm-marker [latitude]="marker.lat"
+                    [longitude]="marker.lng"
+                    *ngFor="let marker of _rS.selectedRoute.gps, let i = index">
+          <agm-info-window [disableAutoPan]="false"
+                           [latitude]="marker.lat"
+                           [longitude]="marker.lng">
+            <p><strong>Latitud: </strong>{{lat}}</p>
+            <p><strong>Longitud: </strong>{{lng}}</p>
+            <div>
+              <button class="btn btn-danger" (click)="eraseMarker( i )">Borrar</button>
+            </div>
+          </agm-info-window>
+        </agm-marker>
+      </agm-map>
+      <div class="modal-footer">
+        <button class="btn btn-dark" type="submit">Guardar</button>
+        <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button>
+      </div>
+    </form>
+  </div>
+</ng-template>
 
 <!-- Modal ver mapa -->
 <ng-template #modalMap let-modal>

@@ -14,11 +14,9 @@ routeCtrl.getRoutes = async (req, res) => {
 }
 
 routeCtrl.createRoute = async (req, res) => {
-  console.log(req.body);
-  /*const route = new Route({
-    location: req.body.location,
-    lat: req.body.lat,
-    lng: req.body.lng
+  const route = new Route({
+    name: req.body.name,
+    gps: req.body.gps
   });
   await route.save((err) => {
     if (err) {
@@ -29,7 +27,7 @@ routeCtrl.createRoute = async (req, res) => {
     res.json({
       status: 'Ruta guardada'
     });
-  });*/
+  });
 }
 
 routeCtrl.getRoute = async (req, res) => {

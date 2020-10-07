@@ -115,4 +115,13 @@ export class RutasService {
         })
       );
   }
+
+  deleteRoute(_id: string) {
+    return this.http.delete(`${environment.apiURL}/api/routes/${_id}`)
+      .pipe(
+        catchError( err => {
+          return of(err.error);
+        })
+      );
+  }
 }

@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const {Schema} = mongoose;
 
 const RouteSchema = new Schema({
-  location: {type: String, required: true},
+  name: {type: String, required: true},
   gps: {type: [Schema.Types.Mixed], required: true}
 }, {
   collection: 'routes'

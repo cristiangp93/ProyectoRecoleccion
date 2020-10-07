@@ -186,6 +186,46 @@ export class RutasComponent implements OnInit {
     this.modalService.dismissAll();
   }
 
+  /* Agregar marcador al mapa*/
+  addMarker( evento: any ) {
+    const coords: {lat: number, lng: number} = evento;
+    const nuevoMarcador = new Marcador( evento.coords.lat, evento.coords.lng);
+    this._rS.selectedRoute.gps.push(nuevoMarcador);
+    console.log('Marcador agregado')
+  }
+
+  eraseMarker(index: number) {
+    this._rS.selectedRoute.gps.splice( index, 1);
+    console.log('Marcador borrado')
+  }
+
+  addRoute(routeForm: NgForm) {
+    if (routeForm.invalid) {
+      Object.values(routeForm.controls).forEach(control => {
+        control.markAsTouched();
+      });
+      return;
+    }
+
+    const auxItem = {
+      ...routeForm.value,
+      gps: this._rS.selectedRoute.gps
+    }
+
+    this._rS.postRoutes(auxItem).subscribe(data => {
+      this.getRoutes().then(() => {
+        Swal.fire(
+          'Ok!',
+          'Ruta registrada correctamente',
+          'success'
+        ).then(() => this.loading = false)
+      });
+    });
+
+    this._rS.selectedRoute = new Route();
+    this.modalService.dismissAll();
+  }
+
   editSector(sector: Sector) {
     this._rS.selectedSector = sector;
   }
@@ -249,8 +289,38 @@ export class RutasComponent implements OnInit {
   }
 
   deleteRoute(_id: string) {
-    console.log(_id);
+    Swal.fire({
+      title: 'Desea eliminar la ruta?',
+      text: "No podrá revertir este proceso",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Eliminar'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this._rS.deleteRoute(_id)
+          .subscribe(res => {
+            this.getRoutes().then(() => {
+              Swal.fire(
+                'Ok!',
+                'Ruta eliminada correctamente',
+                'success'
+              ).then(() => this.loading = false)
+            });
+          });
+      }
+    })
   }
 
+}
 
+export class Marcador {
+  public lat: number;
+  public lng: number;
+
+  constructor(lat: number, lng: number) {
+    this.lat = lat;
+    this.lng = lng;
+  }
 }
