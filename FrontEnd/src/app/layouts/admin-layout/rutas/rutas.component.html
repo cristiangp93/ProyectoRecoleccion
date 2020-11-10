@@ -355,7 +355,16 @@
     <agm-map [latitude]="lat"
              [longitude]="lng"
              [zoom]="zoom">
-      <agm-marker [latitude]="cont.lat"
+      <agm-polyline [editable]="false"
+                    strokeColor="yellow"
+                    strokeWeight="8"
+                    [polylineDraggable]="false">
+        <agm-polyline-point *ngFor="let map of selectedRoute.gps"
+                            [latitude]="map.lat"
+                            [longitude]="map.lng">
+        </agm-polyline-point>
+      </agm-polyline>
+      <!--<agm-marker [latitude]="cont.lat"
                   [longitude]="cont.lng"
                   *ngFor="let cont of selectedRoute.gps">
         <agm-info-window [disableAutoPan]="false"
@@ -364,7 +373,7 @@
           <p><strong>Latitud: </strong>{{cont.lat}}</p>
           <p><strong>Longitud: </strong>{{cont.lng}}</p>
         </agm-info-window>
-      </agm-marker>
+      </agm-marker>-->
     </agm-map>
   </div>
 </ng-template>

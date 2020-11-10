@@ -191,12 +191,10 @@ export class RutasComponent implements OnInit {
     const coords: {lat: number, lng: number} = evento;
     const nuevoMarcador = new Marcador( evento.coords.lat, evento.coords.lng);
     this._rS.selectedRoute.gps.push(nuevoMarcador);
-    console.log('Marcador agregado')
   }
 
   eraseMarker(index: number) {
     this._rS.selectedRoute.gps.splice( index, 1);
-    console.log('Marcador borrado')
   }
 
   addRoute(routeForm: NgForm) {

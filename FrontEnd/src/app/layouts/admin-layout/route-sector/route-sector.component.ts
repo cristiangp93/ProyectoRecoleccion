@@ -36,6 +36,7 @@ export class RouteSectorComponent implements OnInit {
     this.getRoutes();
     this.getRouteSector();
     this.getVehicleEmployee();
+    this.getRouteSectorVehicleEmployee();
 
     this.assignForm = this.fb.group({
       sector: ['', Validators.required],
@@ -154,4 +155,7 @@ export class RouteSectorComponent implements OnInit {
     });
   }
 
+  editRouteSector(routeSector: any) {
+    console.log(routeSector);
+  }
 }

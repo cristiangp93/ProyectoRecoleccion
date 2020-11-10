@@ -19,7 +19,7 @@
         <div class="table-responsive">
           <ng-template #noContainers>
             <div class="p-3">
-              No existen usuarios
+              No existen contenedores
             </div>
           </ng-template>
           <table class="table align-items-center table-flush"
@@ -55,7 +55,7 @@
       <div class="card shadow">
         <div class="card-header border-0">
           <h1>Contenedores</h1>
-          <p class="mb-0">Geolocalización</p>
+          <p class="mb-0">Ubicación de los contenedores en la ciudad</p>
         </div>
         <div class="card-body">
           <agm-map [latitude]="lat"
@@ -100,7 +100,7 @@
                  type="text"
                  name="location"
                  [(ngModel)]="this._cS.selected_container.location"
-                 placeholder="Localización"
+                 placeholder="Descripción del lugar..."
                  required
                  minlength="5">
         </div>

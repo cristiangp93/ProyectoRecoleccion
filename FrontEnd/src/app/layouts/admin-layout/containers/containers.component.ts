@@ -59,7 +59,9 @@ export class ContainersComponent implements OnInit {
             'Ok!',
             'Contenedor actualizado correctamente',
             'success'
-          ).then(() => this.loading = false)
+          ).then(() => {
+            this._cS.selected_container = new Container();
+          })
         });
       });
     } else {
@@ -69,11 +71,15 @@ export class ContainersComponent implements OnInit {
             'Ok!',
             'Contenedor registrado correctamente',
             'success'
-          ).then(() => this.loading = false)
+          ).then(() => {
+            this._cS.selected_container = new Container();
+          })
         });
       });
     }
 
+    this.loading = false
+    this.modalService.dismissAll();
   }
 
   editContainer( container: Container) {
