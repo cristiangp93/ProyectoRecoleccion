@@ -7,11 +7,11 @@ export class User {
   rol: string;
   constructor() {
     this._id = '';
-    this.nickname = 'cristiangp93';
-    this.name = 'Cristian Paúl';
-    this.surname = 'Guillén Parra';
-    this.email = 'cristian150193@gmail.com';
-    this.password = '1qaz2wsx';
+    this.nickname = '';
+    this.name = '';
+    this.surname = '';
+    this.email = '';
+    this.password = '';
     this.rol = 'Administrador';
   }
 }
