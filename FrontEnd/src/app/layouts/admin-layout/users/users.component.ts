@@ -38,6 +38,9 @@ export class UsersComponent implements OnInit {
 
   openWindowCustomClass(content3, isEdit: boolean) {
     this.modalService.open(content3);
+    if (!isEdit) {
+      this._us.selectedUser = new User();
+    }
     this.isEdit = isEdit;
   }
 
@@ -68,7 +71,7 @@ export class UsersComponent implements OnInit {
       });
     } else {
       const userToRegister = userForm.value;
-      this.auth.SignUp(userToRegister.email, userToRegister.password)
+      /*this.auth.SignUp(userToRegister.email, userToRegister.password)
         .then( resp => {
           this._us.postUser(userToRegister).subscribe(data => {
             this.getUsers().then(() => {
@@ -86,7 +89,7 @@ export class UsersComponent implements OnInit {
             e.message,
             'error'
           ).then(() => this.loading = false)
-        })
+        })*/
     }
 
     this._us.selectedUser = new User();
