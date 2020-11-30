@@ -116,7 +116,7 @@ export class RutasComponent implements OnInit {
     if (!isEdit) {
       this._rS.selectedSector = new Sector();
       this._rS.selectedSchedule = new Schedule();
-
+      this._rS.selectedRoute = new Route();
     }
     this.isEdit = isEdit;
   }
