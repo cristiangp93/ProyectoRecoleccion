@@ -49,6 +49,7 @@ export class RutasComponent implements OnInit {
   lng = -78.8464126;
   zoom = 20;
   selectedRoute: Route;
+  isEdit: boolean;
 
   constructor(private modalService: NgbModal,
               public _rS: RutasService) {
@@ -110,8 +111,14 @@ export class RutasComponent implements OnInit {
     })
   }
 
-  openWindowCustomClass(content) {
+  openWindowCustomClass(content, isEdit: boolean) {
     this.modalService.open(content);
+    if (!isEdit) {
+      this._rS.selectedSector = new Sector();
+      this._rS.selectedSchedule = new Schedule();
+      this._rS.selectedRoute = new Route();
+    }
+    this.isEdit = isEdit;
   }
 
   addSector(sectorForm: NgForm) {
@@ -226,14 +233,17 @@ export class RutasComponent implements OnInit {
 
   editSector(sector: Sector) {
     this._rS.selectedSector = sector;
+    this.isEdit = this.isEdit;
   }
 
   editSchedule(schedule: Schedule) {
     this._rS.selectedSchedule = schedule;
+    this.isEdit = this.isEdit;
   }
 
   editRoute( route: Route) {
-    this._rS.selectedRoute = route
+    this._rS.selectedRoute = route;
+    this.isEdit = this.isEdit;
   }
 
   deleteSector(_id: string) {

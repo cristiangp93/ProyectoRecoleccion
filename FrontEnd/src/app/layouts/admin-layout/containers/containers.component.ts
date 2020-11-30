@@ -15,6 +15,7 @@ export class ContainersComponent implements OnInit {
   lng = -78.8464126;
   zoom = 15;
   loading: boolean;
+  isEdit:boolean;
 
   constructor(private modalService: NgbModal,
               public _cS: ContainerService) {
@@ -32,8 +33,12 @@ export class ContainersComponent implements OnInit {
     });
   }
 
-  openWindowCustomClass(content3) {
+  openWindowCustomClass(content3, isEdit:boolean) {
     this.modalService.open(content3);
+    if (!isEdit) {
+      this._cS.selected_container = new Container();
+    }
+    this.isEdit = isEdit;
   }
 
   ngOnInit(): void {
@@ -84,6 +89,7 @@ export class ContainersComponent implements OnInit {
 
   editContainer( container: Container) {
     this._cS.selected_container = container;
+    this.isEdit = true;
   }
 
   deleteContainer(_id: string) {

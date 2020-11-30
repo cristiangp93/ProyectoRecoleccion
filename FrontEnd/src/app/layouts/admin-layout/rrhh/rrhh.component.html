@@ -14,7 +14,7 @@
           <h1>Control de Recursos humanos</h1>
           <p class="mb-0">Manejo de empleados</p>
           <hr>
-          <button type="button" class="btn btn-info" (click)="openWindowCustomClass(modalNewEmployee)"><i
+          <button type="button" class="btn btn-info" (click)="openWindowCustomClass(modalNewEmployee, false)"><i
             class="fa fa-plus"></i> Agregar empleado
           </button>
         </div>
@@ -49,7 +49,7 @@
                 </td>
                 <td>
                   <button type="button" class="btn btn-info btn-circle"
-                          (click)="editEmployee( employee ); openWindowCustomClass(modalNewEmployee)"><i
+                          (click)="editEmployee( employee ); openWindowCustomClass(modalNewEmployee, true)"><i
                     class="fa fa-edit"></i>
                   </button>
                   <button type="button" class="btn btn-danger btn-circle" (click)="deleteEmployee( employee._id)"><i

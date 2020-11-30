@@ -12,7 +12,7 @@
           <h1>Materiales</h1>
           <p class="mb-0">Manejo de materiales</p>
           <hr>
-          <button type="button" class="btn btn-info" (click)="openWindowCustomClass(modalNewMaterial)"><i
+          <button type="button" class="btn btn-info" (click)="openWindowCustomClass(modalNewMaterial, false)"><i
             class="fa fa-plus"></i> Agregar material
           </button>
         </div>
@@ -45,7 +45,7 @@
               </td>
               <td>
                 <button type="button" class="btn btn-info btn-circle"
-                        (click)="editMaterial( mat ); openWindowCustomClass(modalNewMaterial)"><i
+                        (click)="editMaterial( mat ); openWindowCustomClass(modalNewMaterial, true)"><i
                   class="fa fa-edit"></i></button>
                 <button type="button" class="btn btn-danger btn-circle" (click)="deleteMaterial( mat._id)"><i
                   class="fa fa-times"></i></button>
@@ -62,7 +62,7 @@
           <h1>Vehículos</h1>
           <p class="mb-0">Manejo de vehículos</p>
           <hr>
-          <button type="button" class="btn btn-info" (click)="openWindowCustomClass(modalNewVehicle)"><i
+          <button type="button" class="btn btn-info" (click)="openWindowCustomClass(modalNewVehicle, false)"><i
             class="fa fa-plus"></i> Agregar vehículo
           </button>
         </div>
@@ -99,7 +99,7 @@
               </td>
               <td>
                 <button type="button" class="btn btn-info btn-circle"
-                        (click)="editVehicle( veh ); openWindowCustomClass(modalNewVehicle)"><i
+                        (click)="editVehicle( veh ); openWindowCustomClass(modalNewVehicle, true)"><i
                   class="fa fa-edit"></i></button>
                 <button type="button" class="btn btn-danger btn-circle" (click)="deleteVehicle( veh._id)"><i
                   class="fa fa-times"></i></button>

@@ -14,6 +14,7 @@ import {HttpClient} from "@angular/common/http";
 export class RrhhComponent implements OnInit {
 
   loading: boolean;
+  isEdit:boolean;
   cargos: any[] = [];
 
   constructor(private modalService: NgbModal,
@@ -33,8 +34,12 @@ export class RrhhComponent implements OnInit {
     });
   }
 
-  openWindowCustomClass(content3) {
+  openWindowCustomClass(content3, isEdit:boolean) {
     this.modalService.open(content3);
+    if (!isEdit) {
+      this._rS.selectedEmployee = new Employee();
+    }
+    this.isEdit = isEdit;
   }
 
   ngOnInit(): void {
@@ -80,6 +85,7 @@ export class RrhhComponent implements OnInit {
 
   editEmployee(employee: Employee) {
     this._rS.selectedEmployee = employee;
+    this.isEdit = true;
   }
 
   deleteEmployee(_id: string) {

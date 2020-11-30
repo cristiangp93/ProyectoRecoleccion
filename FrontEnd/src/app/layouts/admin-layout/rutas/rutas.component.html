@@ -20,7 +20,7 @@
               <ng-template ngbTabContent>
                 <div class="card">
                   <div class="card-header">
-                    <button type="button" class="btn btn-info" (click)="openWindowCustomClass(modalNewSector)"><i
+                    <button type="button" class="btn btn-info" (click)="openWindowCustomClass(modalNewSector, false)"><i
                       class="fa fa-plus"></i> Agregar sector
                     </button>
                   </div>
@@ -50,7 +50,7 @@
                             <small class="text-muted">{{sector.des}}</small>
                           </td>
                           <td>
-                            <button type="button" class="btn btn-info btn-circle" (click)="editSector( sector ); openWindowCustomClass(modalNewSector)"><i class="fa fa-edit"></i></button>
+                            <button type="button" class="btn btn-info btn-circle" (click)="editSector( sector ); openWindowCustomClass(modalNewSector, true)"><i class="fa fa-edit"></i></button>
                             <button type="button" class="btn btn-danger btn-circle" (click)="deleteSector( sector._id)"><i class="fa fa-times"></i></button>
                           </td>
                         </tr>
@@ -66,7 +66,7 @@
               <ng-template ngbTabContent>
                 <div class="card">
                   <div class="card-header">
-                    <button type="button" class="btn btn-info" (click)="openWindowCustomClass(modalNewSchedule)"><i
+                    <button type="button" class="btn btn-info" (click)="openWindowCustomClass(modalNewSchedule, false)"><i
                       class="fa fa-plus"></i> Agregar horario
                     </button>
                   </div>
@@ -96,7 +96,7 @@
                             <small class="text-muted">{{schedule.schedule_begin}} | {{schedule.schedule_end}}</small>
                           </td>
                           <td>
-                            <button type="button" class="btn btn-info btn-circle" (click)="editSchedule( schedule ); openWindowCustomClass(modalNewSchedule)"><i class="fa fa-edit"></i></button>
+                            <button type="button" class="btn btn-info btn-circle" (click)="editSchedule( schedule ); openWindowCustomClass(modalNewSchedule, true)"><i class="fa fa-edit"></i></button>
                             <button type="button" class="btn btn-danger btn-circle" (click)="deleteSchedule( schedule._id)"><i class="fa fa-times"></i></button>
                           </td>
                         </tr>
@@ -112,7 +112,7 @@
               <ng-template ngbTabContent>
                 <div class="card">
                   <div class="card-header">
-                    <button type="button" class="btn btn-info" (click)="openWindowCustomClass(modalNewRoute)"><i
+                    <button type="button" class="btn btn-info" (click)="openWindowCustomClass(modalNewRoute, false)"><i
                       class="fa fa-plus"></i> Agregar ruta
                     </button>
                   </div>
@@ -147,7 +147,7 @@
                             </button>
                           </td>
                           <td>
-                            <button type="button" class="btn btn-info btn-circle" (click)="editRoute( route ); openWindowCustomClass(modalNewRoute)"><i class="fa fa-edit"></i></button>
+                            <button type="button" class="btn btn-info btn-circle" (click)="editRoute( route ); openWindowCustomClass(modalNewRoute, true)"><i class="fa fa-edit"></i></button>
                             <button type="button" class="btn btn-danger btn-circle" (click)="deleteRoute( route._id)"><i class="fa fa-times"></i></button>
                           </td>
                         </tr>

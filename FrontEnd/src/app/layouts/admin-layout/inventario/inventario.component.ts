@@ -14,6 +14,7 @@ import {Vehicle} from "../../../models/vehicle";
 export class InventarioComponent implements OnInit {
 
   loading: boolean;
+  isEdit:boolean;
 
   constructor(private modalService: NgbModal,
               private _iS: InventarioService) {
@@ -41,8 +42,13 @@ export class InventarioComponent implements OnInit {
     });
   }
 
-  openWindowCustomClass(content3) {
+  openWindowCustomClass(content3, isEdit:boolean) {
     this.modalService.open(content3);
+    if (!isEdit) {
+      this._iS.selectedVehicle = new Vehicle();
+      this._iS.selectedMaterial = new Material();
+    }
+    this.isEdit = isEdit;
   }
 
   ngOnInit(): void {
@@ -120,10 +126,12 @@ export class InventarioComponent implements OnInit {
 
   editMaterial(material: Material) {
     this._iS.selectedMaterial = material;
+    this.isEdit = true;
   }
 
   editVehicle(vehicle: Vehicle) {
     this._iS.selectedVehicle = vehicle;
+    this.isEdit = true;
   }
 
   deleteMaterial(_id: string) {
