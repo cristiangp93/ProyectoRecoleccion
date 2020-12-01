@@ -224,10 +224,12 @@
                  [ngModel]="this._iS.selectedVehicle.marca"
                  required
                  #marca="ngModel">
-            <option value="Chevrolet" selected>Hino</option>
+            <option value="Chevrolet" selected>Chebrolet</option>
             <option value="Nissan">Nissan</option>
-            <option value="Volvo">Internacional</option>
-            <option value="Volvo">Dimex</option>
+            <option value="Internacional">Internacional</option>
+            <option value="Dimex">Dimex</option>
+            <option value="Hino">Hino</option>
+            <option value="Volvo">Volvo</option>
           </select>
           <small *ngIf="marca.invalid && marca.touched" class="form-text text-danger">Seleccione una marca</small>
         </div>
@@ -294,7 +296,7 @@
                   required
                   #combustible="ngModel">
             <option value="Diesel" selected>Diesel</option>
-            <option value="Eco">Gasolina</option>
+            <option value="Gasolina">Gasolina</option>
           </select>
           <small *ngIf="combustible.invalid && combustible.touched" class="form-text text-danger">Seleccione combustible</small>
         </div>
@@ -310,9 +312,9 @@
                   [ngModel]="this._iS.selectedVehicle.estado"
                   required
                   #estado="ngModel">
-            <option value="A" selected>A</option>
-            <option value="B">B</option>
-            <option value="C">C</option>
+            <option value="Operable" selected>Operable</option>
+            <option value="Parcialmente Operable">Parcialmente Operable</option>
+            <option value="No Operable">No Operable</option>
           </select>
           <small *ngIf="estado.invalid && estado.touched" class="form-text text-danger">Seleccione estado</small>
         </div>

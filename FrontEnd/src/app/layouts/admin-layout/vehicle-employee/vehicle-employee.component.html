@@ -30,8 +30,10 @@
               <thead class="thead-light">
               <tr>
                 <th scope="col">#</th>
-                <th scope="col">Vehículo</th>
                 <th scope="col">Empleado</th>
+                <th scope="col">Vehículo</th>
+                <th scope="col">Marca</th>
+                <th scope="col">Año</th>
                 <th scope="col"></th>
               </tr>
               </thead>
@@ -41,10 +43,16 @@
                   {{i + 1}}
                 </th>
                 <td>
+                  <p class="mb-0">{{vehicleEmployee.employee.name}} {{vehicleEmployee.employee.apellido}}</p>
+                </td>
+                <td>
                   <p class="mb-0">{{vehicleEmployee.vehicle.descripcion}}</p>
                 </td>
                 <td>
-                  <p class="mb-0">{{vehicleEmployee.employee.name}}</p>
+                  <p class="mb-0">{{vehicleEmployee.vehicle.marca}}</p>
+                </td>
+                <td>
+                  <p class="mb-0">{{vehicleEmployee.vehicle.anio}}</p>
                 </td>
                 <td>
                   <!--<button type="button" class="btn btn-info btn-circle">
