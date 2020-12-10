@@ -1,7 +1,6 @@
 <div class="header bg-gradient-primary pb-8 pt-5 pt-md-8">
   <div class="container-fluid">
-    <div class="header-body">
-    </div>
+    <div class="header-body"></div>
   </div>
 </div>
 <!-- Page content -->
@@ -13,257 +12,241 @@
         <div class="card-header border-0">
           <h1>Control de Rutas</h1>
           <p class="mb-0">Sectores, horarios y rutas</p>
+          <hr />
+          <button
+            type="button"
+            class="btn btn-info"
+            (click)="openWindowCustomClass(modalNewRoute, false)">
+            <i class="fa fa-plus"></i> Agregar ruta
+          </button>
         </div>
         <div class="card-body border-0">
-          <ngb-tabset type="pills">
-            <ngb-tab title="Sectores">
-              <ng-template ngbTabContent>
-                <div class="card">
-                  <div class="card-header">
-                    <button type="button" class="btn btn-info" (click)="openWindowCustomClass(modalNewSector, false)"><i
-                      class="fa fa-plus"></i> Agregar sector
-                    </button>
-                  </div>
-                  <div class="card-body">
-                    <div class="table-responsive">
-                      <ng-template #noSectors>
-                        <div class="p-3">
-                          No existen sectores
-                        </div>
-                      </ng-template>
-                      <table class="table align-items-center table-flush"
-                             *ngIf="this._rS.sectors.length > 0; else noSectors">
-                        <thead class="thead-light">
-                        <tr>
-                          <th scope="col">#</th>
-                          <th scope="col">Sector</th>
-                          <th scope="col"></th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr *ngFor="let sector of this._rS.sectors; let i = index">
-                          <th scope="row">
-                            {{i + 1}}
-                          </th>
-                          <td>
-                            <p class="mb-0">{{sector.name}}</p>
-                            <small class="text-muted">{{sector.des}}</small>
-                          </td>
-                          <td>
-                            <button type="button" class="btn btn-info btn-circle" (click)="editSector( sector ); openWindowCustomClass(modalNewSector, true)"><i class="fa fa-edit"></i></button>
-                            <button type="button" class="btn btn-danger btn-circle" (click)="deleteSector( sector._id)"><i class="fa fa-times"></i></button>
-                          </td>
-                        </tr>
-                        </tbody>
-                      </table>
+          <div class="table-responsive">
+            <ng-template #noRoutes #noVehicleEmployee>
+              <div class="p-3">No existen rutas registradas</div>
+            </ng-template>
 
-                    </div>
-                  </div>
-                </div>
-              </ng-template>
-            </ngb-tab>
-            <ngb-tab title="Horarios">
-              <ng-template ngbTabContent>
-                <div class="card">
-                  <div class="card-header">
-                    <button type="button" class="btn btn-info" (click)="openWindowCustomClass(modalNewSchedule, false)"><i
-                      class="fa fa-plus"></i> Agregar horario
+            <table
+              class="table align-items-center table-flush"
+              *ngIf="this._rS.routes.length > 0; else noRoutes">
+              <thead class="thead-light">
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Empleado</th>
+                  <th scope="col">Sector</th>
+                  <th scope="col">Ver la ruta trazada en el Mapa</th>
+                  <th scope="col"></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let route of this._rS.routes; let i = index">
+                  <th scope="row">
+                    {{ i + 1 }}
+                  </th>
+                  <td>
+                    <p class="mb-0">   </p>
+                    <small class="text-muted">
+                      <strong>Vehiculo:  </strong>
+                    </small>
+                  </td>
+                  <td>
+                    <p class="mb-0">{{ route.name }} ({{ route.des }})</p>
+                    <small class="text-muted">
+                      <strong>Dias: </strong>({{route.schedule_days_runs}})
+                      <strong>H. Inicio: </strong>({{route.schedule_begin}})
+                      <strong>H. Fin: </strong>({{route.schedule_end}})
+                    </small>
+                  </td>
+                  <td>
+                    <button
+                      type="button"
+                      class="btn btn-info"
+                      (click)="
+                        openWindowCustomClass(modalMap); assignRoute(route)">
+                      <i class="fa fa-map-pin"></i> Ver en Mapa
                     </button>
-                  </div>
-                  <div class="card-body">
-                    <div class="table-responsive">
-                      <ng-template #noSchedule>
-                        <div class="p-3">
-                          No existen horarios registrados
-                        </div>
-                      </ng-template>
-                      <table class="table align-items-center table-flush"
-                             *ngIf="this._rS.schedule.length > 0; else noSchedule">
-                        <thead class="thead-light">
-                        <tr>
-                          <th scope="col">#</th>
-                          <th scope="col">Horario</th>
-                          <th scope="col"></th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr *ngFor="let schedule of this._rS.schedule; let i = index">
-                          <th scope="row">
-                            {{i + 1}}
-                          </th>
-                          <td>
-                            <p class="mb-0">Duración</p>
-                            <small class="text-muted">{{schedule.schedule_begin}} | {{schedule.schedule_end}}</small>
-                          </td>
-                          <td>
-                            <button type="button" class="btn btn-info btn-circle" (click)="editSchedule( schedule ); openWindowCustomClass(modalNewSchedule, true)"><i class="fa fa-edit"></i></button>
-                            <button type="button" class="btn btn-danger btn-circle" (click)="deleteSchedule( schedule._id)"><i class="fa fa-times"></i></button>
-                          </td>
-                        </tr>
-                        </tbody>
-                      </table>
-
-                    </div>
-                  </div>
-                </div>
-              </ng-template>
-            </ngb-tab>
-            <ngb-tab title="Rutas">
-              <ng-template ngbTabContent>
-                <div class="card">
-                  <div class="card-header">
-                    <button type="button" class="btn btn-info" (click)="openWindowCustomClass(modalNewRoute, false)"><i
-                      class="fa fa-plus"></i> Agregar ruta
+                  </td>
+                  <td>
+                    <button
+                      type="button"
+                      class="btn btn-info btn-circle"
+                      (click)="
+                        editRoute(route);
+                        openWindowCustomClass(modalNewRoute, true)">
+                      <i class="fa fa-edit"></i>
                     </button>
-                  </div>
-                  <div class="card-body">
-                    <div class="table-responsive">
-                      <ng-template #noRoutes>
-                        <div class="p-3">
-                          No existen rutas registradas
-                        </div>
-                      </ng-template>
-                      <table class="table align-items-center table-flush"
-                             *ngIf="this._rS.routes.length > 0; else noRoutes">
-                        <thead class="thead-light">
-                        <tr>
-                          <th scope="col">#</th>
-                          <th scope="col">Nombre</th>
-                          <th scope="col">Mapa</th>
-                          <th scope="col"></th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr *ngFor="let route of this._rS.routes; let i = index">
-                          <th scope="row">
-                            {{i + 1}}
-                          </th>
-                          <td>
-                            <p class="mb-0">{{route.name}}</p>
-                          </td>
-                          <td>
-                            <button type="button" class="btn btn-info" (click)="openWindowCustomClass(modalMap); assignRoute(route)"><i
-                              class="fa fa-map-pin"></i> Ver en Mapa
-                            </button>
-                          </td>
-                          <td>
-                            <button type="button" class="btn btn-info btn-circle" (click)="editRoute( route ); openWindowCustomClass(modalNewRoute, true)"><i class="fa fa-edit"></i></button>
-                            <button type="button" class="btn btn-danger btn-circle" (click)="deleteRoute( route._id)"><i class="fa fa-times"></i></button>
-                          </td>
-                        </tr>
-                        </tbody>
-                      </table>
-
-                    </div>
-                  </div>
-                </div>
-              </ng-template>
-            </ngb-tab>
-          </ngb-tabset>
+                    <button
+                      type="button"
+                      class="btn btn-danger btn-circle"
+                      (click)="deleteRoute(route._id)">
+                      <i class="fa fa-times"></i>
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     </div>
   </div>
 </div>
 
-<!-- Formulario nuevo sector -->
-<ng-template #modalNewSector let-modal>
+<!-- Formulario nueva ruta -->
+<ng-template #modalNewRoute let-modal>
   <div class="modal-header">
-    <h4 class="modal-title">Nuevo sector</h4>
-    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+    <h4 class="modal-title">Nueva Ruta</h4>
+    <button
+      type="button"
+      class="close"
+      aria-label="Close"
+      (click)="modal.dismiss('Cross click')"
+    >
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
   <div class="modal-body">
-    <form autocomplete="off" (ngSubmit)="addSector( sectorForm )" #sectorForm="ngForm">
-      <input type="hidden" name="_id" #_id="ngModel" [(ngModel)]="_rS.selectedSector._id">
+    <form
+      autocomplete="off"
+      (ngSubmit)="addRoute(routeForm)"
+      #routeForm="ngForm"
+    >
+      <input
+        type="hidden"
+        name="_id"
+        #_id="ngModel"
+        [(ngModel)]="_rS.selectedRoute._id"
+      />
 
-      <!-- Name -->
+      <!-- Empleado -->
       <div class="form-group row">
-        <label class="col-2 col-form-label">Nombre</label>
+        <label class="col-2 col-form-label">Empleados</label>
         <div class="col-8">
 
-          <input class="form-control"
-                 type="text"
-                 name="name"
-                 [class.is-invalid]="name.invalid && name.touched"
-                 [ngModel]="this._rS.selectedSector.name"
-                 placeholder="Nombre"
-                 required
-                 minlength="1"
-                 #name="ngModel">
-          <small *ngIf="name.invalid && name.touched" class="form-text text-danger">Ingrese 5 letras</small>
+          <select class="custom-select mb-3"
+                  name="employee"
+                  formControlName="employee"
+                  required>
+            <option value="">-- Seleccione empleados --</option>
+            <!-- <option *ngFor="let employee of _rh.employees" [ngValue]="employee">
+              {{employee.name}} {{employee.apellido}} ({{employee.cargo}})
+            </option> -->
+          </select>
+
+        </div>
+      </div>
+
+      <!-- Vehiculo -->
+      <div class="form-group row">
+        <label class="col-2 col-form-label">Vehículo</label>
+        <div class="col-8">
+
+          <select class="custom-select mb-3"
+                  name="vehicle"
+                  formControlName="vehicle"
+                  required>
+            <!-- <option value="">-- Seleccione vehiculo --</option>
+            <option *ngFor="let vehicle of _iS.vehicles" [ngValue]="vehicle">
+              {{ vehicle.marca }} | {{vehicle.disco}}
+            </option> -->
+          </select>
+
+        </div>
+      </div>
+
+
+
+      <!-- Sector -->
+      <!-- Name -->
+      <div class="form-group row">
+        <label class="col-2 col-form-label">Nombre Sector</label>
+        <div class="col-8">
+          <input
+            class="form-control"
+            type="text"
+            name="name"
+            [class.is-invalid]="name.invalid && name.touched"
+            [ngModel]="this._rS.selectedRoute.name"
+            placeholder="Nombre"
+            required
+            minlength="1"
+            #name="ngModel"
+          />
+          <small
+            *ngIf="name.invalid && name.touched"
+            class="form-text text-danger"
+            >Ingrese 5 letras</small
+          >
         </div>
       </div>
       <!-- Cantidad -->
       <div class="form-group row">
         <label class="col-2 col-form-label">Descripción</label>
         <div class="col-8">
-
-          <input class="form-control"
-                 type="text"
-                 name="des"
-                 [class.is-invalid]="des.invalid && des.touched"
-                 [ngModel]="this._rS.selectedSector.des"
-                 placeholder="Descripción"
-                 required
-                 min="0"
-                 #des="ngModel">
-          <small *ngIf="des.invalid && des.touched" class="form-text text-danger">Ingrese 5 letras</small>
+          <input
+            class="form-control"
+            type="text"
+            name="des"
+            [class.is-invalid]="des.invalid && des.touched"
+            [ngModel]="this._rS.selectedRoute.des"
+            placeholder="Descripción"
+            required
+            min="0"
+            #des="ngModel"
+          />
+          <small
+            *ngIf="des.invalid && des.touched"
+            class="form-text text-danger"
+            >Ingrese 5 letras</small
+          >
         </div>
       </div>
-      <div class="modal-footer">
-        <button class="btn btn-dark" type="submit">Guardar</button>
-        <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button>
-      </div>
-    </form>
-  </div>
-</ng-template>
 
-<!-- Formulario nuevo horario -->
-<ng-template #modalNewSchedule let-modal>
-  <div class="modal-header">
-    <h4 class="modal-title">Nuevo Horario</h4>
-    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
-  <div class="modal-body">
-    <form autocomplete="off" (ngSubmit)="addSchedule( scheduleForm )" #scheduleForm="ngForm">
-      <input type="hidden" name="_id" #_id="ngModel" [(ngModel)]="_rS.selectedSchedule._id">
-
+      <!-- Horarios -->
       <!-- Inicio -->
       <div class="form-group row">
-        <label class="col-2 col-form-label">Inicio</label>
+        <label class="col-2 col-form-label">Hora Inicio</label>
         <div class="col-8">
-
-          <input class="form-control"
-                 type="text"
-                 name="schedule_begin"
-                 [class.is-invalid]="schedule_begin.invalid && schedule_begin.touched"
-                 [ngModel]="this._rS.selectedSchedule.schedule_begin"
-                 placeholder="Inicio"
-                 required
-                 minlength="1"
-                 #schedule_begin="ngModel">
-          <small *ngIf="schedule_begin.invalid && schedule_begin.touched" class="form-text text-danger">Ingrese 5 letras</small>
+          <input
+            class="form-control"
+            type="text"
+            name="schedule_begin"
+            [class.is-invalid]="
+              schedule_begin.invalid && schedule_begin.touched
+            "
+            [ngModel]="this._rS.selectedRoute.schedule_begin"
+            placeholder="7:00"
+            required
+            minlength="1"
+            #schedule_begin="ngModel"
+          />
+          <small
+            *ngIf="schedule_begin.invalid && schedule_begin.touched"
+            class="form-text text-danger"
+            >Ingrese 5 letras</small
+          >
         </div>
       </div>
       <!-- Fin -->
       <div class="form-group row">
-        <label class="col-2 col-form-label">Fin</label>
+        <label class="col-2 col-form-label">Hora Fin</label>
         <div class="col-8">
-
-          <input class="form-control"
-                 type="text"
-                 name="schedule_end"
-                 [class.is-invalid]="schedule_end.invalid && schedule_end.touched"
-                 [ngModel]="this._rS.selectedSchedule.schedule_end"
-                 placeholder="Inicio"
-                 required
-                 minlength="1"
-                 #schedule_end="ngModel">
-          <small *ngIf="schedule_end.invalid && schedule_end.touched" class="form-text text-danger">Ingrese 5 letras</small>
+          <input
+            class="form-control"
+            type="text"
+            name="schedule_end"
+            [class.is-invalid]="schedule_end.invalid && schedule_end.touched"
+            [ngModel]="this._rS.selectedRoute.schedule_end"
+            placeholder="22:00"
+            required
+            minlength="1"
+            #schedule_end="ngModel"
+          />
+          <small
+            *ngIf="schedule_end.invalid && schedule_end.touched"
+            class="form-text text-danger"
+            >Ingrese 5 letras</small
+          >
         </div>
       </div>
 
@@ -271,76 +254,51 @@
       <div class="form-group row">
         <label class="col-2 col-form-label">Días de la semana</label>
         <div class="col-8">
-
           <div class="form-check" *ngFor="let day of days">
-            <input class="form-check-input"
-                   type="checkbox"
-                   [value]="day.value"
-                   [id]="day.des"
-                   (change)="onCheckboxChange($event)">
+            <input
+              class="form-check-input"
+              type="checkbox"
+              [value]="day.value"
+              [id]="day.des"/>
             <label class="form-check-label" [attr.for]="day.des">
-              {{day.des}}
+              {{ day.des }}
             </label>
           </div>
-
         </div>
       </div>
-      <div class="modal-footer">
-        <button class="btn btn-dark" type="submit">Guardar</button>
-        <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button>
-      </div>
-    </form>
-  </div>
-</ng-template>
 
-<!-- Formulario nueva ruta -->
-<ng-template #modalNewRoute let-modal>
-  <div class="modal-header">
-    <h4 class="modal-title">Nueva Ruta</h4>
-  </div>
-  <div class="modal-body">
-    <form autocomplete="off" (ngSubmit)="addRoute( routeForm )" #routeForm="ngForm">
-      <input type="hidden" name="_id" #_id="ngModel" [(ngModel)]="_rS.selectedRoute._id">
-
-      <!-- Inicio -->
-      <div class="form-group row">
-        <label class="col-2 col-form-label">Inicio</label>
-        <div class="col-8">
-
-          <input class="form-control"
-                 type="text"
-                 name="name"
-                 [class.is-invalid]="name.invalid && name.touched"
-                 [ngModel]="this._rS.selectedRoute.name"
-                 placeholder="Nombre"
-                 required
-                 minlength="1"
-                 #name="ngModel">
-          <small *ngIf="name.invalid && name.touched" class="form-text text-danger">Ingrese 5 letras</small>
-        </div>
-      </div>
       <!-- Mapa -->
-      <agm-map [latitude]="lat"
-               [longitude]="lng"
-               [zoom]="zoom"
-               (mapClick)="addMarker($event)">
-        <agm-marker [latitude]="marker.lat"
-                    [longitude]="marker.lng"
-                    *ngFor="let marker of _rS.selectedRoute.gps, let i = index">
-          <agm-info-window [disableAutoPan]="false"
-                           [latitude]="marker.lat"
-                           [longitude]="marker.lng">
-            <p><strong>Latitud: </strong>{{lat}}</p>
-            <p><strong>Longitud: </strong>{{lng}}</p>
+      <agm-map
+        [latitude]="lat"
+        [longitude]="lng"
+        [zoom]="zoom"
+        (mapClick)="addMarker($event)">
+        <agm-marker
+          [latitude]="marker.lat"
+          [longitude]="marker.lng"
+          *ngFor="let marker of _rS.selectedRoute.gps; let i = index">
+          <agm-info-window
+            [disableAutoPan]="false"
+            [latitude]="marker.lat"
+            [longitude]="marker.lng">
+            <p><strong>Latitud: </strong>{{ lat }}</p>
+            <p><strong>Longitud: </strong>{{ lng }}</p>
             <div>
-              <button class="btn btn-danger" (click)="eraseMarker( i )">Borrar</button>
+              <button class="btn btn-danger" (click)="eraseMarker(i)">
+                Borrar
+              </button>
             </div>
           </agm-info-window>
         </agm-marker>
       </agm-map>
       <div class="modal-footer">
         <button class="btn btn-dark" type="submit">Guardar</button>
-        <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button>
+        <button
+          type="button"
+          class="btn btn-light"
+          (click)="modal.close('Close click')">
+          Close
+        </button>
       </div>
     </form>
   </div>
@@ -349,19 +307,21 @@
 <!-- Modal ver mapa -->
 <ng-template #modalMap let-modal>
   <div class="modal-header">
-    <h4 class="modal-title">{{selectedRoute.name}}</h4>
+    <h4 class="modal-title">{{ selectedRoute.name }}</h4>
   </div>
   <div class="modal-body">
-    <agm-map [latitude]="lat"
-             [longitude]="lng"
-             [zoom]="zoom">
-      <agm-polyline [editable]="false"
-                    strokeColor="yellow"
-                    strokeWeight="8"
-                    [polylineDraggable]="false">
-        <agm-polyline-point *ngFor="let map of selectedRoute.gps"
-                            [latitude]="map.lat"
-                            [longitude]="map.lng">
+    <agm-map [latitude]="lat" [longitude]="lng" [zoom]="zoom">
+      <agm-polyline
+        [editable]="false"
+        strokeColor="yellow"
+        strokeWeight="8"
+        [polylineDraggable]="false"
+      >
+        <agm-polyline-point
+          *ngFor="let map of selectedRoute.gps"
+          [latitude]="map.lat"
+          [longitude]="map.lng"
+        >
         </agm-polyline-point>
       </agm-polyline>
       <!--<agm-marker [latitude]="cont.lat"
@@ -380,6 +340,6 @@
 
 <style>
   agm-map {
-    height: 250px;
+    height: 300px;
   }
 </style>

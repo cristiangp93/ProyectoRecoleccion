@@ -16,7 +16,13 @@ routeCtrl.getRoutes = async (req, res) => {
 routeCtrl.createRoute = async (req, res) => {
   const route = new Route({
     name: req.body.name,
-    gps: req.body.gps
+    des: req.body.des,
+    schedule_begin: req.body.schedule_begin,
+    schedule_end: req.body.schedule_end,
+    schedule_days_runs: req.body.schedule_days_runs,
+    gps: req.body.gps,
+    vehicle: req.body.vehicle,
+    employee: req.body.employee
   });
   await route.save((err) => {
     if (err) {
@@ -46,9 +52,16 @@ routeCtrl.getRoute = async (req, res) => {
 routeCtrl.editRoute = async (req, res) => {
   const {id} = req.params;
   const route = {
+    name: req.body.name,
+    des: req.body.des,
+    schedule_begin: req.body.schedule_begin,
+    schedule_end: req.body.schedule_end,
+    schedule_days_runs: req.body.schedule_days_runs,
     location: req.body.location,
     lat: req.body.lat,
-    lng: req.body.lng
+    lng: req.body.lng,
+    vehicle: req.body.vehicle,
+    employee: req.body.employee
   }
   await Route.findByIdAndUpdate(id, {$set: route}, {new: true}, (err) => {
     if (err) {
