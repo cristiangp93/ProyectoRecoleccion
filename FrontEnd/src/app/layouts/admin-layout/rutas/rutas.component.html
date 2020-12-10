@@ -22,7 +22,7 @@
         </div>
         <div class="card-body border-0">
           <div class="table-responsive">
-            <ng-template #noRoutes #noVehicleEmployee>
+            <ng-template #noRoutes >
               <div class="p-3">No existen rutas registradas</div>
             </ng-template>
 
@@ -61,8 +61,7 @@
                     <button
                       type="button"
                       class="btn btn-info"
-                      (click)="
-                        openWindowCustomClass(modalMap); assignRoute(route)">
+                      (click)="openWindowCustomClass(modalMap); assignRoute(route)">
                       <i class="fa fa-map-pin"></i> Ver en Mapa
                     </button>
                   </td>

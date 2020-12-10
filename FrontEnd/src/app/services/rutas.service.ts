@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import {catchError, tap} from 'rxjs/operators';
 import {HttpClient} from '@angular/common/http';
 import {of} from 'rxjs';
-import {environment} from '../../../../../../Visual Studio Code/Recoleccion/FrontEnd/src/environments/environment';
-import {Route} from "../../../../../../Visual Studio Code/Recoleccion/FrontEnd/src/app/models/route";
+import {environment} from '../../environments/environment';
+import {Route} from "../models/route";
 
 @Injectable({
   providedIn: 'root'

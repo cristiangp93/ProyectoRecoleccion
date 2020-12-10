@@ -20,8 +20,6 @@ import {RrhhComponent} from "./rrhh/rrhh.component";
 import {RutasComponent} from "./rutas/rutas.component";
 import {InventarioComponent} from './inventario/inventario.component';
 import {AgmCoreModule} from "@agm/core";
-import { RouteSectorComponent } from './route-sector/route-sector.component';
-import { VehicleEmployeeComponent } from './vehicle-employee/vehicle-employee.component';
 
 // import { ToastrModule } from 'ngx-toastr';
 
@@ -46,9 +44,8 @@ import { VehicleEmployeeComponent } from './vehicle-employee/vehicle-employee.co
     UsersComponent,
     RrhhComponent,
     RutasComponent,
-    InventarioComponent,
-    RouteSectorComponent,
-    VehicleEmployeeComponent
+    InventarioComponent
+
   ]
 })
 
