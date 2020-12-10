@@ -32,7 +32,6 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getSectors();
     this.getRouteSectorVehicleEmployee();
     this.get();
 
@@ -47,13 +46,7 @@ export class HomeComponent implements OnInit {
 
   }
 
-  async getSectors() {
-    await this._rS.getSectors().subscribe(resp => {
-      this._rS.sectors = resp as Sector[];
-    }, error => {
-      console.log(`Error: ${error}`);
-    });
-  }
+
 
   async getRouteSectorVehicleEmployee() {
     await this._rSvES.getRouteSectorVehicleEmployee().subscribe(resp => {
