@@ -9,6 +9,15 @@
   <!-- Table -->
   <div class="row">
     <div class="col">
+      <!--<div class="card shadow">
+        <agm-map [latitude]="origin.lat"
+                 [longitude]="origin.lng"
+                 [zoom]="zoom">
+          <agm-direction [origin]="origin" [destination]="destination"></agm-direction>
+          <agm-marker [latitude]="origin.lat"
+                      [longitude]="origin.lng"></agm-marker>
+        </agm-map>
+      </div>-->
       <div class="card shadow">
         <div class="card-header border-0">
           <h1>Control de Rutas</h1>
@@ -324,10 +333,18 @@
                [longitude]="lng"
                [zoom]="zoom"
                (mapClick)="addMarker($event)">
-        <agm-marker [latitude]="marker.lat"
+        <agm-direction
+          *ngIf="origin.hasOwnProperty('lat') && destination.hasOwnProperty('lat')"
+          [origin]="origin"
+          [destination]="destination"></agm-direction>
+        <agm-marker *ngIf="origin.hasOwnProperty('lat')" [latitude]="origin['lat']"
+                    [longitude]="origin['lng']"></agm-marker>
+        <agm-marker  *ngIf="origin.hasOwnProperty('lat')" [latitude]="destination['lat']"
+                    [longitude]="destination['lng']"></agm-marker>
+        <!--<agm-marker [latitude]="marker.lat"
                     [longitude]="marker.lng"
-                    *ngFor="let marker of _rS.selectedRoute.gps, let i = index">
-          <agm-info-window [disableAutoPan]="false"
+                    *ngFor="let marker of _rS.selectedRoute.gps, let i = index">-->
+          <!--<agm-info-window [disableAutoPan]="false"
                            [latitude]="marker.lat"
                            [longitude]="marker.lng">
             <p><strong>Latitud: </strong>{{lat}}</p>
@@ -335,8 +352,7 @@
             <div>
               <button class="btn btn-danger" (click)="eraseMarker( i )">Borrar</button>
             </div>
-          </agm-info-window>
-        </agm-marker>
+          </agm-info-window>-->
       </agm-map>
       <div class="modal-footer">
         <button class="btn btn-dark" type="submit">Guardar</button>
@@ -380,6 +396,6 @@
 
 <style>
   agm-map {
-    height: 250px;
+    height: 50vh;
   }
 </style>

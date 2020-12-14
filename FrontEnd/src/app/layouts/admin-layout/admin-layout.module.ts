@@ -22,6 +22,7 @@ import {InventarioComponent} from './inventario/inventario.component';
 import {AgmCoreModule} from "@agm/core";
 import { RouteSectorComponent } from './route-sector/route-sector.component';
 import { VehicleEmployeeComponent } from './vehicle-employee/vehicle-employee.component';
+import {AgmDirectionModule} from "agm-direction";
 
 // import { ToastrModule } from 'ngx-toastr';
 
@@ -34,6 +35,7 @@ import { VehicleEmployeeComponent } from './vehicle-employee/vehicle-employee.co
     NgbModule,
     ClipboardModule,
     AgmCoreModule.forRoot({apiKey: 'AIzaSyBP_oi2VSYvoa-KeAcjuTa2oxM9PT8c_AI'}),
+    AgmDirectionModule,
     ReactiveFormsModule,
   ],
   declarations: [

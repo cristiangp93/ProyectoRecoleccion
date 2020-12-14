@@ -7,6 +7,8 @@ import Swal from "sweetalert2";
 import {Schedule} from "../../../models/schedule";
 import {Route} from "../../../models/route";
 
+declare var google;
+
 @Component({
   selector: 'app-rutas',
   templateUrl: './rutas.component.html',
@@ -45,6 +47,10 @@ export class RutasComponent implements OnInit {
       des: 'Domingo'
     }
   ];
+  // origin = {lat: -2.7705791, lng: -78.8464126};
+  origin = {};
+  // destination = {lat: -2.7461671, lng: -78.8425931};
+  destination = {};
   lat = -2.7705791;
   lng = -78.8464126;
   zoom = 20;
@@ -197,7 +203,14 @@ export class RutasComponent implements OnInit {
   addMarker( evento: any ) {
     const coords: {lat: number, lng: number} = evento;
     const nuevoMarcador = new Marcador( evento.coords.lat, evento.coords.lng);
-    this._rS.selectedRoute.gps.push(nuevoMarcador);
+    console.log(this.origin['lat'])
+    if (this.origin['lat'] === undefined) {
+      this.origin = nuevoMarcador;
+    } else {
+      this.destination = nuevoMarcador;
+    }
+    console.log(this.origin, this.destination)
+    // this._rS.selectedRoute.gps.push(nuevoMarcador);
   }
 
   eraseMarker(index: number) {
