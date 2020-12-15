@@ -1,6 +1,7 @@
 <div class="header bg-gradient-primary pb-8 pt-5 pt-md-8">
   <div class="container-fluid">
-    <div class="header-body"></div>
+    <div class="header-body">
+    </div>
   </div>
 </div>
 <!-- Page content -->
@@ -28,7 +29,7 @@
 
             <table
               class="table align-items-center table-flush"
-              *ngIf="this._rS.routes.length > 0; else noRoutes">
+              *ngIf="this._rt.routes.length > 0; else noRoutes">
               <thead class="thead-light">
                 <tr>
                   <th scope="col">#</th>
@@ -39,7 +40,7 @@
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let route of this._rS.routes; let i = index">
+                <tr *ngFor="let route of this._rt.routes; let i = index">
                   <th scope="row">
                     {{ i + 1 }}
                   </th>
@@ -114,11 +115,11 @@
         type="hidden"
         name="_id"
         #_id="ngModel"
-        [(ngModel)]="_rS.selectedRoute._id"
+        [(ngModel)]="_rt.selectedRoute._id"
       />
 
       <!-- Empleado -->
-      <div class="form-group row">
+      <!-- <div class="form-group row">
         <label class="col-2 col-form-label">Empleados</label>
         <div class="col-8">
 
@@ -127,16 +128,16 @@
                   formControlName="employee"
                   required>
             <option value="">-- Seleccione empleados --</option>
-            <!-- <option *ngFor="let employee of _rh.employees" [ngValue]="employee">
+            <option *ngFor="let employee of _rS.employees" [ngValue]="employee">
               {{employee.name}} {{employee.apellido}} ({{employee.cargo}})
-            </option> -->
+            </option>
           </select>
 
         </div>
-      </div>
+      </div> -->
 
       <!-- Vehiculo -->
-      <div class="form-group row">
+      <!-- <div class="form-group row">
         <label class="col-2 col-form-label">Vehículo</label>
         <div class="col-8">
 
@@ -144,19 +145,18 @@
                   name="vehicle"
                   formControlName="vehicle"
                   required>
-            <!-- <option value="">-- Seleccione vehiculo --</option>
+            <option value="">-- Seleccione vehiculo --</option>
             <option *ngFor="let vehicle of _iS.vehicles" [ngValue]="vehicle">
               {{ vehicle.marca }} | {{vehicle.disco}}
-            </option> -->
+            </option>
           </select>
 
         </div>
       </div>
+ -->
 
 
-
-      <!-- Sector -->
-      <!-- Name -->
+      <!-- Sector Name -->
       <div class="form-group row">
         <label class="col-2 col-form-label">Nombre Sector</label>
         <div class="col-8">
@@ -165,7 +165,7 @@
             type="text"
             name="name"
             [class.is-invalid]="name.invalid && name.touched"
-            [ngModel]="this._rS.selectedRoute.name"
+            [ngModel]="this._rt.selectedRoute.name"
             placeholder="Nombre"
             required
             minlength="1"
@@ -178,7 +178,7 @@
           >
         </div>
       </div>
-      <!-- Cantidad -->
+      <!-- Descripción -->
       <div class="form-group row">
         <label class="col-2 col-form-label">Descripción</label>
         <div class="col-8">
@@ -187,7 +187,7 @@
             type="text"
             name="des"
             [class.is-invalid]="des.invalid && des.touched"
-            [ngModel]="this._rS.selectedRoute.des"
+            [ngModel]="this._rt.selectedRoute.des"
             placeholder="Descripción"
             required
             min="0"
@@ -201,8 +201,7 @@
         </div>
       </div>
 
-      <!-- Horarios -->
-      <!-- Inicio -->
+      <!-- Horar Inicio -->
       <div class="form-group row">
         <label class="col-2 col-form-label">Hora Inicio</label>
         <div class="col-8">
@@ -213,7 +212,7 @@
             [class.is-invalid]="
               schedule_begin.invalid && schedule_begin.touched
             "
-            [ngModel]="this._rS.selectedRoute.schedule_begin"
+            [ngModel]="this._rt.selectedRoute.schedule_begin"
             placeholder="7:00"
             required
             minlength="1"
@@ -226,7 +225,7 @@
           >
         </div>
       </div>
-      <!-- Fin -->
+      <!-- Hora Fin -->
       <div class="form-group row">
         <label class="col-2 col-form-label">Hora Fin</label>
         <div class="col-8">
@@ -235,7 +234,7 @@
             type="text"
             name="schedule_end"
             [class.is-invalid]="schedule_end.invalid && schedule_end.touched"
-            [ngModel]="this._rS.selectedRoute.schedule_end"
+            [ngModel]="this._rt.selectedRoute.schedule_end"
             placeholder="22:00"
             required
             minlength="1"
@@ -249,22 +248,23 @@
         </div>
       </div>
 
-      <!-- Días -->
-      <div class="form-group row">
-        <label class="col-2 col-form-label">Días de la semana</label>
-        <div class="col-8">
-          <div class="form-check" *ngFor="let day of days">
-            <input
-              class="form-check-input"
-              type="checkbox"
-              [value]="day.value"
-              [id]="day.des"/>
-            <label class="form-check-label" [attr.for]="day.des">
-              {{ day.des }}
-            </label>
-          </div>
+     <!-- Días -->
+     <div class="form-group row">
+      <label class="col-2 col-form-label">Días de la semana</label>
+      <div class="col-8">
+
+        <div class="form-check" *ngFor="let day of days">
+          <input class="form-check-input"
+                 type="checkbox"
+                 [value]="day.value"
+                 [id]="day.des"
+                 (change)="onCheckboxChange($event)">
+          <label class="form-check-label" [attr.for]="day.des">
+            {{day.des}}
+          </label>
         </div>
       </div>
+    </div>
 
       <!-- Mapa -->
       <agm-map
@@ -275,7 +275,7 @@
         <agm-marker
           [latitude]="marker.lat"
           [longitude]="marker.lng"
-          *ngFor="let marker of _rS.selectedRoute.gps; let i = index">
+          *ngFor="let marker of _rt.selectedRoute.gps; let i = index">
           <agm-info-window
             [disableAutoPan]="false"
             [latitude]="marker.lat"
@@ -323,16 +323,7 @@
         >
         </agm-polyline-point>
       </agm-polyline>
-      <!--<agm-marker [latitude]="cont.lat"
-                  [longitude]="cont.lng"
-                  *ngFor="let cont of selectedRoute.gps">
-        <agm-info-window [disableAutoPan]="false"
-                         [latitude]="cont.lat"
-                         [longitude]="cont.lng">
-          <p><strong>Latitud: </strong>{{cont.lat}}</p>
-          <p><strong>Longitud: </strong>{{cont.lng}}</p>
-        </agm-info-window>
-      </agm-marker>-->
+
     </agm-map>
   </div>
 </ng-template>

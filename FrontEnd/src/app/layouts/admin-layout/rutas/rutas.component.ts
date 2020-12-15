@@ -5,6 +5,10 @@ import {NgForm} from "@angular/forms";
 import Swal from "sweetalert2";
 import {Route} from "../../../models/route";
 
+import {InventarioService} from "../../../services/inventario.service";
+import {Vehicle} from "../../../models/vehicle";
+import {RrhhService} from "../../../services/rrhh.service";
+import {Employee} from "../../../models/employee";
 
 @Component({
   selector: 'app-rutas',
@@ -51,12 +55,30 @@ export class RutasComponent implements OnInit {
   isEdit: boolean;
 
   constructor(private modalService: NgbModal,
-              public _rS: RutasService) {
+              public _rt: RutasService,
+              public _iS: InventarioService,
+              public _rS: RrhhService) {
   }
 
   ngOnInit(): void {
     this.getRoutes();
 
+  }
+
+  onCheckboxChange(e) {
+
+    if (e.target.checked) {
+      this._rt.selectedRoute.schedule_days_runs.push(e.target.value);
+    } else {
+      let i: number = 0;
+      this._rt.selectedRoute.schedule_days_runs.forEach((item: string) => {
+        if (item == e.target.value) {
+          this._rt.selectedRoute.schedule_days_runs.splice(this._rt.selectedRoute.schedule_days_runs.indexOf(item), 1);
+          return;
+        }
+        i++;
+      });
+    }
 
   }
 
@@ -67,8 +89,8 @@ export class RutasComponent implements OnInit {
   }
 
   async getRoutes() {
-    await this._rS.getRoutes().subscribe(resp => {
-      this._rS.routes = resp as Route[];
+    await this._rt.getRoutes().subscribe(resp => {
+      this._rt.routes = resp as Route[];
     }, error => {
       console.log(`Error: ${error}`);
     })
@@ -77,7 +99,7 @@ export class RutasComponent implements OnInit {
   openWindowCustomClass(content, isEdit: boolean) {
     this.modalService.open(content);
     if (!isEdit) {
-      this._rS.selectedRoute = new Route();
+      this._rt.selectedRoute = new Route();
     }
     this.isEdit = isEdit;
   }
@@ -86,11 +108,11 @@ export class RutasComponent implements OnInit {
   addMarker( evento: any ) {
     const coords: {lat: number, lng: number} = evento;
     const nuevoMarcador = new Marcador( evento.coords.lat, evento.coords.lng);
-    this._rS.selectedRoute.gps.push(nuevoMarcador);
+    this._rt.selectedRoute.gps.push(nuevoMarcador);
   }
 
   eraseMarker(index: number) {
-    this._rS.selectedRoute.gps.splice( index, 1);
+    this._rt.selectedRoute.gps.splice( index, 1);
   }
 
   addRoute(routeForm: NgForm) {
@@ -103,10 +125,25 @@ export class RutasComponent implements OnInit {
 
     const auxItem = {
       ...routeForm.value,
-      gps: this._rS.selectedRoute.gps
+      gps: this._rt.selectedRoute.gps,
+
+      ...routeForm.value, schedule_days_runs:
+      this._rt.selectedRoute.schedule_days_runs
     }
 
-    this._rS.postRoutes(auxItem).subscribe(data => {
+    if (routeForm.value._id) {
+      this._rt.putRoutes(routeForm.value).subscribe(data => {
+        this.getRoutes().then(() => {
+          Swal.fire(
+            'Ok!',
+            'Ruta actualizado correctamente',
+            'success'
+          ).then(() => this.loading = false)
+        });
+      });
+    }else{
+
+    this._rt.postRoutes(auxItem).subscribe(data => {
       this.getRoutes().then(() => {
         Swal.fire(
           'Ok!',
@@ -115,13 +152,14 @@ export class RutasComponent implements OnInit {
         ).then(() => this.loading = false)
       });
     });
+  }
 
-    this._rS.selectedRoute = new Route();
+    this._rt.selectedRoute = new Route();
     this.modalService.dismissAll();
   }
 
   editRoute( route: Route) {
-    this._rS.selectedRoute = route;
+    this._rt.selectedRoute = route;
     this.isEdit = this.isEdit;
   }
 
@@ -136,7 +174,7 @@ export class RutasComponent implements OnInit {
       confirmButtonText: 'Eliminar'
     }).then((result) => {
       if (result.isConfirmed) {
-        this._rS.deleteRoute(_id)
+        this._rt.deleteRoute(_id)
           .subscribe(res => {
             this.getRoutes().then(() => {
               Swal.fire(

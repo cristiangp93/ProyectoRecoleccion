@@ -9,24 +9,15 @@ declare interface RouteInfo {
 }
 
 export const ROUTES: RouteInfo[] = [
-  /*{path: '/icons', title: 'Icons', icon: 'ni-planet text-blue', class: ''},
-  {path: '/maps', title: 'Maps', icon: 'ni-pin-3 text-orange', class: ''},
-  {path: '/user-profile', title: 'User profile', icon: 'ni-single-02 text-yellow', class: ''},
-  {path: '/tables', title: 'Tables', icon: 'ni-bullet-list-67 text-red', class: ''},
-  {path: '/login', title: 'Login', icon: 'ni-key-25 text-info', class: ''},
-  {path: '/register', title: 'Register', icon: 'ni-circle-08 text-pink', class: ''},*/
-  /* Paths correctos */
+
   {path: '/dashboard', title: 'Dashboard', icon: 'ni-chart-bar-32 text-blue', class: ''},
-  {path: '/containers', title: 'Contenedores', icon: 'fa fa-briefcase text-orange', class: ''},
-  {path: '/inventario', title: 'Inventario', icon: 'fa fa-file text-red', class: ''},
   {path: '/rrhh', title: 'Recursos Humanos', icon: 'fa fa-users text-info', class: ''},
-  {path: '/rutas', title: 'Rutas', icon: 'fa fa-map-pin text-primary', class: ''},
   {path: '/users', title: 'Usuarios', icon: 'ni-single-02 text-yellow', class: ''},
-  {path: '/vehicle-employee', title: 'Asignar Vehiculo - Empleado', icon: 'fa fa-truck text-pink', class: ''},
-  {path: '/rutas-sector', title: 'Asignar Rutas - Sector', icon: 'fa fa-truck text-red', class: ''}
+  {path: '/inventario', title: 'Inventario', icon: 'fa fa-file text-red', class: ''},
+  {path: '/containers', title: 'Contenedores', icon: 'fa fa-briefcase text-orange', class: ''},
+  {path: '/rutas', title: 'Rutas', icon: 'fa fa-map-pin text-primary', class: ''}
 
 ];
-
 @Component({
   selector: 'app-sidebar',
   templateUrl: './sidebar.component.html',
