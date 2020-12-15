@@ -68,6 +68,7 @@ export class RutasComponent implements OnInit {
     if (e.target.checked) {
       this._rt.selectedRoute.schedule_days_runs.push(e.target.value);
     } else {
+
       let i: number = 0;
       this._rt.selectedRoute.schedule_days_runs.forEach((item: string) => {
         if (item == e.target.value) {
@@ -120,6 +121,8 @@ export class RutasComponent implements OnInit {
       });
       return;
     }
+
+
 
     const auxItem = {
       ...routeForm.value,
