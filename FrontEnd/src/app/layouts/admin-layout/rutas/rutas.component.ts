@@ -55,9 +55,7 @@ export class RutasComponent implements OnInit {
   isEdit: boolean;
 
   constructor(private modalService: NgbModal,
-              public _rt: RutasService,
-              public _iS: InventarioService,
-              public _rS: RrhhService) {
+              public _rt: RutasService) {
   }
 
   ngOnInit(): void {
