@@ -57,9 +57,7 @@ routeCtrl.editRoute = async (req, res) => {
     schedule_begin: req.body.schedule_begin,
     schedule_end: req.body.schedule_end,
     schedule_days_runs: req.body.schedule_days_runs,
-    location: req.body.location,
-    lat: req.body.lat,
-    lng: req.body.lng,
+    gps: req.body.gps,
     vehicle: req.body.vehicle,
     employee: req.body.employee
   }
