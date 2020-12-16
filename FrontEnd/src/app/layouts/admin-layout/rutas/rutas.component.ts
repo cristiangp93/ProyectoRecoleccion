@@ -51,6 +51,9 @@ export class RutasComponent implements OnInit {
   lat = -2.7705791;
   lng = -78.8464126;
   zoom = 20;
+  origin = {};
+  destination = {};
+  waypoints = [];
   selectedRoute: Route;
   isEdit: boolean;
 
@@ -107,7 +110,20 @@ export class RutasComponent implements OnInit {
   addMarker( evento: any ) {
     const coords: {lat: number, lng: number} = evento;
     const nuevoMarcador = new Marcador( evento.coords.lat, evento.coords.lng);
-    this._rt.selectedRoute.gps.push(nuevoMarcador);
+    if (this.origin['lat'] === undefined && this.destination['lat'] === undefined) {
+      this.origin = nuevoMarcador;
+    } else if ( this.origin['lat'] !== undefined && this.destination['lat'] === undefined) {
+      this.destination = nuevoMarcador;
+    } else {
+      this.waypoints.push({location: {lat: this.destination['lat'], lng: this.destination['lng']}})
+      this.destination = nuevoMarcador;
+    }
+    console.log(this.waypoints);
+    console.log(this.destination)
+    // this._rS.selectedRoute.gps.push(nuevoMarcador);
+    /*const coords: {lat: number, lng: number} = evento;
+    const nuevoMarcador = new Marcador( evento.coords.lat, evento.coords.lng);
+    this._rt.selectedRoute.gps.push(nuevoMarcador);*/
   }
 
   eraseMarker(index: number) {
