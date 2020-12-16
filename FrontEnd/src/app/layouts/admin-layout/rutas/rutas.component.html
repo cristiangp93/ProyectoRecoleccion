@@ -62,7 +62,7 @@
                     <button
                       type="button"
                       class="btn btn-info"
-                      (click)="openWindowCustomClass(modalMap); assignRoute(route)">
+                      (click)="openWindowMap(modalMap); assignRoute(route)">
                       <i class="fa fa-map-pin"></i> Ver en Mapa
                     </button>
                   </td>
@@ -332,7 +332,30 @@
     <h4 class="modal-title">{{ selectedRoute.name }}</h4>
   </div>
   <div class="modal-body">
-    <agm-map [latitude]="lat" [longitude]="lng" [zoom]="zoom">
+    <!-- Mapa -->
+    <agm-map
+      [latitude]="lat"
+      [longitude]="lng"
+      [zoom]="zoom">
+      <!-- Marcador origen -->
+      <agm-marker *ngIf="this.selectedRoute.gps.origin.lat !== 0"
+                  label="A"
+                  [latitude]="this.selectedRoute.gps.origin.lat"
+                  [longitude]="this.selectedRoute.gps.origin.lng"></agm-marker>
+      <!-- Marcador destino -->
+      <agm-marker  *ngIf="this.selectedRoute.gps.destination.lat !== 0"
+                   label="B"
+                   [latitude]="this.selectedRoute.gps.destination.lat"
+                   [longitude]="this.selectedRoute.gps.destination.lng"></agm-marker>
+      <!-- Marcador puntos intermedios-->
+      <agm-marker  *ngFor="let point of this.selectedRoute.gps.waypoints"
+                   [latitude]="point.location['lat']"
+                   [longitude]="point.location['lng']"></agm-marker>
+      <!-- Trazado de rutas-->
+      <agm-direction *ngIf="this.selectedRoute.gps.origin.lat !== 0 && this.selectedRoute.gps.origin.lat !== 0"
+                     [origin]="this.selectedRoute.gps.origin"
+                     [waypoints]="this.selectedRoute.gps.waypoints"
+                     [destination]="this.selectedRoute.gps.destination"></agm-direction>
     </agm-map>
   </div>
 </ng-template>

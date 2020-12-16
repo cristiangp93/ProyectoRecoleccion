@@ -89,8 +89,6 @@ export class RutasComponent implements OnInit {
 
   assignRoute(route: Route) {
     this.selectedRoute = route;
-    this.lat = this.selectedRoute.gps[0].lat;
-    this.lng = this.selectedRoute.gps[0].lng;
   }
 
   async getRoutes() {
@@ -104,7 +102,6 @@ export class RutasComponent implements OnInit {
   async getEmployees() {
     await this._rh.getRrhh().subscribe(resp => {
       this._rh.employees = resp as Employee[];
-      console.log(this._rh.employees)
     }, error => {
       console.log(`Error: ${error}`);
     })
@@ -113,7 +110,6 @@ export class RutasComponent implements OnInit {
   async getVehicles() {
     await this._iS.getVehicles().subscribe(resp => {
       this._iS.vehicles = resp as Vehicle[];
-      console.log(this._rh.employees)
     }, error => {
       console.log(`Error: ${error}`);
     })
@@ -125,6 +121,10 @@ export class RutasComponent implements OnInit {
       this._rt.selectedRoute = new Route();
     }
     this.isEdit = isEdit;
+  }
+
+  openWindowMap(content) {
+    this.modalService.open(content)
   }
 
   /* Agregar marcador al mapa*/
