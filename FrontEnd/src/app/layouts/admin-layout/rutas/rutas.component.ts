@@ -50,7 +50,7 @@ export class RutasComponent implements OnInit {
   ];
   lat = -2.7705791;
   lng = -78.8464126;
-  zoom = 20;
+  zoom = 17;
   origin = {};
   destination = {};
   waypoints = [];
@@ -58,12 +58,15 @@ export class RutasComponent implements OnInit {
   isEdit: boolean;
 
   constructor(private modalService: NgbModal,
-              public _rt: RutasService) {
+              public _rt: RutasService,
+              public _rh: RrhhService,
+              public _iS: InventarioService) {
   }
 
   ngOnInit(): void {
     this.getRoutes();
-
+    this.getEmployees();
+    this.getVehicles();
   }
 
   onCheckboxChange(e) {
@@ -84,15 +87,29 @@ export class RutasComponent implements OnInit {
 
   }
 
- assignRoute(route: Route) {
+  assignRoute(route: Route) {
     this.selectedRoute = route;
-    this.lat = this.selectedRoute.gps[0].lat;
-    this.lng = this.selectedRoute.gps[0].lng;
   }
 
   async getRoutes() {
     await this._rt.getRoutes().subscribe(resp => {
       this._rt.routes = resp as Route[];
+    }, error => {
+      console.log(`Error: ${error}`);
+    })
+  }
+
+  async getEmployees() {
+    await this._rh.getRrhh().subscribe(resp => {
+      this._rh.employees = resp as Employee[];
+    }, error => {
+      console.log(`Error: ${error}`);
+    })
+  }
+
+  async getVehicles() {
+    await this._iS.getVehicles().subscribe(resp => {
+      this._iS.vehicles = resp as Vehicle[];
     }, error => {
       console.log(`Error: ${error}`);
     })
@@ -106,28 +123,27 @@ export class RutasComponent implements OnInit {
     this.isEdit = isEdit;
   }
 
+  openWindowMap(content) {
+    this.modalService.open(content)
+  }
+
   /* Agregar marcador al mapa*/
-  addMarker( evento: any ) {
-    const coords: {lat: number, lng: number} = evento;
-    const nuevoMarcador = new Marcador( evento.coords.lat, evento.coords.lng);
-    if (this.origin['lat'] === undefined && this.destination['lat'] === undefined) {
-      this.origin = nuevoMarcador;
-    } else if ( this.origin['lat'] !== undefined && this.destination['lat'] === undefined) {
-      this.destination = nuevoMarcador;
+  addMarker(evento: any) {
+    const coords: { lat: number, lng: number } = evento;
+    const nuevoMarcador = new Marcador(evento.coords.lat, evento.coords.lng);
+    if (this._rt.selectedRoute.gps.origin.lat === 0 && this._rt.selectedRoute.gps.destination.lat === 0) {
+      this._rt.selectedRoute.gps.origin = nuevoMarcador;
+    } else if (this._rt.selectedRoute.gps.origin.lat !== 0 && this._rt.selectedRoute.gps.destination.lat === 0) {
+      this._rt.selectedRoute.gps.destination = nuevoMarcador;
     } else {
       this.waypoints.push({location: {lat: this.destination['lat'], lng: this.destination['lng']}})
-      this.destination = nuevoMarcador;
+      this._rt.selectedRoute.gps.waypoints.push({location: {lat: this._rt.selectedRoute.gps.destination.lat, lng: this._rt.selectedRoute.gps.destination.lng }})
+      this._rt.selectedRoute.gps.destination  = nuevoMarcador;
     }
-    console.log(this.waypoints);
-    console.log(this.destination)
-    // this._rS.selectedRoute.gps.push(nuevoMarcador);
-    /*const coords: {lat: number, lng: number} = evento;
-    const nuevoMarcador = new Marcador( evento.coords.lat, evento.coords.lng);
-    this._rt.selectedRoute.gps.push(nuevoMarcador);*/
   }
 
   eraseMarker(index: number) {
-    this._rt.selectedRoute.gps.splice( index, 1);
+    // this._rt.selectedRoute.gps.splice(index, 1);
   }
 
   addRoute(routeForm: NgForm) {
@@ -139,17 +155,16 @@ export class RutasComponent implements OnInit {
     }
 
 
-
     const auxItem = {
       ...routeForm.value,
+      employee: this._rh.selectedEmployee,
+      vehicle: this._iS.selectedVehicle,
       gps: this._rt.selectedRoute.gps,
-
-      ...routeForm.value, schedule_days_runs:
-      this._rt.selectedRoute.schedule_days_runs
+      schedule_days_runs: this._rt.selectedRoute.schedule_days_runs
     }
 
     if (routeForm.value._id) {
-      this._rt.putRoutes(routeForm.value).subscribe(data => {
+      this._rt.putRoutes(auxItem).subscribe(data => {
         this.getRoutes().then(() => {
           Swal.fire(
             'Ok!',
@@ -158,26 +173,24 @@ export class RutasComponent implements OnInit {
           ).then(() => this.loading = false)
         });
       });
-    }else{
-
-    this._rt.postRoutes(auxItem).subscribe(data => {
-      this.getRoutes().then(() => {
-        Swal.fire(
-          'Ok!',
-          'Ruta registrada correctamente',
-          'success'
-        ).then(() => this.loading = false)
+    } else {
+      this._rt.postRoutes(auxItem).subscribe(data => {
+        this.getRoutes().then(() => {
+          Swal.fire(
+            'Ok!',
+            'Ruta registrada correctamente',
+            'success'
+          ).then(() => this.loading = false)
+        });
       });
-    });
-  }
+    }
 
     this._rt.selectedRoute = new Route();
     this.modalService.dismissAll();
   }
 
-  editRoute( route: Route) {
+  editRoute(route: Route) {
     this._rt.selectedRoute = route;
-    this.isEdit = this.isEdit;
   }
 
   deleteRoute(_id: string) {

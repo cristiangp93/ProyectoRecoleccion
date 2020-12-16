@@ -5,7 +5,7 @@ export class Route {
   schedule_begin: string;
   schedule_end: string;
   schedule_days_runs: string[];
-  gps: RouteGps[];
+  gps: RouteGps;
 
   constructor() {
     this._id = '';
@@ -14,11 +14,23 @@ export class Route {
     this.schedule_begin = '';
     this.schedule_end = '';
     this.schedule_days_runs = [];
-    this.gps = [];
+    this.gps = new RouteGps();
   }
 }
 
 export class RouteGps {
+  origin: GpsPoint;
+  destination: GpsPoint;
+  waypoints: any[];
+
+  constructor() {
+    this.origin = new GpsPoint();
+    this.destination = new GpsPoint();
+    this.waypoints = [];
+  }
+}
+
+export class GpsPoint {
   lat: number;
   lng: number;
 

@@ -62,7 +62,7 @@
                     <button
                       type="button"
                       class="btn btn-info"
-                      (click)="openWindowCustomClass(modalMap); assignRoute(route)">
+                      (click)="openWindowMap(modalMap); assignRoute(route)">
                       <i class="fa fa-map-pin"></i> Ver en Mapa
                     </button>
                   </td>
@@ -95,7 +95,7 @@
 <!-- Formulario nueva ruta -->
 <ng-template #modalNewRoute let-modal>
   <div class="modal-header">
-    <h4 class="modal-title">Nueva Ruta</h4>
+    <h4 class="modal-title">{{!isEdit ? 'Nueva Ruta' : 'Editar Ruta'}}</h4>
     <button
       type="button"
       class="close"
@@ -119,31 +119,35 @@
       />
 
       <!-- Empleado -->
-      <!-- <div class="form-group row">
+       <div class="form-group row">
         <label class="col-2 col-form-label">Empleados</label>
         <div class="col-8">
 
           <select class="custom-select mb-3"
                   name="employee"
-                  formControlName="employee"
+                  (change)="_rh.selectedEmployee = employee.value"
+                  [ngModel]="this._rh.selectedEmployee"
+                  #employee="ngModel"
                   required>
             <option value="">-- Seleccione empleados --</option>
-            <option *ngFor="let employee of _rS.employees" [ngValue]="employee">
+            <option *ngFor="let employee of _rh.employees" [ngValue]="employee">
               {{employee.name}} {{employee.apellido}} ({{employee.cargo}})
             </option>
           </select>
 
         </div>
-      </div> -->
+      </div>
 
       <!-- Vehiculo -->
-      <!-- <div class="form-group row">
+       <div class="form-group row">
         <label class="col-2 col-form-label">Vehículo</label>
         <div class="col-8">
 
           <select class="custom-select mb-3"
                   name="vehicle"
-                  formControlName="vehicle"
+                  (change)="_iS.selectedVehicle = vehicle.value"
+                  [ngModel]="this._iS.selectedVehicle"
+                  #vehicle="ngModel"
                   required>
             <option value="">-- Seleccione vehiculo --</option>
             <option *ngFor="let vehicle of _iS.vehicles" [ngValue]="vehicle">
@@ -153,7 +157,6 @@
 
         </div>
       </div>
- -->
 
 
       <!-- Sector Name -->
@@ -256,6 +259,7 @@
         <div class="form-check" *ngFor="let day of days">
           <input class="form-check-input"
                  type="checkbox"
+                 [checked]="_rt.selectedRoute.schedule_days_runs.includes(day.value)"
                  [value]="day.value"
                  [id]="day.des"
                  (change)="onCheckboxChange($event)">
@@ -272,17 +276,25 @@
         [longitude]="lng"
         [zoom]="zoom"
         (mapClick)="addMarker($event)">
-        <agm-direction
-          *ngIf="origin.hasOwnProperty('lat') && destination.hasOwnProperty('lat')"
-          [origin]="origin"
-          [destination]="destination"></agm-direction>
-        <!--<agm-marker *ngIf="origin.hasOwnProperty('lat')" label="A" [latitude]="origin['lat']"
-                    [longitude]="origin['lng']"></agm-marker>
-        <agm-marker  *ngIf="origin.hasOwnProperty('lat')" label="B" [latitude]="destination['lat']"
-                     [longitude]="destination['lng']"></agm-marker>-->
-        <agm-marker  *ngFor="let point of waypoints" [latitude]="point.location['lat']"
+        <!-- Marcador origen -->
+        <agm-marker *ngIf="this._rt.selectedRoute.gps.origin.lat !== 0"
+                    label="A"
+                    [latitude]="this._rt.selectedRoute.gps.origin.lat"
+                    [longitude]="this._rt.selectedRoute.gps.origin.lng"></agm-marker>
+        <!-- Marcador destino -->
+        <agm-marker  *ngIf="this._rt.selectedRoute.gps.destination.lat !== 0"
+                     label="B"
+                     [latitude]="this._rt.selectedRoute.gps.destination.lat"
+                     [longitude]="this._rt.selectedRoute.gps.destination.lng"></agm-marker>
+        <!-- Marcador puntos intermedios-->
+        <agm-marker  *ngFor="let point of this._rt.selectedRoute.gps.waypoints"
+                     [latitude]="point.location['lat']"
                      [longitude]="point.location['lng']"></agm-marker>
-        <agm-direction [origin]="origin" [waypoints]="waypoints" [destination]="destination"></agm-direction>
+        <!-- Trazado de rutas-->
+        <agm-direction *ngIf="this._rt.selectedRoute.gps.origin.lat !== 0 && this._rt.selectedRoute.gps.origin.lat !== 0"
+                       [origin]="this._rt.selectedRoute.gps.origin"
+                       [waypoints]="this._rt.selectedRoute.gps.waypoints"
+                       [destination]="this._rt.selectedRoute.gps.destination"></agm-direction>
         <!--<agm-marker
           [latitude]="marker.lat"
           [longitude]="marker.lng"
@@ -320,7 +332,30 @@
     <h4 class="modal-title">{{ selectedRoute.name }}</h4>
   </div>
   <div class="modal-body">
-    <agm-map [latitude]="lat" [longitude]="lng" [zoom]="zoom">
+    <!-- Mapa -->
+    <agm-map
+      [latitude]="lat"
+      [longitude]="lng"
+      [zoom]="zoom">
+      <!-- Marcador origen -->
+      <agm-marker *ngIf="this.selectedRoute.gps.origin.lat !== 0"
+                  label="A"
+                  [latitude]="this.selectedRoute.gps.origin.lat"
+                  [longitude]="this.selectedRoute.gps.origin.lng"></agm-marker>
+      <!-- Marcador destino -->
+      <agm-marker  *ngIf="this.selectedRoute.gps.destination.lat !== 0"
+                   label="B"
+                   [latitude]="this.selectedRoute.gps.destination.lat"
+                   [longitude]="this.selectedRoute.gps.destination.lng"></agm-marker>
+      <!-- Marcador puntos intermedios-->
+      <agm-marker  *ngFor="let point of this.selectedRoute.gps.waypoints"
+                   [latitude]="point.location['lat']"
+                   [longitude]="point.location['lng']"></agm-marker>
+      <!-- Trazado de rutas-->
+      <agm-direction *ngIf="this.selectedRoute.gps.origin.lat !== 0 && this.selectedRoute.gps.origin.lat !== 0"
+                     [origin]="this.selectedRoute.gps.origin"
+                     [waypoints]="this.selectedRoute.gps.waypoints"
+                     [destination]="this.selectedRoute.gps.destination"></agm-direction>
     </agm-map>
   </div>
 </ng-template>
