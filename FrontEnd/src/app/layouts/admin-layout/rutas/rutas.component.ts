@@ -58,11 +58,15 @@ export class RutasComponent implements OnInit {
   isEdit: boolean;
 
   constructor(private modalService: NgbModal,
-              public _rt: RutasService) {
+              public _rt: RutasService,
+              public _rh: RrhhService,
+              public _iS: InventarioService) {
   }
 
   ngOnInit(): void {
     this.getRoutes();
+    this.getEmployees();
+    this.getVehicles();
   }
 
   onCheckboxChange(e) {
@@ -81,8 +85,6 @@ export class RutasComponent implements OnInit {
       });
     }
 
-    console.log(this._rt.selectedRoute.schedule_days_runs)
-
   }
 
   assignRoute(route: Route) {
@@ -94,6 +96,24 @@ export class RutasComponent implements OnInit {
   async getRoutes() {
     await this._rt.getRoutes().subscribe(resp => {
       this._rt.routes = resp as Route[];
+    }, error => {
+      console.log(`Error: ${error}`);
+    })
+  }
+
+  async getEmployees() {
+    await this._rh.getRrhh().subscribe(resp => {
+      this._rh.employees = resp as Employee[];
+      console.log(this._rh.employees)
+    }, error => {
+      console.log(`Error: ${error}`);
+    })
+  }
+
+  async getVehicles() {
+    await this._iS.getVehicles().subscribe(resp => {
+      this._iS.vehicles = resp as Vehicle[];
+      console.log(this._rh.employees)
     }, error => {
       console.log(`Error: ${error}`);
     })
@@ -137,6 +157,8 @@ export class RutasComponent implements OnInit {
 
     const auxItem = {
       ...routeForm.value,
+      employee: this._rh.selectedEmployee,
+      vehicle: this._iS.selectedVehicle,
       gps: this._rt.selectedRoute.gps,
       schedule_days_runs: this._rt.selectedRoute.schedule_days_runs
     }
@@ -168,7 +190,6 @@ export class RutasComponent implements OnInit {
   }
 
   editRoute(route: Route) {
-    console.log(route)
     this._rt.selectedRoute = route;
   }
 

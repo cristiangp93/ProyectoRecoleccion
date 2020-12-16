@@ -119,31 +119,35 @@
       />
 
       <!-- Empleado -->
-      <!-- <div class="form-group row">
+       <div class="form-group row">
         <label class="col-2 col-form-label">Empleados</label>
         <div class="col-8">
 
           <select class="custom-select mb-3"
                   name="employee"
-                  formControlName="employee"
+                  (change)="_rh.selectedEmployee = employee.value"
+                  [ngModel]="this._rh.selectedEmployee"
+                  #employee="ngModel"
                   required>
             <option value="">-- Seleccione empleados --</option>
-            <option *ngFor="let employee of _rS.employees" [ngValue]="employee">
+            <option *ngFor="let employee of _rh.employees" [ngValue]="employee">
               {{employee.name}} {{employee.apellido}} ({{employee.cargo}})
             </option>
           </select>
 
         </div>
-      </div> -->
+      </div>
 
       <!-- Vehiculo -->
-      <!-- <div class="form-group row">
+       <div class="form-group row">
         <label class="col-2 col-form-label">Vehículo</label>
         <div class="col-8">
 
           <select class="custom-select mb-3"
                   name="vehicle"
-                  formControlName="vehicle"
+                  (change)="_iS.selectedVehicle = vehicle.value"
+                  [ngModel]="this._iS.selectedVehicle"
+                  #vehicle="ngModel"
                   required>
             <option value="">-- Seleccione vehiculo --</option>
             <option *ngFor="let vehicle of _iS.vehicles" [ngValue]="vehicle">
@@ -153,7 +157,6 @@
 
         </div>
       </div>
- -->
 
 
       <!-- Sector Name -->
