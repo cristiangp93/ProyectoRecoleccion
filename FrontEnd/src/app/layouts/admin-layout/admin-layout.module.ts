@@ -20,6 +20,7 @@ import {RrhhComponent} from "./rrhh/rrhh.component";
 import {RutasComponent} from "./rutas/rutas.component";
 import {InventarioComponent} from './inventario/inventario.component';
 import {AgmCoreModule} from "@agm/core";
+import {AgmDirectionModule} from "agm-direction";
 
 // import { ToastrModule } from 'ngx-toastr';
 
@@ -32,6 +33,7 @@ import {AgmCoreModule} from "@agm/core";
     NgbModule,
     ClipboardModule,
     AgmCoreModule.forRoot({apiKey: 'AIzaSyBP_oi2VSYvoa-KeAcjuTa2oxM9PT8c_AI'}),
+    AgmDirectionModule,
     ReactiveFormsModule,
   ],
   declarations: [
