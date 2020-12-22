@@ -16,12 +16,6 @@ import {Employee} from "../../../models/employee";
   styles: []
 })
 export class ContainersComponent implements OnInit {
-  lat = -2.7705791;
-  lng = -78.8464126;
-  zoom = 15;
-  loading: boolean;
-  isEdit:boolean;
-
   days = [
     {
       value: 'mon',
@@ -52,6 +46,11 @@ export class ContainersComponent implements OnInit {
       des: 'Domingo'
     }
   ];
+  lat = -2.7705791;
+  lng = -78.8464126;
+  zoom = 15;
+  loading: boolean;
+  isEdit:boolean;
 
   constructor(private modalService: NgbModal,
               public _cS: ContainerService,
@@ -61,10 +60,46 @@ export class ContainersComponent implements OnInit {
       this.loading = false;
     });
   }
+
   ngOnInit(): void {
     this.getEmployees();
     this.getVehicles();
   }
+  async getContainers() {
+    this.loading = true;
+    this._cS.getContainers().subscribe( resp =>{
+      this._cS.containers = resp as Container[];
+    }, error => {
+      console.log(`Error: ${error}`);
+    });
+  }
+
+  async getEmployees() {
+    await this._rh.getRrhh().subscribe(resp => {
+      this._rh.employees = resp as Employee[];
+    }, error => {
+      console.log(`Error: ${error}`);
+    })
+  }
+
+  async getVehicles() {
+    await this._iS.getVehicles().subscribe(resp => {
+      this._iS.vehicles = resp as Vehicle[];
+    }, error => {
+      console.log(`Error: ${error}`);
+    })
+  }
+
+  openWindowCustomClass(content3, isEdit:boolean) {
+    this.modalService.open(content3);
+    if (!isEdit) {
+      this._cS.selected_container = new Container();
+    }
+    this.isEdit = isEdit;
+  }
+
+
+
   onCheckboxChange(e) {
 
     if (e.target.checked) {
@@ -82,41 +117,6 @@ export class ContainersComponent implements OnInit {
     }
 
   }
-
-  async getContainers() {
-    this.loading = true;
-    this._cS.getContainers().subscribe( resp =>{
-      this._cS.containers = resp as Container[];
-    }, error => {
-      console.log(`Error: ${error}`);
-    });
-  }
-  async getEmployees() {
-    await this._rh.getRrhh().subscribe(resp => {
-      this._rh.employees = resp as Employee[];
-    }, error => {
-      console.log(`Error: ${error}`);
-    })
-  }
-
-  async getVehicles() {
-    await this._iS.getVehicles().subscribe(resp => {
-      this._iS.vehicles = resp as Vehicle[];
-    }, error => {
-      console.log(`Error: ${error}`);
-    })
-  }
-
-
-  openWindowCustomClass(content3, isEdit:boolean) {
-    this.modalService.open(content3);
-    if (!isEdit) {
-      this._cS.selected_container = new Container();
-    }
-    this.isEdit = isEdit;
-  }
-
-
 
   placeMarker($event){
     this._cS.selected_container.lat = $event.coords.lat;

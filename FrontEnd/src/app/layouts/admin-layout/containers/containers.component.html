@@ -142,6 +142,7 @@
         </div>
       </div>
 
+
       <!-- Location -->
       <div class="form-group row">
         <label class="col-2 col-form-label">Localización</label>
@@ -157,22 +158,20 @@
         </div>
       </div>
 
-      <!-- Horar Inicio -->
+      <!-- Hora Inicio -->
       <div class="form-group row">
         <label class="col-2 col-form-label">Hora Inicio</label>
         <div class="col-8">
-          <input
-            class="form-control"
-            type="time"
-            name="schedule_begin"
-            [class.is-invalid]="
-              schedule_begin.invalid && schedule_begin.touched"
-            [ngModel]="this._cS.selected_container.schedule_begin"
-            placeholder="7:00"
-            required
-            minlength="1"
-            #schedule_begin="ngModel"
-          />
+
+          <input class="form-control"
+                 type="time"
+                 name="schedule_begin"
+                 [class.is-invalid]="schedule_begin.invalid && schedule_begin.touched"
+                 [(ngModel)]="this._cS.selected_container.schedule_begin"
+                 placeholder="7:00"
+                 required
+                 minlength="1"
+                 #schedule_begin="ngModel">
           <small
             *ngIf="schedule_begin.invalid && schedule_begin.touched"
             class="form-text text-danger"
@@ -187,20 +186,19 @@
         <div class="col-8">
 
           <div class="form-check" *ngFor="let day of days">
-            <input class="form-check-input"
-                   type="checkbox"
-                   [checked]="_cS.selected_container.schedule_days_runs.includes(day.value)"
-                   [value]="day.value"
-                   [id]="day.des"
-                   (change)="onCheckboxChange($event)">
+          <input class="form-check-input"
+                 type="checkbox"
+                 name="schedule_begin"
+                 [checked]="_cS.selected_container.schedule_days_runs.includes(day.value)"
+                 [value]="day.value"
+                 [id]="day.des"
+                 (change)="onCheckboxChange($event)">
             <label class="form-check-label" [attr.for]="day.des">
               {{day.des}}
             </label>
           </div>
         </div>
       </div>
-
-
 
       <agm-map [latitude]="this._cS.selected_container.lat"
                [longitude]="this._cS.selected_container.lng"
