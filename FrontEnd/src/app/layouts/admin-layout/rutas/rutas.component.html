@@ -158,48 +158,50 @@
         </div>
       </div>
 
-
       <!-- Sector Name -->
       <div class="form-group row">
         <label class="col-2 col-form-label">Nombre Sector</label>
         <div class="col-8">
-          <input
+          <select
             class="form-control"
-            type="text"
             name="name"
             [class.is-invalid]="name.invalid && name.touched"
             [ngModel]="this._rt.selectedRoute.name"
-            placeholder="Nombre"
             required
-            minlength="1"
-            #name="ngModel"
-          />
+            #name="ngModel">
+            <option value="Sector Comercial 1" selected>Sector Comercial 1</option>
+            <option value="Sector Comercial 2">Sector Comercial 2</option>
+            <option value="Sector Residencial 1">Sector Residencial 1</option>
+            <option value="Sector Residencial 2">Sector Residencial 2</option>
+            <option value="Sector Residencial 3">Sector Residencial 3</option>
+          </select>
           <small
             *ngIf="name.invalid && name.touched"
             class="form-text text-danger"
-            >Ingrese 5 letras</small
+          >Seleccione el sector</small
           >
         </div>
       </div>
+
+
       <!-- Descripción -->
       <div class="form-group row">
         <label class="col-2 col-form-label">Descripción</label>
         <div class="col-8">
-          <input
+          <select
             class="form-control"
-            type="text"
             name="des"
             [class.is-invalid]="des.invalid && des.touched"
             [ngModel]="this._rt.selectedRoute.des"
-            placeholder="Descripción"
             required
-            min="0"
-            #des="ngModel"
-          />
+            #des="ngModel">
+            <option value="Desechos Organicos" selected>Desechos Organicos</option>
+            <option value="Desechos Inorganicos">Desechos Inorganicos</option>
+          </select>
           <small
             *ngIf="des.invalid && des.touched"
             class="form-text text-danger"
-            >Ingrese 5 letras</small
+          >Seleccione una marca</small
           >
         </div>
       </div>
@@ -210,7 +212,7 @@
         <div class="col-8">
           <input
             class="form-control"
-            type="text"
+            type="time"
             name="schedule_begin"
             [class.is-invalid]="
               schedule_begin.invalid && schedule_begin.touched
@@ -224,7 +226,7 @@
           <small
             *ngIf="schedule_begin.invalid && schedule_begin.touched"
             class="form-text text-danger"
-            >Ingrese 5 letras</small
+            >Hora Inicio</small
           >
         </div>
       </div>
@@ -234,7 +236,7 @@
         <div class="col-8">
           <input
             class="form-control"
-            type="text"
+            type="time"
             name="schedule_end"
             [class.is-invalid]="schedule_end.invalid && schedule_end.touched"
             [ngModel]="this._rt.selectedRoute.schedule_end"
@@ -330,6 +332,14 @@
 <ng-template #modalMap let-modal>
   <div class="modal-header">
     <h4 class="modal-title">{{ selectedRoute.name }}</h4>
+    <button
+      type="button"
+      class="close"
+      aria-label="Close"
+      (click)="modal.dismiss('Cross click')"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
   </div>
   <div class="modal-body">
     <!-- Mapa -->

@@ -16,8 +16,12 @@ containerCtrl.getContainers = async (req, res) => {
 containerCtrl.createContainer = async (req, res) => {
   const container = new Container({
     location: req.body.location,
+    schedule_begin: req.body.schedule_begin,
+    schedule_days_runs: req.body.schedule_days_runs,
     lat: req.body.lat,
-    lng: req.body.lng
+    lng: req.body.lng,
+    vehicle: req.body.vehicle,
+    employee: req.body.employee
   });
   console.log(container)
   await container.save((err) => {
@@ -49,8 +53,12 @@ containerCtrl.editContainer = async (req, res) => {
   const {id} = req.params;
   const container = {
     location: req.body.location,
+    schedule_begin: req.body.schedule_begin,
+    schedule_days_runs: req.body.schedule_days_runs,
     lat: req.body.lat,
-    lng: req.body.lng
+    lng: req.body.lng,
+    vehicle: req.body.vehicle,
+    employee: req.body.employee
   }
   await Container.findByIdAndUpdate(id, {$set: container}, {new: true}, (err) => {
     if (err) {

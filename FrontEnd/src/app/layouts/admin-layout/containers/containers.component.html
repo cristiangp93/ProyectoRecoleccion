@@ -27,6 +27,7 @@
             <thead class="thead-light">
             <tr>
               <th scope="col">#</th>
+              <th scope="col">Empleado</th>
               <th scope="col">Container</th>
               <th scope="col"></th>
             </tr>
@@ -37,8 +38,17 @@
                 {{i + 1}}
               </th>
               <td>
+                <p class="mb-0">   </p>
+                <small class="text-muted">
+                  <strong>Vehiculo:  </strong>
+                </small>
+              </td>
+              <td>
                 <p class="mb-0">{{cont.location}}</p>
-                <small class="text-muted">Lat: {{cont.lat}} | Lng: {{cont.lng}}</small>
+                <small class="text-muted">
+                  <strong>Dias: </strong>({{cont.schedule_days_runs}})
+                  <strong>H. Inicio: </strong>({{cont.schedule_begin}})
+                </small>
               </td>
               <td>
                 <button type="button" class="btn btn-info btn-circle" (click)="editContainer( cont ); openWindowCustomClass(modalNewUser, true)"><i class="fa fa-edit"></i></button>
@@ -80,6 +90,7 @@
 </div>
 
 <!-- Formulario nuevo usuario -->
+
 <ng-template #modalNewUser let-modal>
   <div class="modal-header">
     <h4 class="modal-title">Nuevo contenedor</h4>
@@ -90,6 +101,46 @@
   <div class="modal-body">
     <form autocomplete="off" (ngSubmit)="addContainer( containerForm )" #containerForm="ngForm">
       <input type="hidden" name="_id" #_id="ngModel" [(ngModel)]="_cS.selected_container._id">
+
+      <!-- Empleado -->
+      <div class="form-group row">
+        <label class="col-2 col-form-label">Empleados</label>
+        <div class="col-8">
+
+          <select class="custom-select mb-3"
+                  name="employee"
+                  (change)="_rh.selectedEmployee = employee.value"
+                  [ngModel]="this._rh.selectedEmployee"
+                  #employee="ngModel"
+                  required>
+            <option value="">-- Seleccione empleados --</option>
+            <option *ngFor="let employee of _rh.employees" [ngValue]="employee">
+              {{employee.name}} {{employee.apellido}} ({{employee.cargo}})
+            </option>
+          </select>
+
+        </div>
+      </div>
+
+      <!-- Vehiculo -->
+      <div class="form-group row">
+        <label class="col-2 col-form-label">Vehículo</label>
+        <div class="col-8">
+
+          <select class="custom-select mb-3"
+                  name="vehicle"
+                  (change)="_iS.selectedVehicle = vehicle.value"
+                  [ngModel]="this._iS.selectedVehicle"
+                  #vehicle="ngModel"
+                  required>
+            <option value="">-- Seleccione vehiculo --</option>
+            <option *ngFor="let vehicle of _iS.vehicles" [ngValue]="vehicle">
+              {{ vehicle.marca }} | {{vehicle.disco}}
+            </option>
+          </select>
+
+        </div>
+      </div>
 
       <!-- Location -->
       <div class="form-group row">
@@ -105,6 +156,51 @@
                  minlength="5">
         </div>
       </div>
+
+      <!-- Horar Inicio -->
+      <div class="form-group row">
+        <label class="col-2 col-form-label">Hora Inicio</label>
+        <div class="col-8">
+          <input
+            class="form-control"
+            type="time"
+            name="schedule_begin"
+            [class.is-invalid]="
+              schedule_begin.invalid && schedule_begin.touched"
+            [ngModel]="this._cS.selected_container.schedule_begin"
+            placeholder="7:00"
+            required
+            minlength="1"
+            #schedule_begin="ngModel"
+          />
+          <small
+            *ngIf="schedule_begin.invalid && schedule_begin.touched"
+            class="form-text text-danger"
+          >Hora Inicio</small
+          >
+        </div>
+      </div>
+
+      <!-- Días -->
+      <div class="form-group row">
+        <label class="col-2 col-form-label">Días de la semana</label>
+        <div class="col-8">
+
+          <div class="form-check" *ngFor="let day of days">
+            <input class="form-check-input"
+                   type="checkbox"
+                   [checked]="_cS.selected_container.schedule_days_runs.includes(day.value)"
+                   [value]="day.value"
+                   [id]="day.des"
+                   (change)="onCheckboxChange($event)">
+            <label class="form-check-label" [attr.for]="day.des">
+              {{day.des}}
+            </label>
+          </div>
+        </div>
+      </div>
+
+
 
       <agm-map [latitude]="this._cS.selected_container.lat"
                [longitude]="this._cS.selected_container.lng"

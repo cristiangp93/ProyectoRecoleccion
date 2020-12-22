@@ -5,6 +5,11 @@ import {Container} from "../../../models/container";
 import {NgForm} from "@angular/forms";
 import Swal from "sweetalert2";
 
+import {InventarioService} from "../../../services/inventario.service";
+import {Vehicle} from "../../../models/vehicle";
+import {RrhhService} from "../../../services/rrhh.service";
+import {Employee} from "../../../models/employee";
+
 @Component({
   selector: 'app-containers',
   templateUrl: './containers.component.html',
@@ -17,11 +22,65 @@ export class ContainersComponent implements OnInit {
   loading: boolean;
   isEdit:boolean;
 
+  days = [
+    {
+      value: 'mon',
+      des: 'Lunes'
+    },
+    {
+      value: 'thu',
+      des: 'Martes'
+    },
+    {
+      value: 'wed',
+      des: 'Miércoles'
+    },
+    {
+      value: 'thr',
+      des: 'Jueves'
+    },
+    {
+      value: 'fri',
+      des: 'Viernes'
+    },
+    {
+      value: 'sat',
+      des: 'Sábado'
+    },
+    {
+      value: 'sun',
+      des: 'Domingo'
+    }
+  ];
+
   constructor(private modalService: NgbModal,
-              public _cS: ContainerService) {
+              public _cS: ContainerService,
+              public _rh: RrhhService,
+              public _iS: InventarioService) {
     this.getContainers().then(() => {
       this.loading = false;
     });
+  }
+  ngOnInit(): void {
+    this.getEmployees();
+    this.getVehicles();
+  }
+  onCheckboxChange(e) {
+
+    if (e.target.checked) {
+      this._cS.selected_container.schedule_days_runs.push(e.target.value);
+    } else {
+
+      let i: number = 0;
+      this._cS.selected_container.schedule_days_runs.forEach((item: string) => {
+        if (item == e.target.value) {
+          this._cS.selected_container.schedule_days_runs.splice(this._cS.selected_container.schedule_days_runs.indexOf(item), 1);
+          return;
+        }
+        i++;
+      });
+    }
+
   }
 
   async getContainers() {
@@ -32,6 +91,22 @@ export class ContainersComponent implements OnInit {
       console.log(`Error: ${error}`);
     });
   }
+  async getEmployees() {
+    await this._rh.getRrhh().subscribe(resp => {
+      this._rh.employees = resp as Employee[];
+    }, error => {
+      console.log(`Error: ${error}`);
+    })
+  }
+
+  async getVehicles() {
+    await this._iS.getVehicles().subscribe(resp => {
+      this._iS.vehicles = resp as Vehicle[];
+    }, error => {
+      console.log(`Error: ${error}`);
+    })
+  }
+
 
   openWindowCustomClass(content3, isEdit:boolean) {
     this.modalService.open(content3);
@@ -41,8 +116,7 @@ export class ContainersComponent implements OnInit {
     this.isEdit = isEdit;
   }
 
-  ngOnInit(): void {
-  }
+
 
   placeMarker($event){
     this._cS.selected_container.lat = $event.coords.lat;
