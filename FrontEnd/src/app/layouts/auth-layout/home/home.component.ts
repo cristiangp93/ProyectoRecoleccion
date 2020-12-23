@@ -23,6 +23,9 @@ export class HomeComponent implements OnInit {
       height: 40
     }
   }
+  public renderOptions = {
+    suppressMarkers: true
+  };
   selectedSector: any;
   selectedContainer: any;
 

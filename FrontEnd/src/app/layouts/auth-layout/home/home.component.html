@@ -48,6 +48,7 @@
                                    [longitude]="selectedSector.gps.destination.lng"></agm-marker>
                       <agm-direction [origin]="selectedSector.gps.origin"
                                      [waypoints]="selectedSector.gps.waypoints"
+                                     [renderOptions]="renderOptions"
                                      [destination]="selectedSector.gps.destination"></agm-direction>
                     </agm-map>
                     <ng-template #noSelected>
