@@ -44,10 +44,11 @@
                 </small>
               </td>
               <td>
-                <p class="mb-0">{{cont.location}}</p>
+                <p class="mb-0">{{cont.location}} | ({{cont.cantidad}}) </p>
                 <small class="text-muted">
                   <strong>Dias: </strong>({{cont.schedule_days_runs}})
                   <strong>H. Inicio: </strong>({{cont.schedule_begin}})
+                  <strong>H. Fin: </strong>({{cont.schedule_end}})
                 </small>
               </td>
               <td>
@@ -158,6 +159,23 @@
         </div>
       </div>
 
+      <!-- Cantidad -->
+      <div class="form-group row">
+        <label class="col-2 col-form-label">Cantidad</label>
+        <div class="col-8">
+
+          <input class="form-control"
+                 type="number"
+                 name="cantidad"
+                 [(ngModel)]="this._cS.selected_container.cantidad"
+                 placeholder="0"
+                 required
+                 minlength="0">
+
+        </div>
+      </div>
+
+
       <!-- Hora Inicio -->
       <div class="form-group row">
         <label class="col-2 col-form-label">Hora Inicio</label>
@@ -176,6 +194,28 @@
             *ngIf="schedule_begin.invalid && schedule_begin.touched"
             class="form-text text-danger"
           >Hora Inicio</small
+          >
+        </div>
+      </div>
+
+      <!-- Hora Fin -->
+      <div class="form-group row">
+        <label class="col-2 col-form-label">Hora Fin</label>
+        <div class="col-8">
+
+          <input class="form-control"
+                 type="time"
+                 name="schedule_end"
+                 [class.is-invalid]="schedule_end.invalid && schedule_end.touched"
+                 [(ngModel)]="this._cS.selected_container.schedule_end"
+                 placeholder="7:00"
+                 required
+                 minlength="1"
+                 #schedule_end="ngModel">
+          <small
+            *ngIf="schedule_end.invalid && schedule_end.touched"
+            class="form-text text-danger"
+          >Hora Fin</small
           >
         </div>
       </div>
