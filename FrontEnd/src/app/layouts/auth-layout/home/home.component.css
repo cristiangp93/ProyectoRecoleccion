@@ -1,0 +1,12 @@
+.main-list {
+  width: 100%;
+  border: 1px solid #f4f4f4;
+  padding: 7px;
+  border-radius: 7px;
+  text-align: center;
+  cursor: pointer;
+}
+
+.main-list:hover {
+  border: 1px solid darkblue;
+}

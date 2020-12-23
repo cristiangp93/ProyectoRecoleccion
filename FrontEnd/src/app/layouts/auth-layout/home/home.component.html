@@ -14,7 +14,101 @@
 <div class="container mt--8 pb-5">
   <div class="row justify-content-center">
     <div class="col-lg-12 col-md-12">
-      <div class="card bg-secondary shadow border-0">
+      <ngb-tabset type="pills">
+        <ngb-tab title="Sectores">
+          <ng-template ngbTabContent>
+            <div class="card bg-secondary shadow border-0">
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-sm-3">
+                    <h3>
+                      <strong>
+                        Seleccione sector:
+                      </strong>
+                    </h3>
+                    <ul class="list-unstyled">
+                      <li class="main-list" *ngFor="let sector of _rS.routes" (click)="setSelectedSector(sector)">
+                        {{sector.name}} <i class="fa fa-map-pin" style="float: right; color: green"></i>
+                      </li>
+                    </ul>
+                  </div>
+                  <div class="col-sm-9">
+                    <agm-map *ngIf="selectedSector, else noSelected" [latitude]="selectedSector.gps.destination.lat"
+                             [longitude]="selectedSector.gps.destination.lng"
+                             [zoom]="16">
+                      <!-- Marcador origen -->
+                      <agm-marker *ngIf="selectedSector.gps.origin.lat !== 0"
+                                  label="A"
+                                  [latitude]="selectedSector.gps.origin.lat"
+                                  [longitude]="selectedSector.gps.origin.lng"></agm-marker>
+                      <!-- Marcador destino -->
+                      <agm-marker  *ngIf="selectedSector.gps.destination.lat !== 0"
+                                   label="B"
+                                   [latitude]="selectedSector.gps.destination.lat"
+                                   [longitude]="selectedSector.gps.destination.lng"></agm-marker>
+                      <agm-direction [origin]="selectedSector.gps.origin"
+                                     [waypoints]="selectedSector.gps.waypoints"
+                                     [renderOptions]="renderOptions"
+                                     [destination]="selectedSector.gps.destination"></agm-direction>
+                    </agm-map>
+                    <ng-template #noSelected>
+                      <h3 class="text-center">
+                        Para visualizar el mapa, seleccione una opción
+                      </h3>
+                    </ng-template>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </ng-template>
+        </ngb-tab>
+        <ngb-tab title="Contenedores">
+          <ng-template ngbTabContent>
+            <div class="card bg-secondary shadow border-0">
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-sm-3">
+                    <h3>
+                      <strong>
+                        Seleccione contenedor:
+                      </strong>
+                    </h3>
+                    <ul class="list-unstyled">
+                      <li class="main-list" *ngFor="let container of _cS.containers; let i = index" (click)="setSelectedContainer(container)">
+                        <strong>Contenedor {{i+1}}: </strong> {{container.location}} <i class="fa fa-trash-alt" style="float: right; color: green"></i>
+                      </li>
+                    </ul>
+                  </div>
+                  <div class="col-sm-9">
+                    <agm-map *ngIf="selectedContainer, else noSelectedC" [latitude]="selectedContainer.lat"
+                             [longitude]="selectedContainer.lng"
+                             [zoom]="16">
+                      <!-- Marcador contenedor -->
+                      <agm-marker [latitude]="selectedContainer.lat"
+                                  [iconUrl]="icon"
+                                  [longitude]="selectedContainer.lng">
+                        <agm-info-window [disableAutoPan]="false"
+                                         [latitude]="lat"
+                                         [longitude]="lng">
+                          <h3>Ubicacion contenedor: {{selectedContainer.location}}</h3>
+                          <p><strong>Latitud: </strong>{{lat}}</p>
+                          <p><strong>Longitud: </strong>{{lng}}</p>
+                        </agm-info-window>
+                      </agm-marker>
+                    </agm-map>
+                    <ng-template #noSelectedC>
+                      <h3 class="text-center">
+                        Para visualizar el mapa, seleccione una opción
+                      </h3>
+                    </ng-template>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </ng-template>
+        </ngb-tab>
+      </ngb-tabset>
+      <!--<div class="card bg-secondary shadow border-0">
         <div class="card-body px-lg-5 py-lg-5">
           <form autocomplete="off" [formGroup]="sectorForm">
             <div class="form-group">
@@ -31,7 +125,7 @@
                         [title]="locationAccepted? '': 'Debe permitir el acceso a la ubicación'"
                         formControlName="sector"
                         required>
-                  <option value="">--- Sectores ---</option>
+                  <option value="">-&#45;&#45; Sectores -&#45;&#45;</option>
                   <option *ngFor="let sector of _rSvES.routesSectorVehicleEmployee" [ngValue]="sector">
                     {{sector.sectorRoute.sector.des}} ({{sector.sectorRoute.sector.name}})
                   </option>
@@ -51,10 +145,10 @@
                                   [longitude]="map.lng">
               </agm-polyline-point>
             </agm-polyline>
-            <!--<agm-marker *ngFor="let map of selectedSector.sectorRoute.route.gps"
+            &lt;!&ndash;<agm-marker *ngFor="let map of selectedSector.sectorRoute.route.gps"
                         [latitude]="map.lat"
                         [longitude]="map.lng">
-            </agm-marker>-->
+            </agm-marker>&ndash;&gt;
             <agm-marker [latitude]="lat"
                         [longitude]="lng"
                         [iconUrl]="icon">
@@ -68,7 +162,7 @@
             </agm-marker>
           </agm-map>
         </div>
-      </div>
+      </div>-->
     </div>
   </div>
 </div>

@@ -8,6 +8,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { LoginComponent } from './login/login.component';
 import { HomeComponent } from './home/home.component';
 import {AgmCoreModule} from "@agm/core";
+import {AgmDirectionModule} from "agm-direction";
 
 @NgModule({
   imports: [
@@ -16,9 +17,12 @@ import {AgmCoreModule} from "@agm/core";
     FormsModule,
     NgbModule,
     AgmCoreModule.forRoot(
-      {apiKey: 'AIzaSyBP_oi2VSYvoa-KeAcjuTa2oxM9PT8c_AI',
-        libraries: ['places', 'drawing', 'geometry']}),
+        {
+          apiKey: 'AIzaSyBP_oi2VSYvoa-KeAcjuTa2oxM9PT8c_AI',
+          libraries: ['places', 'drawing', 'geometry']
+        }),
     ReactiveFormsModule,
+    AgmDirectionModule,
   ],
   declarations: [
     LoginComponent,
