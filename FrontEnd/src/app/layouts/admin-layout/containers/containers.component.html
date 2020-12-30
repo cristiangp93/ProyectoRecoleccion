@@ -1,86 +1,107 @@
 <div class="header bg-gradient-danger pb-8 pt-5 pt-md-8">
   <div class="container-fluid">
-    <div class="header-body">
-    </div>
+    <div class="header-body"></div>
   </div>
 </div>
 <div class="container-fluid mt--7">
   <div class="row">
-    <div class="col-xl-5 order-xl-2 mb-5 mb-xl-0">
+    <div class="col-xl-6 order-xl-2 mb-5 mb-xl-0">
       <div class="card shadow">
         <div class="card-header border-0">
           <h1>Control de contenedores</h1>
           <p class="mb-0">Manejo de contenedores y ubicación</p>
-          <hr>
-          <button type="button" class="btn btn-info" (click)="openWindowCustomClass(modalNewUser, false)"><i
-            class="fa fa-plus"></i> Agregar contenedor
+          <hr />
+          <button
+            type="button"
+            class="btn btn-info"
+            (click)="openWindowCustomClass(modalNewUser, false)"
+          >
+            <i class="fa fa-plus"></i> Agregar contenedor
           </button>
         </div>
         <div class="table-responsive">
           <ng-template #noContainers>
-            <div class="p-3">
-              No existen contenedores
-            </div>
+            <div class="p-3">No existen contenedores</div>
           </ng-template>
-          <table class="table align-items-center table-flush"
-                 *ngIf="this._cS.containers.length > 0; else noContainers">
+          <table
+            class="table align-items-center table-flush"
+            *ngIf="this._cS.containers.length > 0; else noContainers"
+          >
             <thead class="thead-light">
-            <tr>
-              <th scope="col">#</th>
-              <th scope="col">Empleado</th>
-              <th scope="col">Container</th>
-              <th scope="col"></th>
-            </tr>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Empleado</th>
+                <th scope="col">Container</th>
+                <th scope="col"></th>
+              </tr>
             </thead>
             <tbody>
-            <tr *ngFor="let cont of this._cS.containers; let i = index">
-              <th scope="row">
-                {{i + 1}}
-              </th>
-              <td>
-                <p class="mb-0">   </p>
-                <small class="text-muted">
-                  <strong>Vehiculo:  </strong>
-                </small>
-              </td>
-              <td>
-                <p class="mb-0">{{cont.location}} | ({{cont.cantidad}}) </p>
-                <small class="text-muted">
-                  <strong>Dias: </strong>({{cont.schedule_days_runs}})
-                  <strong>H. Inicio: </strong>({{cont.schedule_begin}})
-                  <strong>H. Fin: </strong>({{cont.schedule_end}})
-                </small>
-              </td>
-              <td>
-                <button type="button" class="btn btn-info btn-circle" (click)="editContainer( cont ); openWindowCustomClass(modalNewUser, true)"><i class="fa fa-edit"></i></button>
-                <button type="button" class="btn btn-danger btn-circle" (click)="deleteContainer( cont._id)"><i class="fa fa-times"></i></button>
-              </td>
-            </tr>
+              <tr *ngFor="let cont of this._cS.containers; let i = index">
+                <th scope="row">
+                  {{ i + 1 }}
+                </th>
+                <td>
+                  <p class="mb-0"></p>
+                  <small class="text-muted">
+                    <strong>Vehiculo: </strong>
+                  </small>
+                </td>
+                <td>
+                  <p class="mb-0">
+                    {{ cont.location }} | ({{ cont.cantidad }})
+                  </p>
+                  <small class="text-muted">
+                    <strong>Dias: </strong>({{ cont.schedule_days_runs }})
+                    <strong>H. Inicio: </strong>({{ cont.schedule_begin }})
+                    <strong>H. Fin: </strong>({{ cont.schedule_end }})
+                  </small>
+                </td>
+                <td>
+                  <button
+                    type="button"
+                    class="btn btn-info btn-circle"
+                    (click)="
+                      editContainer(cont);
+                      openWindowCustomClass(modalNewUser, true)
+                    "
+                  >
+                    <i class="fa fa-edit"></i>
+                  </button>
+                  <button
+                    type="button"
+                    class="btn btn-danger btn-circle"
+                    (click)="deleteContainer(cont._id)"
+                  >
+                    <i class="fa fa-times"></i>
+                  </button>
+                </td>
+              </tr>
             </tbody>
           </table>
-
         </div>
       </div>
     </div>
-    <div class="col-xl-7 order-xl-1">
+    <div class="col-xl-6 order-xl-1">
       <div class="card shadow">
         <div class="card-header border-0">
           <h1>Contenedores</h1>
           <p class="mb-0">Ubicación de los contenedores en la ciudad</p>
         </div>
         <div class="card-body">
-          <agm-map [latitude]="lat"
-                   [longitude]="lng"
-                   [zoom]="12">
-            <agm-marker [latitude]="cont.lat"
-                        [longitude]="cont.lng"
-                        *ngFor="let cont of _cS.containers">
-              <agm-info-window [disableAutoPan]="false"
-                               [latitude]="cont.lat"
-                               [longitude]="cont.lng">
-                <h3>{{cont.location}}</h3>
-                <p><strong>Latitud: </strong>{{cont.lat}}</p>
-                <p><strong>Longitud: </strong>{{cont.lng}}</p>
+          <agm-map class="mapBody" [latitude]="lat" [longitude]="lng" [zoom]="12">
+            <agm-marker
+              [latitude]="cont.lat"
+              [longitude]="cont.lng"
+              *ngFor="let cont of _cS.containers"
+            >
+              <agm-info-window
+                [disableAutoPan]="false"
+                [latitude]="cont.lat"
+                [longitude]="cont.lng"
+              >
+                <h3>{{ cont.location }}</h3>
+                <p><strong>Latitud: </strong>{{ cont.lat }}</p>
+                <p><strong>Longitud: </strong>{{ cont.lng }}</p>
               </agm-info-window>
             </agm-marker>
           </agm-map>
@@ -94,169 +115,191 @@
 
 <ng-template #modalNewUser let-modal>
   <div class="modal-header">
-    <h4 class="modal-title">Nuevo contenedor</h4>
-    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+    <h4 class="modal-title mb-2">Nuevo contenedor</h4>
+    <button
+      type="button"
+      class="close"
+      aria-label="Close"
+      (click)="modal.dismiss('Cross click')"
+    >
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
   <div class="modal-body">
-    <form autocomplete="off" (ngSubmit)="addContainer( containerForm )" #containerForm="ngForm">
-      <input type="hidden" name="_id" #_id="ngModel" [(ngModel)]="_cS.selected_container._id">
+    <form
+      autocomplete="off"
+      (ngSubmit)="addContainer(containerForm)"
+      #containerForm="ngForm"
+    >
+      <input type="hidden" name="_id" #_id="ngModel" [(ngModel)]="_cS.selected_container._id"/>
+
+      <div class="form-group row ">
 
       <!-- Empleado -->
-      <div class="form-group row">
-        <label class="col-2 col-form-label">Empleados</label>
-        <div class="col-8">
-
-          <select class="custom-select mb-3"
-                  name="employee"
-                  (change)="_rh.selectedEmployee = employee.value"
-                  [ngModel]="this._rh.selectedEmployee"
-                  #employee="ngModel"
-                  required>
+        <label class="col-1 col-form-label">Empleado</label>
+        <div class="col-5">
+          <select
+            class="custom-select mb-3"
+            name="employee"
+            (change)="_rh.selectedEmployee = employee.value"
+            [ngModel]="this._rh.selectedEmployee"
+            #employee="ngModel"
+            required>
             <option value="">-- Seleccione empleados --</option>
             <option *ngFor="let employee of _rh.employees" [ngValue]="employee">
-              {{employee.name}} {{employee.apellido}} ({{employee.cargo}})
+              {{ employee.name }} {{ employee.apellido }} ({{ employee.cargo }})
             </option>
           </select>
-
         </div>
-      </div>
 
       <!-- Vehiculo -->
-      <div class="form-group row">
-        <label class="col-2 col-form-label">Vehículo</label>
-        <div class="col-8">
-
-          <select class="custom-select mb-3"
-                  name="vehicle"
-                  (change)="_iS.selectedVehicle = vehicle.value"
-                  [ngModel]="this._iS.selectedVehicle"
-                  #vehicle="ngModel"
-                  required>
+        <label class="col-1 col-form-label">Vehículo</label>
+        <div class="col-5">
+          <select
+            class="custom-select mb-3"
+            name="vehicle"
+            (change)="_iS.selectedVehicle = vehicle.value"
+            [ngModel]="this._iS.selectedVehicle"
+            #vehicle="ngModel"
+            required>
             <option value="">-- Seleccione vehiculo --</option>
             <option *ngFor="let vehicle of _iS.vehicles" [ngValue]="vehicle">
-              {{ vehicle.marca }} | {{vehicle.disco}}
+              {{ vehicle.marca }} | {{ vehicle.capacidad }} | {{ vehicle.estado }}
             </option>
           </select>
-
         </div>
       </div>
-
 
       <!-- Location -->
       <div class="form-group row">
-        <label class="col-2 col-form-label">Localización</label>
-        <div class="col-8">
-
-          <input class="form-control"
-                 type="text"
-                 name="location"
-                 [(ngModel)]="this._cS.selected_container.location"
-                 placeholder="Descripción del lugar..."
-                 required
-                 minlength="5">
+        <label class="col-1 col-form-label">Ubicacion</label>
+        <div class="col-5">
+          <input
+            class="form-control"
+            type="text"
+            name="location"
+            [(ngModel)]="this._cS.selected_container.location"
+            placeholder="Descripción del lugar..."
+            required
+            minlength="5"
+          />
         </div>
-      </div>
 
       <!-- Cantidad -->
-      <div class="form-group row">
-        <label class="col-2 col-form-label">Cantidad</label>
-        <div class="col-8">
-
-          <input class="form-control"
-                 type="number"
-                 name="cantidad"
-                 [(ngModel)]="this._cS.selected_container.cantidad"
-                 placeholder="0"
-                 required
-                 minlength="0">
-
+        <label class="col-1 col-form-label">Cantidad</label>
+        <div class="col-5">
+          <input
+            class="form-control"
+            type="number"
+            name="cantidad"
+            [(ngModel)]="this._cS.selected_container.cantidad"
+            placeholder="0"
+            required
+            minlength="0"
+          />
         </div>
       </div>
-
 
       <!-- Hora Inicio -->
       <div class="form-group row">
         <label class="col-2 col-form-label">Hora Inicio</label>
-        <div class="col-8">
-
-          <input class="form-control"
-                 type="time"
-                 name="schedule_begin"
-                 [class.is-invalid]="schedule_begin.invalid && schedule_begin.touched"
-                 [(ngModel)]="this._cS.selected_container.schedule_begin"
-                 placeholder="7:00"
-                 required
-                 minlength="1"
-                 #schedule_begin="ngModel">
+        <div class="col-4">
+          <input
+            class="form-control"
+            type="time"
+            name="schedule_begin"
+            [class.is-invalid]="
+              schedule_begin.invalid && schedule_begin.touched
+            "
+            [(ngModel)]="this._cS.selected_container.schedule_begin"
+            placeholder="7:00"
+            required
+            minlength="1"
+            #schedule_begin="ngModel"
+          />
           <small
             *ngIf="schedule_begin.invalid && schedule_begin.touched"
             class="form-text text-danger"
-          >Hora Inicio</small
+            >Hora Inicio</small
           >
         </div>
-      </div>
 
       <!-- Hora Fin -->
-      <div class="form-group row">
         <label class="col-2 col-form-label">Hora Fin</label>
-        <div class="col-8">
-
-          <input class="form-control"
-                 type="time"
-                 name="schedule_end"
-                 [class.is-invalid]="schedule_end.invalid && schedule_end.touched"
-                 [(ngModel)]="this._cS.selected_container.schedule_end"
-                 placeholder="7:00"
-                 required
-                 minlength="1"
-                 #schedule_end="ngModel">
+        <div class="col-4">
+          <input
+            class="form-control"
+            type="time"
+            name="schedule_end"
+            [class.is-invalid]="schedule_end.invalid && schedule_end.touched"
+            [(ngModel)]="this._cS.selected_container.schedule_end"
+            placeholder="7:00"
+            required
+            minlength="1"
+            #schedule_end="ngModel"
+          />
           <small
             *ngIf="schedule_end.invalid && schedule_end.touched"
             class="form-text text-danger"
-          >Hora Fin</small
+            >Hora Fin</small
           >
         </div>
       </div>
 
-      <!-- Días -->
+          <!-- Días -->
       <div class="form-group row">
-        <label class="col-2 col-form-label">Días de la semana</label>
-        <div class="col-8">
-
-          <div class="form-check" *ngFor="let day of days">
-          <input class="form-check-input"
-                 type="checkbox"
-                 name="schedule_begin"
-                 [checked]="_cS.selected_container.schedule_days_runs.includes(day.value)"
-                 [value]="day.value"
-                 [id]="day.des"
-                 (change)="onCheckboxChange($event)">
+        <label class="col-3 col-form-label">Días de la semana</label>
+        <div class="col-6">
+          <div class="form-check-inline" *ngFor="let day of days">
+            <input
+              class="form-check-input"
+              type="checkbox"
+              name="schedule_begin"
+              [checked]="
+                _cS.selected_container.schedule_days_runs.includes(day.value)
+              "
+              [value]="day.value"
+              [id]="day.des"
+              (change)="onCheckboxChange($event)"
+            />
             <label class="form-check-label" [attr.for]="day.des">
-              {{day.des}}
+              {{ day.des }}
             </label>
           </div>
         </div>
       </div>
 
-      <agm-map [latitude]="this._cS.selected_container.lat"
-               [longitude]="this._cS.selected_container.lng"
-               [zoom]="zoom"
-               (mapClick)="placeMarker($event)">
-        <agm-marker [latitude]="this._cS.selected_container.lat"
-                    [longitude]="this._cS.selected_container.lng"></agm-marker>
+
+      <agm-map class="mapForm"
+        [latitude]="this._cS.selected_container.lat"
+        [longitude]="this._cS.selected_container.lng"
+        [zoom]="zoom"
+        (mapClick)="placeMarker($event)"
+      >
+        <agm-marker
+          [latitude]="this._cS.selected_container.lat"
+          [longitude]="this._cS.selected_container.lng"
+        ></agm-marker>
       </agm-map>
       <div class="modal-footer">
         <button class="btn btn-dark" type="submit">Guardar</button>
-        <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button>
+        <button
+          type="button"
+          class="btn btn-light"
+          (click)="modal.close('Close click')"
+        >
+          Close
+        </button>
       </div>
     </form>
   </div>
 </ng-template>
 
 <style>
-  agm-map {
+  .mapBody {
     height: 500px;
+  }
+  .mapForm{
+    height: 300px;
   }
 </style>
