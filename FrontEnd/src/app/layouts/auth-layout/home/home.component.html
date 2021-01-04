@@ -13,7 +13,7 @@
 <!-- Page content -->
 <div class="container mt--8 pb-5">
   <div class="row justify-content-center">
-    <div class="col-lg-12 col-md-12">
+    <div class="col-lg-12 col-md-12" style="padding: 10px; background: white; border-radius: 7px">
       <ngb-tabset type="pills">
         <ngb-tab title="Sectores">
           <ng-template ngbTabContent>
@@ -26,11 +26,30 @@
                         Seleccione sector:
                       </strong>
                     </h3>
-                    <ul class="list-unstyled">
-                      <li class="main-list" *ngFor="let sector of _rS.routes" (click)="setSelectedSector(sector)">
-                        {{sector.name}} <i class="fa fa-map-pin" style="float: right; color: green"></i>
-                      </li>
-                    </ul>
+                    <ngb-accordion [closeOthers]="true">
+                      <ngb-panel id="{{'custom-panel-' + i}}" class="main-list" *ngFor="let sector of _rS.routes; let i = index">
+                        <ng-template ngbPanelHeader>
+                          <div class="d-flex align-items-center justify-content-between">
+                            <p>{{sector.name}}</p>
+                            <button ngbPanelToggle (click)="setSelectedSector(sector)" class="btn btn-link p-0">
+                              <i class="fa fa-map-pin" style="color: green"></i>
+                            </button>
+                          </div>
+                        </ng-template>
+                        <ng-template ngbPanelContent>
+                          <h5><b>Horario:</b> {{sector.schedule_begin}} - {{sector.schedule_end}}</h5>
+                          <h5><b>Dias:</b></h5>
+                          <ng-template #noDays>
+                            No hay dias asignados
+                          </ng-template>
+                          <ul *ngIf="sector.schedule_days_runs.length > 0; else noDays">
+                            <li *ngFor="let day of sector.schedule_days_runs">
+                              {{day}}
+                            </li>
+                          </ul>
+                        </ng-template>
+                      </ngb-panel>
+                    </ngb-accordion>
                   </div>
                   <div class="col-sm-9">
                     <agm-map *ngIf="selectedSector, else noSelected" [latitude]="selectedSector.gps.destination.lat"
@@ -74,8 +93,8 @@
                       </strong>
                     </h3>
                     <ul class="list-unstyled">
-                      <li class="main-list" *ngFor="let container of _cS.containers; let i = index" (click)="setSelectedContainer(container)">
-                        <strong>Contenedor {{i+1}}: </strong> {{container.location}} <i class="fa fa-trash-alt" style="float: right; color: green"></i>
+                      <li class="main-list text-justify" *ngFor="let container of _cS.containers; let i = index" (click)="setSelectedContainer(container)">
+                        <strong>Contenedor {{i+1}}: </strong> {{container.location}} <i class="ni ni-box-2" style="float: right; color: green"></i>
                       </li>
                     </ul>
                   </div>
