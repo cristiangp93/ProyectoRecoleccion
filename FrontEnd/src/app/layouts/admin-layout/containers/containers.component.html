@@ -10,7 +10,7 @@
         <div class="card-header border-0">
           <h1>Control de contenedores</h1>
           <p class="mb-0">Manejo de contenedores y ubicación</p>
-          <hr />
+          <hr/>
           <button
             type="button"
             class="btn btn-info"
@@ -28,54 +28,54 @@
             *ngIf="this._cS.containers.length > 0; else noContainers"
           >
             <thead class="thead-light">
-              <tr>
-                <th scope="col">#</th>
-                <th scope="col">Empleado</th>
-                <th scope="col">Container</th>
-                <th scope="col"></th>
-              </tr>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Empleado</th>
+              <th scope="col">Container</th>
+              <th scope="col"></th>
+            </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let cont of this._cS.containers; let i = index">
-                <th scope="row">
-                  {{ i + 1 }}
-                </th>
-                <td>
-                  <p class="mb-0"></p>
-                  <small class="text-muted">
-                    <strong>Vehiculo: </strong>
-                  </small>
-                </td>
-                <td>
-                  <p class="mb-0">
-                    {{ cont.location }} | ({{ cont.cantidad }})
-                  </p>
-                  <small class="text-muted">
-                    <strong>Dias: </strong>({{ cont.schedule_days_runs }})
-                    <strong>H. Inicio: </strong>({{ cont.schedule_begin }})
-                    <strong>H. Fin: </strong>({{ cont.schedule_end }})
-                  </small>
-                </td>
-                <td>
-                  <button
-                    type="button"
-                    class="btn btn-info btn-circle"
-                    (click)="
+            <tr *ngFor="let cont of this._cS.containers; let i = index">
+              <th scope="row">
+                {{ i + 1 }}
+              </th>
+              <td>
+                <p class="mb-0"></p>
+                <small class="text-muted">
+                  <strong>Vehiculo: </strong>
+                </small>
+              </td>
+              <td>
+                <p class="mb-0">
+                  {{ cont.location }} | ({{ cont.cantidad }})
+                </p>
+                <small class="text-muted">
+                  <strong>Dias: </strong>({{ cont.schedule_days_runs }})
+                  <strong>H. Inicio: </strong>({{ cont.schedule_begin }})
+                  <strong>H. Fin: </strong>({{ cont.schedule_end }})
+                </small>
+              </td>
+              <td>
+                <button
+                  type="button"
+                  class="btn btn-info btn-circle"
+                  (click)="
                       editContainer(cont);
                       openWindowCustomClass(modalNewUser, true)
                     "
-                  >
-                    <i class="fa fa-edit"></i>
-                  </button>
-                  <button
-                    type="button"
-                    class="btn btn-danger btn-circle"
-                    (click)="deleteContainer(cont._id)"
-                  >
-                    <i class="fa fa-times"></i>
-                  </button>
-                </td>
-              </tr>
+                >
+                  <i class="fa fa-edit"></i>
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-danger btn-circle"
+                  (click)="deleteContainer(cont._id)"
+                >
+                  <i class="fa fa-times"></i>
+                </button>
+              </td>
+            </tr>
             </tbody>
           </table>
         </div>
@@ -126,16 +126,14 @@
     </button>
   </div>
   <div class="modal-body">
-    <form
-      autocomplete="off"
+    <form autocomplete="off"
       (ngSubmit)="addContainer(containerForm)"
-      #containerForm="ngForm"
-    >
+      #containerForm="ngForm">
       <input type="hidden" name="_id" #_id="ngModel" [(ngModel)]="_cS.selected_container._id"/>
 
       <div class="form-group row ">
 
-      <!-- Empleado -->
+        <!-- Empleado -->
         <label class="col-1 col-form-label">Empleado</label>
         <div class="col-5">
           <select
@@ -152,7 +150,7 @@
           </select>
         </div>
 
-      <!-- Vehiculo -->
+        <!-- Vehiculo -->
         <label class="col-1 col-form-label">Vehículo</label>
         <div class="col-5">
           <select
@@ -185,7 +183,7 @@
           />
         </div>
 
-      <!-- Cantidad -->
+        <!-- Cantidad -->
         <label class="col-1 col-form-label">Cantidad</label>
         <div class="col-5">
           <input
@@ -220,11 +218,11 @@
           <small
             *ngIf="schedule_begin.invalid && schedule_begin.touched"
             class="form-text text-danger"
-            >Hora Inicio</small
+          >Hora Inicio</small
           >
         </div>
 
-      <!-- Hora Fin -->
+        <!-- Hora Fin -->
         <label class="col-2 col-form-label">Hora Fin</label>
         <div class="col-4">
           <input
@@ -241,12 +239,12 @@
           <small
             *ngIf="schedule_end.invalid && schedule_end.touched"
             class="form-text text-danger"
-            >Hora Fin</small
+          >Hora Fin</small
           >
         </div>
       </div>
 
-          <!-- Días -->
+      <!-- Días -->
       <div class="form-group row">
         <label class="col-3 col-form-label">Días de la semana</label>
         <div class="col-6">
@@ -271,10 +269,10 @@
 
 
       <agm-map class="mapForm"
-        [latitude]="this._cS.selected_container.lat"
-        [longitude]="this._cS.selected_container.lng"
-        [zoom]="zoom"
-        (mapClick)="placeMarker($event)"
+               [latitude]="this._cS.selected_container.lat"
+               [longitude]="this._cS.selected_container.lng"
+               [zoom]="zoom"
+               (mapClick)="placeMarker($event)"
       >
         <agm-marker
           [latitude]="this._cS.selected_container.lat"
@@ -299,7 +297,8 @@
   .mapBody {
     height: 500px;
   }
-  .mapForm{
+
+  .mapForm {
     height: 300px;
   }
 </style>

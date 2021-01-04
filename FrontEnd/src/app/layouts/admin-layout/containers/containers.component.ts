@@ -9,7 +9,6 @@ import {InventarioService} from "../../../services/inventario.service";
 import {Vehicle} from "../../../models/vehicle";
 import {RrhhService} from "../../../services/rrhh.service";
 import {Employee} from "../../../models/employee";
-import { logging } from 'protractor';
 
 @Component({
   selector: 'app-containers',
@@ -51,7 +50,7 @@ export class ContainersComponent implements OnInit {
   lng = -78.8464126;
   zoom = 15;
   loading: boolean;
-  isEdit:boolean;
+  isEdit: boolean;
 
   constructor(private modalService: NgbModal,
               public _cS: ContainerService,
@@ -66,10 +65,12 @@ export class ContainersComponent implements OnInit {
     this.getEmployees();
     this.getVehicles();
   }
+
   async getContainers() {
     this.loading = true;
-    this._cS.getContainers().subscribe( resp =>{
+    this._cS.getContainers().subscribe(resp => {
       this._cS.containers = resp as Container[];
+      console.log(this._cS.containers)
     }, error => {
       console.log(`Error: ${error}`);
     });
@@ -91,15 +92,13 @@ export class ContainersComponent implements OnInit {
     })
   }
 
-  openWindowCustomClass(content3, isEdit:boolean) {
-    this.modalService.open(content3, { size: <any>'lg' });
+  openWindowCustomClass(content3, isEdit: boolean) {
+    this.modalService.open(content3, {size: <any>'lg'});
     if (!isEdit) {
       this._cS.selected_container = new Container();
     }
     this.isEdit = isEdit;
   }
-
-
 
   onCheckboxChange(e) {
 
@@ -119,12 +118,12 @@ export class ContainersComponent implements OnInit {
 
   }
 
-  placeMarker($event){
+  placeMarker($event) {
     this._cS.selected_container.lat = $event.coords.lat;
     this._cS.selected_container.lng = $event.coords.lng;
   }
 
-  addContainer( containerForm: NgForm) {
+  addContainer(containerForm: NgForm) {
     if (containerForm.invalid) {
       Object.values(containerForm.controls).forEach(control => {
         control.markAsTouched();
@@ -132,8 +131,15 @@ export class ContainersComponent implements OnInit {
       return;
     }
 
-    if( containerForm.value._id) {
-      this._cS.putContainer(this._cS.selected_container).subscribe(data => {
+    let auxForm = containerForm.value;
+
+    let aux = {
+      ...auxForm,
+      ...this._cS.selected_container
+    }
+
+    if (containerForm.value._id) {
+      this._cS.putContainer(aux).subscribe(data => {
         this.getContainers().then(() => {
           Swal.fire(
             'Ok!',
@@ -141,11 +147,13 @@ export class ContainersComponent implements OnInit {
             'success'
           ).then(() => {
             this._cS.selected_container = new Container();
+            this._rh.selectedEmployee = new Employee();
+            this._iS.selectedVehicle = new Vehicle();
           })
         });
       });
     } else {
-      this._cS.postContainer(this._cS.selected_container).subscribe(data => {
+      this._cS.postContainer(aux).subscribe(data => {
         this.getContainers().then(() => {
           Swal.fire(
             'Ok!',
@@ -153,6 +161,8 @@ export class ContainersComponent implements OnInit {
             'success'
           ).then(() => {
             this._cS.selected_container = new Container();
+            this._rh.selectedEmployee = new Employee();
+            this._iS.selectedVehicle = new Vehicle();
           })
         });
       });
@@ -162,7 +172,7 @@ export class ContainersComponent implements OnInit {
     this.modalService.dismissAll();
   }
 
-  editContainer( container: Container) {
+  editContainer(container: Container) {
     this._cS.selected_container = container;
     this.isEdit = true;
   }
