@@ -9,6 +9,7 @@ import {InventarioService} from "../../../services/inventario.service";
 import {Vehicle} from "../../../models/vehicle";
 import {RrhhService} from "../../../services/rrhh.service";
 import {Employee} from "../../../models/employee";
+import { logging } from 'protractor';
 
 @Component({
   selector: 'app-containers',
@@ -91,7 +92,7 @@ export class ContainersComponent implements OnInit {
   }
 
   openWindowCustomClass(content3, isEdit:boolean) {
-    this.modalService.open(content3);
+    this.modalService.open(content3, { size: <any>'lg' });
     if (!isEdit) {
       this._cS.selected_container = new Container();
     }

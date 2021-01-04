@@ -16,7 +16,9 @@ containerCtrl.getContainers = async (req, res) => {
 containerCtrl.createContainer = async (req, res) => {
   const container = new Container({
     location: req.body.location,
+    cantidad: req.body.cantidad,
     schedule_begin: req.body.schedule_begin,
+    schedule_end: req.body.schedule_end,
     schedule_days_runs: req.body.schedule_days_runs,
     lat: req.body.lat,
     lng: req.body.lng,
@@ -53,7 +55,9 @@ containerCtrl.editContainer = async (req, res) => {
   const {id} = req.params;
   const container = {
     location: req.body.location,
+    cantidad: req.body.cantidad,
     schedule_begin: req.body.schedule_begin,
+    schedule_end: req.body.schedule_end,
     schedule_days_runs: req.body.schedule_days_runs,
     lat: req.body.lat,
     lng: req.body.lng,

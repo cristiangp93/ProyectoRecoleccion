@@ -116,7 +116,7 @@ export class RutasComponent implements OnInit {
   }
 
   openWindowCustomClass(content, isEdit: boolean) {
-    this.modalService.open(content);
+    this.modalService.open(content, { size: <any>'lg' });
     if (!isEdit) {
       this._rt.selectedRoute = new Route();
     }
@@ -124,7 +124,7 @@ export class RutasComponent implements OnInit {
   }
 
   openWindowMap(content) {
-    this.modalService.open(content)
+    this.modalService.open(content, { size:'lg' })
   }
 
   /* Agregar marcador al mapa*/

@@ -120,8 +120,8 @@
 
       <!-- Empleado -->
        <div class="form-group row">
-        <label class="col-2 col-form-label">Empleados</label>
-        <div class="col-8">
+        <label class="col-1 col-form-label">Empleado</label>
+        <div class="col-5">
 
           <select class="custom-select mb-3"
                   name="employee"
@@ -134,14 +134,11 @@
               {{employee.name}} {{employee.apellido}} ({{employee.cargo}})
             </option>
           </select>
-
         </div>
-      </div>
 
       <!-- Vehiculo -->
-       <div class="form-group row">
-        <label class="col-2 col-form-label">Vehículo</label>
-        <div class="col-8">
+        <label class="col-1 col-form-label">Vehículo</label>
+        <div class="col-5">
 
           <select class="custom-select mb-3"
                   name="vehicle"
@@ -151,7 +148,7 @@
                   required>
             <option value="">-- Seleccione vehiculo --</option>
             <option *ngFor="let vehicle of _iS.vehicles" [ngValue]="vehicle">
-              {{ vehicle.marca }} | {{vehicle.disco}}
+              {{ vehicle.marca }} | {{vehicle.disco}} | {{vehicle.estado}}
             </option>
           </select>
 
@@ -160,8 +157,8 @@
 
       <!-- Sector Name -->
       <div class="form-group row">
-        <label class="col-2 col-form-label">Nombre Sector</label>
-        <div class="col-8">
+        <label class="col-1 col-form-label">Sector</label>
+        <div class="col-5">
           <select
             class="form-control"
             name="name"
@@ -181,13 +178,10 @@
           >Seleccione el sector</small
           >
         </div>
-      </div>
-
 
       <!-- Descripción -->
-      <div class="form-group row">
-        <label class="col-2 col-form-label">Descripción</label>
-        <div class="col-8">
+        <label class="col-1 col-form-label">Desechos</label>
+        <div class="col-5">
           <select
             class="form-control"
             name="des"
@@ -209,7 +203,7 @@
       <!-- Hora Inicio -->
       <div class="form-group row">
         <label class="col-2 col-form-label">Hora Inicio</label>
-        <div class="col-8">
+        <div class="col-4">
           <input
             class="form-control"
             type="time"
@@ -229,11 +223,10 @@
             >Hora Inicio</small
           >
         </div>
-      </div>
+
       <!-- Hora Fin -->
-      <div class="form-group row">
         <label class="col-2 col-form-label">Hora Fin</label>
-        <div class="col-8">
+        <div class="col-4">
           <input
             class="form-control"
             type="time"
@@ -255,10 +248,10 @@
 
      <!-- Días -->
      <div class="form-group row">
-      <label class="col-2 col-form-label">Días de la semana</label>
-      <div class="col-8">
+      <label class="col-3 col-form-label">Días de la semana</label>
+      <div class="col-6">
 
-        <div class="form-check" *ngFor="let day of days">
+        <div class="form-check-inline" *ngFor="let day of days">
           <input class="form-check-input"
                  type="checkbox"
                  [checked]="_rt.selectedRoute.schedule_days_runs.includes(day.value)"
@@ -297,23 +290,7 @@
                        [origin]="this._rt.selectedRoute.gps.origin"
                        [waypoints]="this._rt.selectedRoute.gps.waypoints"
                        [destination]="this._rt.selectedRoute.gps.destination"></agm-direction>
-        <!--<agm-marker
-          [latitude]="marker.lat"
-          [longitude]="marker.lng"
-          *ngFor="let marker of _rt.selectedRoute.gps; let i = index">
-          <agm-info-window
-            [disableAutoPan]="false"
-            [latitude]="marker.lat"
-            [longitude]="marker.lng">
-            <p><strong>Latitud: </strong>{{ lat }}</p>
-            <p><strong>Longitud: </strong>{{ lng }}</p>
-            <div>
-              <button class="btn btn-danger" (click)="eraseMarker(i)">
-                Borrar
-              </button>
-            </div>
-          </agm-info-window>
-        </agm-marker>-->
+
       </agm-map>
       <div class="modal-footer">
         <button class="btn btn-dark" type="submit">Guardar</button>
@@ -372,6 +349,6 @@
 
 <style>
   agm-map {
-    height: 300px;
+    height: 400px;
   }
 </style>
