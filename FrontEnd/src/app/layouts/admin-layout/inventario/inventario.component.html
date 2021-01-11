@@ -6,7 +6,7 @@
 </div>
 <div class="container-fluid mt--7">
   <div class="row">
-    <div class="col-xl-6 order-xl-1 mb-5 mb-xl-0">
+    <div class="col-xl-5 order-xl-1 mb-5 mb-xl-0">
       <div class="card shadow">
         <div class="card-header border-0">
           <h1>Materiales</h1>
@@ -56,7 +56,7 @@
         </div>
       </div>
     </div>
-    <div class="col-xl-6 order-xl-2 mb-5 mb-xl-0">
+    <div class="col-xl-7 order-xl-2 mb-5 mb-xl-0">
       <div class="card shadow">
         <div class="card-header border-0">
           <h1>Vehículos</h1>
@@ -77,7 +77,7 @@
             <thead class="thead-light">
             <tr>
               <th scope="col">#</th>
-              <th scope="col">Nombre</th>
+              <th scope="col">Marca</th>
               <th scope="col">Año</th>
               <th scope="col">Estado</th>
               <th scope="col"></th>
@@ -90,12 +90,15 @@
               </th>
               <td>
                 <p class="mb-0">{{veh.marca}}</p>
+                <small class="text-muted"> Carga: {{veh.carga}} </small>
               </td>
               <td>
                 <p class="mb-0">{{veh.anio}}</p>
+                <small class="text-muted"> Capacidad: {{veh.capacidad}} (yds3)</small>
               </td>
               <td>
                 <p class="mb-0">{{veh.estado}}</p>
+                <small class="text-muted"> Combustible: {{veh.combustible}} </small>
               </td>
               <td>
                 <button type="button" class="btn btn-info btn-circle"

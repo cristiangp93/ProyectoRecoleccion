@@ -10,7 +10,7 @@ export class Employee {
     this.name = '';
     this.apellido = '';
     this.cargo = '';
-    this.telefono = '000000'
+    this.telefono = ''
     this.direccion = '';
   }
 }

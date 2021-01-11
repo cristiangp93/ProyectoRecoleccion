@@ -23,7 +23,7 @@
           <div class="table-responsive">
             <ng-template #noEmployees>
               <div class="p-3">
-                No existen usuarios
+                No existen Empleados Registrados
               </div>
             </ng-template>
             <table class="table align-items-center table-flush" *ngIf="this._rS.employees.length > 0; else noEmployees">
@@ -41,8 +41,8 @@
                   {{i + 1}}
                 </th>
                 <td>
-                  <p class="mb-0">{{employee.name}} {{employee.apellido}}</p><small
-                  class="text-muted">{{employee.cargo}}</small>
+                  <p class="mb-0">{{employee.name}} {{employee.apellido}}</p>
+                  <small class="text-muted">{{employee.cargo}}</small>
                 </td>
                 <td>
                   <p class="mb-0">{{employee.direccion}}</p><small class="text-muted">Tlf: {{employee.telefono}}</small>
@@ -69,7 +69,7 @@
 <!-- Formulario nuevo empleado -->
 <ng-template #modalNewEmployee let-modal>
   <div class="modal-header">
-    <h4 class="modal-title">Nuevo usuario</h4>
+    <h4 class="modal-title">Nuevo Empleado</h4>
     <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
       <span aria-hidden="true">&times;</span>
     </button>
