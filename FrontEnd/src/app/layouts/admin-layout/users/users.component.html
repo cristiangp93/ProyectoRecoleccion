@@ -166,7 +166,6 @@
                   [ngModel]="this._us.selectedUser.rol"
                   #rol="ngModel"
                   required>
-            <option selected>Seleccione rol</option>
             <option *ngFor="let rol of roles" [value]="rol.value">
               {{rol.des}}
             </option>
