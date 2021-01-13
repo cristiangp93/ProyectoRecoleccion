@@ -116,9 +116,23 @@
                       </agm-marker>
                     </agm-map>
                     <ng-template #noSelectedC>
-                      <h3 class="text-center">
-                        Para visualizar el mapa, seleccione una opción
-                      </h3>
+                      <agm-map [latitude]="_cS.containers[0].lat"
+                               [longitude]="_cS.containers[0].lng"
+                               [zoom]="16" *ngIf="_cS.containers.length > 0">
+                        <!-- Marcador contenedor -->
+                        <agm-marker *ngFor="let container of _cS.containers; let i = index"
+                                    [iconUrl]="icon"
+                                    [latitude]="container.lat"
+                                    [longitude]="container.lng">
+                          <agm-info-window [disableAutoPan]="false"
+                                           [latitude]="lat"
+                                           [longitude]="lng">
+                            <h3>Ubicacion contenedor: {{container.location}}</h3>
+                            <p><strong>Latitud: </strong>{{container.lat}}</p>
+                            <p><strong>Longitud: </strong>{{container.lng}}</p>
+                          </agm-info-window>
+                        </agm-marker>
+                      </agm-map>
                     </ng-template>
                   </div>
                 </div>
