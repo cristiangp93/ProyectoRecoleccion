@@ -10,3 +10,38 @@
 .main-list:hover {
   border: 1px solid darkblue;
 }
+
+.sector-img{
+  background-image:url('../../../../assets/img/theme/sector1.png');
+  max-width: 1600px;
+  min-height: 200px;
+  background-size: contain, cover;
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  opacity: 0.9;
+}
+
+.text1{
+  top: 140px;
+  left: 4%;
+  position: absolute;
+}
+
+.style-h1{
+  font-weight: bold;
+  font-size: 36px;
+  text-align: center;
+}
+.text2{
+  top: 170px;
+  left: 4%;
+  position: absolute;
+}
+.style-p{
+  font-weight: bold;
+  font-size: 16px;
+  text-align: center;
+}
+h5{
+  font-size: 14px;
+}

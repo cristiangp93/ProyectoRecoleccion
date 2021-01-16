@@ -8,6 +8,10 @@ import {
   chartExample1,
   chartExample2
 } from "../../../variables/charts";
+import {RutasService} from "../../../services/rutas.service";
+import {ContainerService} from "../../../services/container.service";
+import {Container} from "../../../models/container";
+import {Route} from "../../../models/route";
 
 @Component({
   selector: 'app-dashboard',
@@ -16,50 +20,40 @@ import {
 })
 export class DashboardComponent implements OnInit {
 
-  public datasets: any;
-  public data: any;
-  public salesChart;
-  public clicked: boolean = true;
-  public clicked1: boolean = false;
+  public icon = {
+    url: 'https://image.flaticon.com/icons/png/512/1686/1686033.png',
+    scaledSize: {
+      width: 40,
+      height: 40
+    }
+  }
+  public renderOptions = {
+    suppressMarkers: true
+  };
 
-  constructor() { }
+  constructor(public _rS: RutasService,
+              public _cS: ContainerService) { }
 
   ngOnInit() {
-
-    this.datasets = [
-      [0, 20, 10, 30, 15, 40, 20, 60, 60],
-      [0, 20, 5, 25, 10, 30, 15, 40, 40]
-    ];
-    this.data = this.datasets[0];
-
-
-    var chartOrders = document.getElementById('chart-orders');
-
-    parseOptions(Chart, chartOptions());
-
-
-    var ordersChart = new Chart(chartOrders, {
-      type: 'bar',
-      options: chartExample2.options,
-      data: chartExample2.data
-    });
-
-    var chartSales = document.getElementById('chart-sales');
-
-    this.salesChart = new Chart(chartSales, {
-			type: 'line',
-			options: chartExample1.options,
-			data: chartExample1.data
-		});
+    this.getContainers();
+    this.getRoutes();
   }
 
+  async getContainers() {
+    this._cS.getContainers().subscribe( resp =>{
+      this._cS.containers = resp as Container[];
+    }, error => {
+      console.log(`Error: ${error}`);
+    });
+  }
 
-
-
-
-  public updateOptions() {
-    this.salesChart.data.datasets[0].data = this.data;
-    this.salesChart.update();
+  async getRoutes() {
+    await this._rS.getRoutes().subscribe(resp => {
+      this._rS.routes = resp as Route[];
+      console.log(this._rS.routes)
+    }, error => {
+      console.log(`Error: ${error}`);
+    })
   }
 
 }

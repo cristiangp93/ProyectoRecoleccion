@@ -20,31 +20,31 @@ export class RutasComponent implements OnInit {
   loading: boolean;
   days = [
     {
-      value: 'mon',
+      value: 'Lunes',
       des: 'Lunes'
     },
     {
-      value: 'thu',
+      value: 'Martes',
       des: 'Martes'
     },
     {
-      value: 'wed',
+      value: 'Miércoles',
       des: 'Miércoles'
     },
     {
-      value: 'thr',
+      value: 'Jueves',
       des: 'Jueves'
     },
     {
-      value: 'fri',
+      value: 'Viernes',
       des: 'Viernes'
     },
     {
-      value: 'sat',
+      value: 'Sábado',
       des: 'Sábado'
     },
     {
-      value: 'sun',
+      value: 'Domingo',
       des: 'Domingo'
     }
   ];
