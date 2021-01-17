@@ -31,7 +31,6 @@ containerCtrl.createContainer = async (req, res) => {
       console.log('Error:', err);
       return;
     }
-
     res.json({
       status: 'Contenedor guardado'
     });

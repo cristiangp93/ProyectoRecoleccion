@@ -6,57 +6,7 @@
 </div>
 <div class="container-fluid mt--7">
   <div class="row">
-    <div class="col-xl-5 order-xl-1 mb-5 mb-xl-0">
-      <div class="card shadow">
-        <div class="card-header border-0">
-          <h1>Materiales</h1>
-          <p class="mb-0">Manejo de materiales</p>
-          <hr>
-          <button type="button" class="btn btn-info" (click)="openWindowCustomClass(modalNewMaterial, false)"><i
-            class="fa fa-plus"></i> Agregar material
-          </button>
-        </div>
-        <div class="table-responsive">
-          <ng-template #noMaterials>
-            <div class="p-3">
-              No existen materiales
-            </div>
-          </ng-template>
-          <table class="table align-items-center table-flush"
-                 *ngIf="this._iS.materials.length > 0; else noMaterials">
-            <thead class="thead-light">
-            <tr>
-              <th scope="col">#</th>
-              <th scope="col">Nombre</th>
-              <th scope="col">Cantidad</th>
-              <th scope="col"></th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr *ngFor="let mat of this._iS.materials; let i = index">
-              <th scope="row">
-                {{i + 1}}
-              </th>
-              <td>
-                <p class="mb-0">{{mat.name}}</p>
-              </td>
-              <td>
-                <p class="mb-0">{{mat.cantidad}}</p>
-              </td>
-              <td>
-                <button type="button" class="btn btn-info btn-circle"
-                        (click)="editMaterial( mat ); openWindowCustomClass(modalNewMaterial, true)"><i
-                  class="fa fa-edit"></i></button>
-                <button type="button" class="btn btn-danger btn-circle" (click)="deleteMaterial( mat._id)"><i
-                  class="fa fa-times"></i></button>
-              </td>
-            </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-    <div class="col-xl-7 order-xl-2 mb-5 mb-xl-0">
+    <div class="col-xl-12 order-xl-2 mb-5 mb-xl-0">
       <div class="card shadow">
         <div class="card-header border-0">
           <h1>Vehículos</h1>
@@ -115,60 +65,6 @@
     </div>
   </div>
 </div>
-
-<!-- Formulario nuevo material -->
-<ng-template #modalNewMaterial let-modal>
-  <div class="modal-header">
-    <h4 class="modal-title">Nuevo material</h4>
-    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
-  <div class="modal-body">
-    <form autocomplete="off" (ngSubmit)="addMaterial( materialForm )" #materialForm="ngForm">
-      <input type="hidden" name="_id" #_id="ngModel" [(ngModel)]="_iS.selectedMaterial._id">
-
-      <!-- Name -->
-      <div class="form-group row">
-        <label class="col-2 col-form-label">Nombre</label>
-        <div class="col-8">
-
-          <input class="form-control"
-                 type="text"
-                 name="name"
-                 [class.is-invalid]="name.invalid && name.touched"
-                 [ngModel]="this._iS.selectedMaterial.name"
-                 placeholder="Nombre"
-                 required
-                 minlength="5"
-                 #name="ngModel">
-          <small *ngIf="name.invalid && name.touched" class="form-text text-danger">Ingrese 5 letras</small>
-        </div>
-      </div>
-      <!-- Cantidad -->
-      <div class="form-group row">
-        <label class="col-2 col-form-label">Cantidad</label>
-        <div class="col-8">
-
-          <input class="form-control"
-                 type="number"
-                 name="cantidad"
-                 [class.is-invalid]="cantidad.invalid && cantidad.touched"
-                 [ngModel]="this._iS.selectedMaterial.cantidad"
-                 placeholder="0"
-                 required
-                 min="0"
-                 #cantidad="ngModel">
-          <small *ngIf="cantidad.invalid && cantidad.touched" class="form-text text-danger">Cantidad mayor a 0</small>
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button class="btn btn-dark" type="submit">Guardar</button>
-        <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button>
-      </div>
-    </form>
-  </div>
-</ng-template>
 
 <!-- Formulario nuevo vehiculo -->
 <ng-template #modalNewVehicle let-modal>

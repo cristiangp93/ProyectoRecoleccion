@@ -8,7 +8,6 @@ employeeCtrl.getEmployees = async (req, res) => {
       console.log('Error:', err);
       return
     }
-
     res.json(Employees);
   });
 }
@@ -26,7 +25,6 @@ employeeCtrl.createEmployee = async (req, res) => {
       console.log('Error:', err);
       return;
     }
-
     res.json({
       status: 'Empleado guardado'
     });

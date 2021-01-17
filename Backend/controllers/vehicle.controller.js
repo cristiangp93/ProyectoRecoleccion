@@ -1,5 +1,4 @@
 const Vehicle = require('../models/vehicle');
-
 const vehicleCtrl = {};
 
 vehicleCtrl.getVehicles = async (req, res) => {
@@ -8,7 +7,6 @@ vehicleCtrl.getVehicles = async (req, res) => {
       console.log('Error:', err);
       return
     }
-
     res.json(vehicles);
   });
 }
@@ -27,9 +25,7 @@ vehicleCtrl.createVehicle = async (req, res) => {
   await vehicle.save((err) => {
     if (err) {
       console.log('Error:', err);
-      return;
-    }
-
+      return; }
     res.json({
       status: 'Vehiculo guardado'
     });
@@ -42,7 +38,6 @@ vehicleCtrl.getVehicle = async (req, res) => {
       console.log('Error:', err);
       return;
     }
-
     res.json({
       status: vehicle
     });

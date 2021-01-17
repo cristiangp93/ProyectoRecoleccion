@@ -1,5 +1,4 @@
 const User = require('../models/user');
-
 const userCtrl = {};
 
 userCtrl.getUsers = async (req, res) => {
@@ -8,7 +7,6 @@ userCtrl.getUsers = async (req, res) => {
       console.log('Error:', err);
       return
     }
-
     res.json(users);
   });
 }
@@ -27,7 +25,6 @@ userCtrl.createUser = async (req, res) => {
       console.log('Error:', err);
       return;
     }
-
     res.json({
       status: 'User guardado'
     });

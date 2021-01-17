@@ -1,15 +1,15 @@
 [
   {
+    "des": "Jefe Departamental",
+    "value": "JDepartamento"
+  },
+  {
     "des": "Supervisor",
     "value": "Supervisor"
   },
   {
     "des": "Conductor",
     "value": "Conductor"
-  },
-  {
-    "des": "Jefe Departamental",
-    "value": "JDepartamento"
   },
   {
     "des": "Ayudante de Recolección",
